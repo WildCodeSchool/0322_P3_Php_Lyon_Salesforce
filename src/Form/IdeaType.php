@@ -13,7 +13,9 @@ class IdeaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', TextType::class)
+            ->add('title', TextType::class, [
+                'label' => 'Votre idée en quelques mots'
+            ])
             ->add('service', TextType::class)
         ;
     }

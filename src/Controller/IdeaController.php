@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Idea;
 use App\Repository\IdeaRepository;
+use App\Form\IdeaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,14 +21,14 @@ class IdeaController extends AbstractController
         $form = $this->createForm(IdeaType::class, $idea);
         // Get the data from HTTP request :
         $form->handleRequest($request);
-        // Form submitted ?
-        if ($form->isSubmitted()) {
+        // Form submitted and valid ?
+        if ($form->isSubmitted() && $form->isValid()) {
             $ideaRepository->save($idea, true);
             return $this->redirectToRoute('idea_index');
         }
 
         return $this->render('idea/index.html.twig', [
-            'controller_name' => 'IdeaController',
+            'form' => $form,
         ]);
     }
 }

@@ -4,8 +4,11 @@ namespace App\Entity;
 
 use App\Repository\IdeaRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: IdeaRepository::class)]
+#[UniqueEntity('title')]
 class Idea
 {
     #[ORM\Id]
@@ -13,10 +16,20 @@ class Idea
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: 'Your idea need a name !')]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'Your service name must be less than {{ limit }} character'
+    )]
     private ?string $title = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: 'We need your service\'s name')]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'Your service name must be less than {{ limit }} character'
+    )]
     private ?string $service = null;
 
     public function getId(): ?int
