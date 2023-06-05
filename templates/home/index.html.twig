@@ -8,7 +8,13 @@
         <h1>
             SalesForce Idéation
         </h1>
-        <a class="btn btn-primary m-0" href="">Ajouter une idée!</a>
+        <a class="btn btn-primary m-0" href="{{ path('new_idea')}}">Ajouter une idée!</a>
     </div>
 </main>
+
+    {% for idea in ideas %}
+        <div>
+            <h2>{{ loop.index }} / {{ idea.title }} {{ idea.service }}</h2>
+        </div>  
+    {% endfor %}
 {% endblock %}
