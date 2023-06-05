@@ -17,18 +17,18 @@ class Idea
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank(message: 'Your idea need a name !')]
+    #[Assert\NotBlank(message: 'Vous devez donner un nom à votre idée !')]
     #[Assert\Length(
         max: 255,
-        maxMessage: 'Your service name must be less than {{ limit }} character'
+        maxMessage: 'Le nom de votre idée doit avoir maximum {{ limit }} caractères'
     )]
     private ?string $title = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank(message: 'We need your service\'s name')]
+    #[Assert\NotBlank(message: 'Vous devez rentrer le nom de votre service')]
     #[Assert\Length(
         max: 255,
-        maxMessage: 'Your service name must be less than {{ limit }} character'
+        maxMessage: 'Le nom de votre service doit avoir maximum {{ limit }} caractères'
     )]
     private ?string $service = null;
 
