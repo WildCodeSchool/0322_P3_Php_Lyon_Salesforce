@@ -24,7 +24,7 @@ class IdeaController extends AbstractController
         // Form submitted and valid ?
         if ($form->isSubmitted() && $form->isValid()) {
             $ideaRepository->save($idea, true);
-            return $this->redirectToRoute('idea_index');
+            return $this->redirectToRoute('app_home');
         }
 
         return $this->render('idea/index.html.twig', [

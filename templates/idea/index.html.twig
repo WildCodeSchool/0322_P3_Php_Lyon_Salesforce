@@ -3,8 +3,10 @@
 {% block title %}Nouvelle idée{% endblock %}
 
 {% block body %}
+
     {{ form_start(form) }}
     {{ form_widget(form) }}
-        <button type="submit">Ajouter une nouvelle idée</button>
+    <button type="submit">Ajouter une nouvelle idée</button>
     {{ form_end(form) }}
+
 {% endblock %}
