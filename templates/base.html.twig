@@ -19,18 +19,20 @@
 </head>
 
 <body>
-    {% block navbar %}
-    {% include "component/_navbar.html.twig" %}
+    {% block topNavbar %}
+    {% include "component/_topNavbar.html.twig" %}
     {% endblock %}
-    <div class="col d-flex flex-column h-sm-100">
-        <div class="row overflow-auto">
-            <div class="col pt-4">
-                {% block body %}{% endblock %}
-            </div>
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            {% block sideNavbar %}
+            {% include "component/_sideNavbar.html.twig" %}
+            {% endblock %}
+
+            {% block body %}
+            {% endblock %}
         </div>
     </div>
-    </div>
-    </div>
+
 </body>
 
 </html>
