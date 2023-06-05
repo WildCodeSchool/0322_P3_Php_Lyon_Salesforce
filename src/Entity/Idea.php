@@ -5,10 +5,8 @@ namespace App\Entity;
 use App\Repository\IdeaRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: IdeaRepository::class)]
-#[UniqueEntity('title')]
 class Idea
 {
     #[ORM\Id]
