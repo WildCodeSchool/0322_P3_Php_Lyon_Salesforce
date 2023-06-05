@@ -1,0 +1,38 @@
+version: '3.4'
+
+services:
+  web:
+    env_file:
+      - .env
+    environment:
+      # @todo add APP_ENV default dev
+      DATABASE_URL: mysql://${USER_NAME}:${USER_PASSWORD}@${DATABASE_SUBDOMAIN_NAME}-db:3306/${DB_NAME}?serverVersion=8&charset=utf8mb4
+      MAILER_DSN: smtp://${PROJECT_NAME}-mailhog:1025
+    build: .
+    container_name: ${PROJECT_NAME:-project}-web
+    volumes:
+      - ./public/uploads:/var/www/public/uploads
+    restart: always
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.${PROJECT_NAME:-project}-secure.entrypoints=websecure"
+      - "traefik.http.routers.${PROJECT_NAME:-project}-secure.rule=Host(`${PROJECT_NAME:-project}.${HOST:-localhost}`)"
+
+  mailer:
+    image: mailhog/mailhog:latest
+    container_name: ${PROJECT_NAME:-project}-mailhog
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.mailhog-${PROJECT_NAME:-project}-secure.entrypoints=websecure"
+      - "traefik.http.routers.mailhog-${PROJECT_NAME:-project}-secure.rule=Host(`mailhog.${PROJECT_NAME:-project}.${HOST:-localhost}`)"
+      - "traefik.http.services.mailhog-${PROJECT_NAME:-project}.loadbalancer.server.port=8025"
+
+networks:
+  proxy:
+    external: true
