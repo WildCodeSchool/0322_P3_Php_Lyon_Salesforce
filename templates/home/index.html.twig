@@ -10,11 +10,12 @@
         </h1>
         <a class="btn btn-primary m-0" href="{{ path('idea_new') }}">Ajouter une idée!</a>
     </div>
-</main>
+
 
     {% for idea in ideas %}
         <div>
             <h2>{{ loop.index }} / {{ idea.title }} {{ idea.perimeter }}</h2>
         </div>  
     {% endfor %}
+</main>
 {% endblock %}
