@@ -11,7 +11,9 @@
         <a class="btn btn-primary m-0" href="{{ path('new_idea')}}">Ajouter une idée!</a>
     </div>
 </main>
-
+<div>
+    <h3>Nouvelles idées</h3>
+</div>
     {% for idea in ideas %}
         <div>
             <h2>{{ loop.index }} / {{ idea.title }} {{ idea.service }}</h2>
