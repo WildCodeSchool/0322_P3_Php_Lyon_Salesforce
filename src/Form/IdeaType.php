@@ -16,8 +16,7 @@ class IdeaType extends AbstractType
             ->add('title', TextType::class, [
                 'label' => 'Votre idée en quelques mots'
             ])
-            ->add('service', TextType::class)
-        ;
+            ->add('service', TextType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

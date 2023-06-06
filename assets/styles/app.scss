@@ -1,2 +1,14 @@
-//start coding by removing this file and adding yours ;)
+$primary: (#0d9dda);
+$secondary: (#002e5f);
 @import "~bootstrap/scss/bootstrap";
+@import "~bootstrap-icons/font/bootstrap-icons";
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: whitesmoke;
+}
+
+.logo {
+    width: 4rem;
+}
