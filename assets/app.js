@@ -19,11 +19,11 @@ const sidebar = document.getElementById('sidebar');
 
 function updateSidebarClasses() {
     if (window.innerWidth < 768) {
-        sidebar.classList.remove('collapse', 'collapse-horizontal', 'show', 'rounded-end');
-        sidebar.classList.add('offcanvas', 'offcanvas-end', 'w-50', 'rounded-start');
+        sidebar.classList.remove('collapse', 'collapse-horizontal', 'show',);
+        sidebar.classList.add('offcanvas', 'offcanvas-end', 'w-50');
     } else {
-        sidebar.classList.remove('offcanvas', 'offcanvas-end', 'w-50', 'rounded-start');
-        sidebar.classList.add('collapse', 'collapse-horizontal', 'show', 'rounded-end');
+        sidebar.classList.remove('offcanvas', 'offcanvas-end', 'w-50');
+        sidebar.classList.add('collapse', 'collapse-horizontal', 'show',);
     }
 }
 
