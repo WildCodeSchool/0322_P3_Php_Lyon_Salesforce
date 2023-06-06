@@ -3,18 +3,12 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-<main class="container">
-    <div>
-        <h1>
-            SalesForce Idéation
-        </h1>
-        <a class="btn btn-primary m-0" href="{{ path('new_idea')}}">Ajouter une idée!</a>
-    </div>
-</main>
-
-    {% for idea in ideas %}
-        <div>
-            <h2>{{ loop.index }} / {{ idea.title }} {{ idea.service }}</h2>
-        </div>  
-    {% endfor %}
+<h1 class="text-center">
+    SalesForce Idéation
+</h1>
+{% for idea in ideas %}
+<div>
+    <h2>{{ loop.index }} / {{ idea.title }} {{ idea.service }}</h2>
+</div>
+{% endfor %}
 {% endblock %}
