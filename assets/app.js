@@ -12,3 +12,19 @@ import './styles/app.scss';
 import './bootstrap';
 
 require('bootstrap');
+
+const sidebar = document.getElementById('sidebar');
+
+function updateSidebarClasses() {
+  if (window.innerWidth < 768) {
+    sidebar.classList.remove('collapse', 'collapse-horizontal', 'show');
+    sidebar.classList.add('offcanvas', 'offcanvas-start');
+  } else {
+    sidebar.classList.remove('offcanvas', 'offcanvas-start');
+    sidebar.classList.add('collapse', 'collapse-horizontal', 'show');
+  }
+}
+
+updateSidebarClasses();
+
+window.addEventListener('resize', updateSidebarClasses);

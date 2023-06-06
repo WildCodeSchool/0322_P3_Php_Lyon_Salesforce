@@ -24,15 +24,17 @@
     {% endblock %}
     <div class="container-fluid">
         <div class="row flex-nowrap">
+
             {% block sideNavbar %}
             {% include "component/_sideNavbar.html.twig" %}
             {% endblock %}
 
-            {% block body %}
-            {% endblock %}
+            <div class="col-md-10">
+                {% block body %}
+                {% endblock %}
+            </div>
         </div>
     </div>
-
 </body>
 
 </html>
