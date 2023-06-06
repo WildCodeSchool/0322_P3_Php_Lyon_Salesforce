@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle idée{% endblock %}
+
+{% block body %}
+<main class="container">
+
+    <h1>Partager une nouvelle idée</h1>
+    <div class="container w-50 h-50 p-2 my-5 shadow-lg rounded-2">
+
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <div class="d-flex justify-content-between">
+            <button class="btn btn-success" type="submit">Partagez votre idée</button>
+            <a class="btn btn-danger m-0 " href="{{ path('app_home')}}">Annuler</a>
+        </div>
+        {{ form_end(form) }}
+    
+    </div>
+    
+</main>
+{% endblock %}
