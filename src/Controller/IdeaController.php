@@ -10,24 +10,22 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/idea', name: 'idea_')]
 class IdeaController extends AbstractController
 {
-    #[Route('/idea', name: 'new_idea')]
-    public function index(Request $request, IdeaRepository $ideaRepository): Response
+    #[Route('/new', name: 'new')]
+    public function new(Request $request, IdeaRepository $ideaRepository): Response
     {
         $idea = new Idea();
-
-        // Create the form linked with $idea :
         $form = $this->createForm(IdeaType::class, $idea);
-        // Get the data from HTTP request :
         $form->handleRequest($request);
-        // Form submitted and valid ?
+
         if ($form->isSubmitted() && $form->isValid()) {
             $ideaRepository->save($idea, true);
             return $this->redirectToRoute('app_home');
         }
 
-        return $this->render('idea/index.html.twig', [
+        return $this->render('idea/new.html.twig', [
             'form' => $form,
         ]);
     }

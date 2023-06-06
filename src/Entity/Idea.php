@@ -28,7 +28,7 @@ class Idea
         max: 255,
         maxMessage: 'Le nom de votre service doit avoir maximum {{ limit }} caractères'
     )]
-    private ?string $service = null;
+    private ?string $perimeter = null;
 
     public function getId(): ?int
     {
@@ -47,14 +47,14 @@ class Idea
         return $this;
     }
 
-    public function getService(): ?string
+    public function getPerimeter(): ?string
     {
-        return $this->service;
+        return $this->perimeter;
     }
 
-    public function setService(string $service): self
+    public function setPerimeter(string $perimeter): self
     {
-        $this->service = $service;
+        $this->perimeter = $perimeter;
 
         return $this;
     }
