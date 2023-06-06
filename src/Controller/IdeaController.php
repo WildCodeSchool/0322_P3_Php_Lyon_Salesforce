@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class IdeaController extends AbstractController
 {
     #[Route('/new', name: 'new')]
-    public function index(Request $request, IdeaRepository $ideaRepository): Response
+    public function new(Request $request, IdeaRepository $ideaRepository): Response
     {
         $idea = new Idea();
         $form = $this->createForm(IdeaType::class, $idea);
