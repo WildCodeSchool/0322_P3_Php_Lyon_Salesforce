@@ -6,8 +6,25 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
-require('bootstrap');
 import './styles/app.scss';
 
 // start the Stimulus application
 import './bootstrap';
+
+require('bootstrap');
+
+const sidebar = document.getElementById('sidebar');
+
+function updateSidebarClasses() {
+    if (window.innerWidth < 768) {
+        sidebar.classList.remove('collapse', 'collapse-horizontal', 'show');
+        sidebar.classList.add('offcanvas', 'offcanvas-start', 'w-50');
+    } else {
+        sidebar.classList.remove('offcanvas', 'offcanvas-start', 'w-50');
+        sidebar.classList.add('collapse', 'collapse-horizontal', 'show');
+    }
+}
+
+updateSidebarClasses();
+
+window.addEventListener('resize', updateSidebarClasses);
