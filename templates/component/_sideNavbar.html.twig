@@ -11,11 +11,11 @@
             </a>
 
                 <div class="overflow-y-auto">
-                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" 
-                    aria-controls="collapseExample">
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#perimeterList" aria-expanded="false" 
+                    aria-controls="perimeterList">
                         Catégories
                     </button>
-                    <div class="collapse" id="collapseExample">
+                    <div class="collapse" id="perimeterList">
                         {% for perimeter in perimeters.getPerimeters %}
                         <div class="card"><a class="dropdown-item" href="#">{{perimeter.perimeter}}</a>
                         </div>
