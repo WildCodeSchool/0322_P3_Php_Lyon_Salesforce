@@ -26,17 +26,17 @@
           </div>
         {% endfor %}
       {% endfor %}
-    {% block topNavbar %}
-    {% include "component/_topNavbar.html.twig" %}
-    {% endblock %}
     <div class="container-fluid">
-        <div class="row flex-nowrap">
-
-            {% block sideNavbar %}
-            {% include "component/_sideNavbar.html.twig" %}
-            {% endblock %}
-
-            <div class="col-md-10">
+        <div class="row">
+            <div class="col-md-2 px-0">
+                {% block sideNavbar %}
+                {% include "component/_sideNavbar.html.twig" %}
+                {% endblock %}
+            </div>
+            <div class="col-12 col-md-10 px-0">
+                {% block topNavbar %}
+                {% include "component/_topNavbar.html.twig" %}
+                {% endblock %}
                 {% block body %}
                 {% endblock %}
             </div>
