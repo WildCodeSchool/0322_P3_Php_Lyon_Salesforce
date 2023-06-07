@@ -32,3 +32,10 @@ updateSidebarClasses();
 window.addEventListener('resize', updateSidebarClasses);
 
 // End SideBar Javascript
+
+setTimeout(function() {
+    var flashMessage = document.querySelector('div.alert');
+    if (flashMessage) {
+        flashMessage.remove();
+    }
+}, 5000);
