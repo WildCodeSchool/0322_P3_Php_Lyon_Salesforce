@@ -2,7 +2,6 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     form_themes: ['bootstrap_5_layout.html.twig']
     globals:
-        titre: 'SALESFORCE ROUGE'
         perimeters: '@App\Twig\PerimeterExtension'
 
 when@test:
