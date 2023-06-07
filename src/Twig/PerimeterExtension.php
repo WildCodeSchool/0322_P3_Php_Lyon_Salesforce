@@ -4,7 +4,6 @@ namespace App\Twig;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
 use App\Entity\Idea;
 
 class PerimeterExtension extends AbstractExtension
@@ -16,15 +15,17 @@ class PerimeterExtension extends AbstractExtension
         $this->entityManager = $entityManager;
     }
 
-    public function getFunctions(): array
-    {
-        return [
-            new TwigFunction('perimeters', [$this, 'getPerimeters'])
-        ];
-    }
 
-    public function getPerimeters(): array
+    public function getDistinctPerimeters(): array
     {
-        return $this->entityManager->getRepository(Idea::class)->findBy([], ['perimeter' => 'ASC']);
+        $queryBuilder = $this->entityManager->createQueryBuilder();
+        $queryBuilder->select('DISTINCT idea.perimeter')
+            ->from(Idea::class, 'idea')
+            ->orderBy('idea.perimeter', 'ASC');
+
+        $query = $queryBuilder->getQuery();
+        $results = $query->getResult();
+
+        return $results;
     }
 }
