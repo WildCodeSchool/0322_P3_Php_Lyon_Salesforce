@@ -26,6 +26,10 @@ class PerimeterExtension extends AbstractExtension
         $query = $queryBuilder->getQuery();
         $results = $query->getResult();
 
-        return $results;
+        $perimeters = array_map(function ($result) {
+            return $result['perimeter'];
+        }, $results);
+
+        return $perimeters;
     }
 }
