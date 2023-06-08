@@ -23,11 +23,4 @@ class IdeaFixtures extends Fixture
         }
         $manager->flush();
     }
-
-    public function getDependencies(): array
-    {
-        return [
-           IdeaFixtures::class,
-        ];
-    }
 }
