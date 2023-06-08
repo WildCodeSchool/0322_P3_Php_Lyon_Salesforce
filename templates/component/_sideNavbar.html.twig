@@ -1,16 +1,34 @@
 <div id="sidebar" class="bg-primary show shadow-lg sticky-md-top">
     <div class="list-group text-sm-start min-vh-100">
-        <ul class="list-unstyled text-white text-center sticky-md-top">
+        <ul class="list-unstyled text-white text-center sticky-md-top d-inline">
             <button type="button" class="btn text-reset d-md-none" data-bs-dismiss="offcanvas" aria-label="Close">
                 <i class="bi bi-x-circle-fill fs-4 text-white"></i>
             </button>
 
-            <li class="my-3 mx-5 rounded fs-5">
+            <hr class="d-md-none mx-5 px-5">
+
+            {% if app.user %}
+            <li class="my-3 fs-5">
+                {{ app.user.firstname }} {{ app.user.lastname }}
+            </li>
+            <li class="my-3 fs-5">
+                <a class="nav-link" href="{{ path('app_logout') }}"><i class="bi bi-box-arrow-left"></i> Se
+                    déconnecter</a>
+            </li>
+            {% else %}
+            <li class="my-3 fs-5">
+                <a class="nav-link" href="{{ path('app_login') }}"><i class="bi bi-box-arrow-in-right"></i> Se
+                    connecter</a>
+            </li>
+            {% endif %}
+
+            <hr class="mx-5">
+
+            <li class="my-3 px-5 fs-5">
                 <a href="/" class="nav-link">
                     <i class="bi bi-house-fill"></i> Accueil
-
+                </a>
             </li>
-            </a>
 
             <div class="overflow-y-auto">
                 <button class="btn btn-primary text-white bi bi-file-earmark" type="button" data-bs-toggle="collapse"
@@ -27,20 +45,11 @@
 
             <hr class="mx-5">
 
-            <li class="my-3 mx-5 rounded fs-5">
+            <li class="my-3 fs-5">
                 <a href="{{ path('admin_users')}}" class="nav-link">
                     <i class="bi bi-database-fill"></i> Admin
                 </a>
             </li>
-
-
-
         </ul>
-        {% if app.user %}
-        {{ app.user.firstname }}
-        <a  class="btn btn-primary" href="{{ path('app_logout') }}"> Se déconnecter</a>
-    {% else %}
-        <a class="btn btn-primary" href="{{ path('app_login') }}"> Se connecter</a>
-    {% endif %}
     </div>
 </div>

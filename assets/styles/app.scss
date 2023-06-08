@@ -17,20 +17,14 @@ body {
 
 //-------- Side Navbar --------//
 
-#sidebar li {
+#sidebar a,
+#sidebar .btn {
     transition: all 0.2s ease-in-out;
 }
 
-#sidebar li:hover {
-    transform: scale(1.1);
-    background-color: $secondary;
-}
-
-#sidebar .btn:hover {
-    transition: all 0.2s ease-in-out;
-}
-
+#sidebar a:hover,
 #sidebar .btn:hover {
     transform: scale(1.1);
     background-color: $secondary;
+    border-radius: 10px;
 }
