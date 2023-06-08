@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Users List{% endblock %}
+
+{% block body %}
+<h1 class="text-center">Liste des utilisateurs</h1>
+<div class="table-responsive-md">
+    <table class="table table-striped table-bordered border-dark">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Email</th>
+                <th scope="col">Agence</th>
+                <th scope="col">Service</th>
+                <th scope="col">Poste</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Baptiste</td>
+                <td>Renier</td>
+                <td>baptisterenier69@gmail.com</td>
+                <td>Lyon</td>
+                <td>Informatique</td>
+                <td>Développeur Web</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
