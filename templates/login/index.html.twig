@@ -11,6 +11,8 @@
     <label for="password">Mot de passe:</label>
     <input type="password" id="password" name="_password">
 
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+    
     <button type="submit">Connection</button>
 </form>
 {% endblock %}
