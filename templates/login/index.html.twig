@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connection{% endblock %}
+
+{% block body %}
+
+<form action="" method="post">
+    <label for="username">Email:</label>
+    <input type="text" id="username" name="_username" value="">
+
+    <label for="password">Mot de passe:</label>
+    <input type="password" id="password" name="_password">
+
+    <button type="submit">Connection</button>
+</form>
+{% endblock %}
