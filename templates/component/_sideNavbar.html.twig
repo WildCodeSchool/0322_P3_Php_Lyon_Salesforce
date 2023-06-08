@@ -36,5 +36,11 @@
 
 
         </ul>
+        {% if app.user %}
+        {{ app.user.firstname }}
+        <a  class="btn btn-primary" href="{{ path('app_logout') }}"> Se déconnecter</a>
+    {% else %}
+        <a class="btn btn-primary" href="{{ path('app_login') }}"> Se connecter</a>
+    {% endif %}
     </div>
 </div>
