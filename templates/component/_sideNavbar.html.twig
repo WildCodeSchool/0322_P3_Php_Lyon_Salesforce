@@ -17,7 +17,7 @@
                     </button>
                     <div class="collapse" id="perimeterList">
                         {% for perimeter in perimeters.getDistinctPerimeters %}
-                        <div class="card"><a class="dropdown-item" href="#">{{perimeter}}</a>
+                        <div class="card"><a class="dropdown-item" href="{{ path("idea_show", { perimeterName: perimeter }) }}">{{perimeter}}</a>
                         </div>
                         {% endfor %}
                     </div>
