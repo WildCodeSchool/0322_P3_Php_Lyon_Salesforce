@@ -1,18 +1,31 @@
-{% extends 'base.html.twig' %}
+{% extends 'loginBase.html.twig' %}
 
 {% block title %}Connection{% endblock %}
 
 {% block body %}
 
-<form action="" method="post">
-    <label for="username">Email:</label>
-    <input type="text" id="username" name="_username" value="">
+{% if error %}
+<div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+{% endif %}
+<main class="container">
+    <h1 class="text-center">Bienvenue</h1>
+    <h2 class="text-center mb-5">Veuillez vous connecter pour accéder à la plateforme</h2>
 
-    <label for="password">Mot de passe:</label>
-    <input type="password" id="password" name="_password">
+    <div class="d-flex justify-content-center">
 
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-    
-    <button type="submit">Connection</button>
-</form>
+        <form class="w-50 p-2 shadow-lg rounded-2"action="{{ path('app_login') }}" method="post">
+            <p>
+                <label class="form-label" for="username">Email</label>
+                <input class="form-control" type="text" id="username" name="_username" placeholder="Identifiant" value="{{ last_username }}">
+            </p>
+            <p>
+                <label class="form-label" for="password">Mot de passe</label>
+                <input class="form-control" type="password" id="password" placeholder="Mot de passe" name="_password">
+            </p>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <button type="submit" class="btn btn-primary mb-3" >Connection</button>
+        </form>
+        
+    </div>
+</main>
 {% endblock %}
