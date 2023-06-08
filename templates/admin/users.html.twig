@@ -18,15 +18,17 @@
             </tr>
         </thead>
         <tbody>
+            {% for user in users %}
             <tr>
-                <th scope="row">1</th>
-                <td>Baptiste</td>
-                <td>Renier</td>
-                <td>baptisterenier69@gmail.com</td>
-                <td>Lyon</td>
-                <td>Informatique</td>
-                <td>Développeur Web</td>
+                <th scope="row">{{user.id}}</th>
+                <td>{{user.firstname}}</td>
+                <td>{{user.lastname}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.office}}</td>
+                <td>{{user.service}}</td>
+                <td>{{user.position}}</td>
             </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>
