@@ -15,7 +15,7 @@ class IdeaFixtures extends Fixture
 
         for ($i = 1; $i <= 50; $i++) {
             $idea = new Idea();
-            ;
+
             $idea->setTitle($faker->word());
             $idea->setPerimeter($faker->word());
 
