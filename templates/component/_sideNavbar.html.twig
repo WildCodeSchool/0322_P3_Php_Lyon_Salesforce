@@ -2,17 +2,17 @@
     <div class="list-group text-sm-start min-vh-100">
         <ul class="list-unstyled text-white text-center sticky-md-top">
             <button type="button" class="btn text-reset d-md-none" data-bs-dismiss="offcanvas" aria-label="Close">
-                <i class="bi bi-x-circle-fill fs-4 text-white"></i></button>
-            <a href="/" class="nav-link">
-                <li class="m-3 rounded fs-5">
+                <i class="bi bi-x-circle-fill fs-4 text-white"></i>
+            </button>
+
+            <li class="my-3 mx-5 rounded fs-5">
+                <a href="/" class="nav-link">
                     <i class="bi bi-house-fill"></i> Accueil
-
-                </li>
-            </a>
-
+                </a>
+            </li>
             <div class="overflow-y-auto">
-                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#perimeterList"
-                    aria-expanded="false" aria-controls="perimeterList">
+                <button class="btn btn-primary text-white" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#perimeterList" aria-expanded="false" aria-controls="perimeterList">
                     Catégories
                 </button>
                 <div class="collapse" id="perimeterList">
@@ -22,6 +22,15 @@
                     {% endfor %}
                 </div>
             </div>
+
+            <hr class="mx-5">
+
+            <li class="my-3 mx-5 rounded fs-5">
+                <a href="{{ path('admin_users')}}" class="nav-link">
+                    <i class="bi bi-database-fill"></i> Admin
+                </a>
+            </li>
+
 
 
         </ul>
