@@ -10,20 +10,20 @@
                 </li>
             </a>
 
-                <div class="overflow-y-auto">
-                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#perimeterList" aria-expanded="false" 
-                    aria-controls="perimeterList">
-                        Catégories
-                    </button>
-                    <div class="collapse" id="perimeterList">
-                        {% for perimeter in perimeters.getDistinctPerimeters %}
-                        <div class="card"><a class="dropdown-item" href="#">{{perimeter}}</a>
-                        </div>
-                        {% endfor %}
+            <div class="overflow-y-auto">
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#perimeterList"
+                    aria-expanded="false" aria-controls="perimeterList">
+                    Catégories
+                </button>
+                <div class="collapse" id="perimeterList">
+                    {% for perimeter in perimeters.getDistinctPerimeters %}
+                    <div class="card"><a class="dropdown-item" href="#">{{perimeter}}</a>
                     </div>
+                    {% endfor %}
                 </div>
+            </div>
 
-            
+
         </ul>
     </div>
 </div>

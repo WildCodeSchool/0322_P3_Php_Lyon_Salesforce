@@ -14,3 +14,23 @@ body {
 .logo {
     width: 4rem;
 }
+
+//-------- Side Navbar --------//
+
+#sidebar li {
+    transition: all 0.2s ease-in-out;
+}
+
+#sidebar li:hover {
+    transform: scale(1.1);
+    background-color: $secondary;
+}
+
+#sidebar .btn:hover {
+    transition: all 0.2s ease-in-out;
+}
+
+#sidebar .btn:hover {
+    transform: scale(1.1);
+    background-color: $secondary;
+}
