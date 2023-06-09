@@ -33,7 +33,7 @@ class IdeaController extends AbstractController
         ]);
     }
 
-    #[Route('/{perimeterName}', name: 'show')]
+    #[Route('/{perimeterName}', name: 'perimeter_show')]
     public function show(string $perimeterName, IdeaRepository $ideaRepository): Response
     {
         $perimeter = $ideaRepository->findOneBy(['perimeter' => $perimeterName]);
