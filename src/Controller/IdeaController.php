@@ -32,4 +32,21 @@ class IdeaController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/{perimeterName}', name: 'perimeter_show')]
+    public function show(string $perimeterName, IdeaRepository $ideaRepository): Response
+    {
+        $perimeter = $ideaRepository->findOneBy(['perimeter' => $perimeterName]);
+
+        $ideas = $ideaRepository->findby(
+            ['perimeter' => $perimeterName],
+            ['id' => 'DESC'],
+        );
+
+
+        return $this->render('idea/ideaByPerimeter.html.twig', [
+            'perimeter' => $perimeter,
+            'ideas' => $ideas,
+         ]);
+    }
 }
