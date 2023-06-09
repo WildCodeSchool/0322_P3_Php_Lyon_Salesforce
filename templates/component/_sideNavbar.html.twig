@@ -1,6 +1,6 @@
 <div id="sidebar" class="bg-primary show shadow-lg sticky-md-top">
     <div class="list-group text-sm-start min-vh-100">
-        <ul class="list-unstyled text-white text-center sticky-md-top d-inline">
+        <ul class="list-unstyled text-white text-center sticky-md-top">
             <button type="button" class="btn text-reset d-md-none" data-bs-dismiss="offcanvas" aria-label="Close">
                 <i class="bi bi-x-circle-fill fs-4 text-white"></i>
             </button>
@@ -8,24 +8,24 @@
             <hr class="d-md-none mx-5 px-5">
 
             {% if app.user %}
-            <li class="my-3 fs-5">
+            <li class="my-3 mx-3 fs-5">
                 {{ app.user.firstname }} {{ app.user.lastname }}
             </li>
-            <li class="my-3 fs-5">
-                <a class="nav-link" href="{{ path('app_logout') }}"><i class="bi bi-box-arrow-left"></i> Se
-                    déconnecter</a>
+            <li class="my-3 mx-3 fs-5">
+                <a class="nav-link px-3 d-inline-block rounded" href="{{ path('app_logout') }}"><i
+                        class="bi bi-box-arrow-left"></i> Déconnexion</a>
             </li>
             {% else %}
-            <li class="my-3 fs-5">
-                <a class="nav-link" href="{{ path('app_login') }}"><i class="bi bi-box-arrow-in-right"></i> Se
-                    connecter</a>
+            <li class="my-3 mx-3 fs-5">
+                <a class="nav-link px-3 d-inline-block rounded" href="{{ path('app_login') }}"><i
+                        class="bi bi-box-arrow-in-right"></i> Connexion</a>
             </li>
             {% endif %}
 
             <hr class="mx-5">
 
-            <li class="my-3 px-5 fs-5">
-                <a href="/" class="nav-link">
+            <li class="my-3 fs-5">
+                <a href="/" class="nav-link px-3 d-inline-block rounded">
                     <i class="bi bi-house-fill"></i> Accueil
                 </a>
             </li>
@@ -45,8 +45,8 @@
 
             <hr class="mx-5">
 
-            <li class="my-3 fs-5">
-                <a href="{{ path('admin_users')}}" class="nav-link">
+            <li class="my-3 mx-3 fs-5">
+                <a href="{{ path('admin_users')}}" class="nav-link px-3 d-inline-block rounded">
                     <i class="bi bi-database-fill"></i> Admin
                 </a>
             </li>
