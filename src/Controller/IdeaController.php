@@ -47,6 +47,6 @@ class IdeaController extends AbstractController
         return $this->render('idea/ideaByPerimeter.html.twig', [
             'perimeter' => $perimeter,
             'ideas' => $ideas,
-         ]);
+        ]);
     }
 }
