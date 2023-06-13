@@ -18,7 +18,7 @@ class IdeaType extends AbstractType
                 'label' => 'Mon idée en quelques mots'
             ])
             ->add('perimeter', ChoiceType::class, [
-                'label' => 'A qui est destiné mon idée?',
+                'label' => 'A qui est destinée mon idée?',
                 'choices' => [
                         'A tout le monde' => 'Global',
                         'A mon agence' => 'Agence',
