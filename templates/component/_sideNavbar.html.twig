@@ -28,21 +28,18 @@
                 <a href="{{ path('app_home') }}" class="nav-link px-3 d-inline-block rounded">
                     <i class="bi bi-house-fill"></i> Accueil
                 </a>
+                <a href="" class="nav-link px-3 d-inline-block rounded">
+                    <i class="bi bi-house-fill"></i> Global
+                </a>
+                <a href="" class="nav-link px-3 d-inline-block rounded">
+                    <i class="bi bi-house-fill"></i> Mon agence
+                </a>
+                <a href="" class="nav-link px-3 d-inline-block rounded">
+                    <i class="bi bi-house-fill"></i> Mon service
+                </a>
             </li>
 
-            <div class="overflow-y-auto">
-                <button class="btn btn-primary text-white bi bi-file-earmark" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#perimeterList" aria-expanded="false" aria-controls="perimeterList">
-                    Catégories
-                </button>
-                <div class="collapse" id="perimeterList">
-                    {% for perimeter in perimeters.getDistinctPerimeters %}
-                    <div class="card"><a class="dropdown-item" href="{{ path('idea_perimeter_show', { perimeterName:
-                            perimeter }) }}">{{perimeter}}</a>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
+
 
             <hr class="mx-5">
 
