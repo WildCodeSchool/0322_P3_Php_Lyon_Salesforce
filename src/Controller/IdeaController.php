@@ -23,8 +23,6 @@ class IdeaController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $ideaRepository->save($idea, true);
 
-            // Faire un else isNotValid
-
             $this->addFlash('success', 'Votre nouvelle idée a été partagé!');
 
             return $this->redirectToRoute('app_home');

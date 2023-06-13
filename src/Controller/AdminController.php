@@ -23,7 +23,7 @@ class AdminController extends AbstractController
             'users' => $users,
         ]);
     }
-    // Transférer fonction edit dans AdminController
+
     #[Route('/users/{id}/edit', name: 'user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, UserRepository $userRepository): Response
     {
