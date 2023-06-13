@@ -3,8 +3,17 @@
 {% block title %}Hello UserController!{% endblock %}
 
 {% block body %}
-<h2 class="text-center"> {{user.firstname}} {{user.lastname}} </h2>
-<p>{{user.service}}</p>
-<p>{{user.office}}</p>
-<p>{{user.position}}</p>
+<div class="row row-cols-1 m-4">
+    <div class="col">
+        <div class="card h-100 shadow-lg p-2">
+            <div class="card-body">
+                <img src="{{ asset('build/images/logo.png')}}" alt="profile picture" class="w-25">
+                <h2> {{user.firstname}} {{user.lastname}} </h2>
+                <p>{{user.service}}</p>
+                <p>{{user.office}}</p>
+                <p>{{user.position}}</p>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
