@@ -24,12 +24,12 @@
         <div class="row">
             <div class="col-md-3 col-xl-2 px-0">
                 {% block sideNavbar %}
-                {% include "component/_sideNavbar.html.twig" %}
+                {% include "components/_sideNavbar.html.twig" %}
                 {% endblock %}
             </div>
             <div class="col-12 col-md-9 col-xl-10 px-0">
                 {% block topNavbar %}
-                {% include "component/_topNavbar.html.twig" %}
+                {% include "components/_topNavbar.html.twig" %}
                 {% endblock %}
                 {% for category, messages in app.flashes %}
                 {% for message in messages %}

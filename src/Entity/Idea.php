@@ -15,7 +15,7 @@ class Idea
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank(message: 'Vous devez donner un nom à votre idée !')]
+    #[Assert\NotBlank(message: 'Vous avez oublié d\'écrire votre idée !')]
     #[Assert\Length(
         max: 255,
         maxMessage: 'Le nom de votre idée doit avoir maximum {{ limit }} caractères'
@@ -23,11 +23,21 @@ class Idea
     private ?string $title = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank(message: 'Vous devez rentrer le nom de votre service')]
+    #[Assert\NotBlank(message: 'Vous devez préciser votre service')]
     #[Assert\Length(
         max: 255,
         maxMessage: 'Le nom de votre service doit avoir maximum {{ limit }} caractères'
     )]
+
+    #[Assert\Choice(
+        choices:[
+            "Global",
+            "Agence",
+            "Service",
+        ],
+        message:"Le service spécifié n'est pas valide"
+    )]
+
     private ?string $perimeter = null;
 
     public function getId(): ?int
