@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+
+{% block body %}
+<h2 class="text-center"> {{user.firstname}} {{user.lastname}} </h2>
+<p>{{user.service}}</p>
+<p>{{user.office}}</p>
+<p>{{user.position}}</p>
+{% endblock %}
