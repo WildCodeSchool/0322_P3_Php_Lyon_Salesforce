@@ -4,28 +4,36 @@
 
 {% block body %}
 
-{% if error %}
-<div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-{% endif %}
 <main class="container">
-    <h1 class="text-center">Bienvenue</h1>
-    <h2 class="text-center mb-5">Veuillez vous connecter pour accéder à la plateforme</h2>
+    <div class="text-center">
+        <h1>Bienvenue</h1>
+        <h2>Veuillez vous connecter pour accéder à la plateforme</h2>
+        <img src="{{ asset('build/images/logo.png')}}" alt="logo" class="my-3" id="login-logo">
+    </div>
 
     <div class="d-flex justify-content-center">
+        <div class="col-9 col-md-6">
+            <form class="p-2 shadow-lg rounded-2" action="{{ path('app_login') }}" method="post">
+                {% if error %}
+                <div class="alert alert-danger text-center">
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                </div>
+                {% endif %}
+                <p>
+                    <label class="form-label" for="username">Email</label>
+                    <input class="form-control" type="text" id="username" name="_username" placeholder="Identifiant"
+                        value="{{ last_username }}">
+                </p>
+                <p>
+                    <label class="form-label" for="password">Mot de passe</label>
+                    <input class="form-control" type="password" id="password" placeholder="Mot de passe"
+                        name="_password">
+                </p>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <button type="submit" class="btn btn-primary mb-3 text-white">Connection</button>
+            </form>
+        </div>
 
-        <form class="w-50 p-2 shadow-lg rounded-2"action="{{ path('app_login') }}" method="post">
-            <p>
-                <label class="form-label" for="username">Email</label>
-                <input class="form-control" type="text" id="username" name="_username" placeholder="Identifiant" value="{{ last_username }}">
-            </p>
-            <p>
-                <label class="form-label" for="password">Mot de passe</label>
-                <input class="form-control" type="password" id="password" placeholder="Mot de passe" name="_password">
-            </p>
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-            <button type="submit" class="btn btn-primary mb-3" >Connection</button>
-        </form>
-        
     </div>
 </main>
 {% endblock %}
