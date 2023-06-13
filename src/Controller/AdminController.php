@@ -33,10 +33,10 @@ class AdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $userRepository->save($user, true);
 
-            return $this->redirectToRoute('admin_user_edit', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_users', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('user/edit.html.twig', [
+        return $this->render('admin/user/edit.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);
