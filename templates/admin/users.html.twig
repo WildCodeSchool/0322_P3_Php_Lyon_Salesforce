@@ -21,8 +21,8 @@
         <tbody>
             {% for user in users %}
             <tr>
-                <th {#href="{{ path('admin_user_edit') }}"#}>Modifier</th>
-                <th scope="row">{{user.id}}</th>
+                <td><a href="{{ path('admin_user_edit', {id:user.id}) }}">Modifier</a></td>
+                <td scope="row">{{user.id}}</td>
                 <td>{{user.firstname}}</td>
                 <td>{{user.lastname}}</td>
                 <td>{{user.email}}</td>
