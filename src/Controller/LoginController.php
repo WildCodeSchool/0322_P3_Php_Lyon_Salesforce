@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Exception;
 
 class LoginController extends AbstractController
 {
@@ -23,5 +24,11 @@ class LoginController extends AbstractController
             'error'         => $error,
 
         ]);
+    }
+
+    #[Route('/logout', name: 'app_logout')]
+    public function logout(): never
+    {
+        throw new Exception();
     }
 }
