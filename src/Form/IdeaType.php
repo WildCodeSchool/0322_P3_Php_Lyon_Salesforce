@@ -25,6 +25,7 @@ class IdeaType extends AbstractType
                         'A mon service' => 'Service',
                     ],
 
+
                 ]);
     }
 
