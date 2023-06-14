@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserController!{% endblock %}
+{% block title %}{{user.firstname}} {{user.lastname}}{% endblock %}
 
 {% block body %}
 <div class="row m-4">
@@ -14,6 +14,13 @@
                     {% else %}
                     <img src="{{ asset('build/images/blank-profil-picture.png' )}}" alt="profile picture"
                         class="profile-picture img-fluid rounded-circle">
+                    {% endif %}
+                    {% if app.user.email is same as user.email %}
+                    <form name="user" method="post" enctype="multipart/form-data">
+                        <input type="file" id="user_picture" name="user_picture" class="form-control">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                        <button type="submit" class="btn btn-primary text-white my-2">Mettre à jour</button>
+                    </form>
                     {% endif %}
                 </div>
                 <div class="col-md-6">

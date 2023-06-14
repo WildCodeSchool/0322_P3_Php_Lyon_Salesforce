@@ -7,20 +7,15 @@
 
             <hr class="d-md-none mx-5 px-5">
 
-            {% if app.user %}
             <li class="my-3 mx-3 fs-5">
-                {{ app.user.firstname }} {{ app.user.lastname }}
+                <a href="{{ path('user_show', {id:app.user.id}) }}" class="nav-link px-3 d-inline-block rounded">
+                    <i class="bi bi-person-fill"></i> {{ app.user.firstname }} {{ app.user.lastname }}
+                </a>
             </li>
             <li class="my-3 mx-3 fs-5">
                 <a class="nav-link px-3 d-inline-block rounded" href="{{ path('app_logout') }}"><i
                         class="bi bi-box-arrow-left"></i> Déconnexion</a>
             </li>
-            {% else %}
-            <li class="my-3 mx-3 fs-5">
-                <a class="nav-link px-3 d-inline-block rounded" href="{{ path('app_login') }}"><i
-                        class="bi bi-box-arrow-in-right"></i> Connexion</a>
-            </li>
-            {% endif %}
 
             <hr class="mx-5">
 
