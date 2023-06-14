@@ -33,7 +33,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                 $contributor->setFirstname($faker->firstName());
                 $contributor->setLastname($faker->lastName());
                 $contributor->setDepartment($faker->word());
-                $contributor->setProfilePicture($faker->image());
+                $contributor->setPictureFileName($faker->image());
                 $contributor->setPosition($faker->jobTitle());
                 $contributor->setWorkplace($this->getReference('office_' . $officeLocation));
                 $contributor->setRoles(['ROLE_CONTRIBUTOR']);
@@ -55,7 +55,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $dummyContributor->setFirstname('Bob');
         $dummyContributor->setLastname('Dylan');
         $dummyContributor->setDepartment('Comptabilité');
-        $dummyContributor->setProfilePicture($faker->image(null, 640, 480));
+        $dummyContributor->setPictureFileName($faker->image(null, 640, 480));
         $dummyContributor->setPosition('Directeur');
         $dummyContributor->setWorkplace($this->getReference('office_' . $officeLocation));
         $dummyContributor->setRoles(['ROLE_CONTRIBUTOR']);
@@ -77,7 +77,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $admin->setFirstname('Quentin');
         $admin->setLastname('Tarantino');
         $admin->setDepartment('Informatique');
-        $admin->setProfilePicture($faker->image());
+        $admin->setPictureFileName($faker->image());
         $admin->setPosition('Assistant Manager');
         $admin->setWorkplace($this->getReference('office_' . $officeLocation));
         $admin->setRoles(['ROLE_ADMIN']);

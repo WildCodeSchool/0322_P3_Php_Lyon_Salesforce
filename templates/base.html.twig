@@ -19,13 +19,6 @@
 </head>
 
 <body>
-    {% for category, messages in app.flashes %}
-    {% for message in messages %}
-    <div class="alert alert-{{ category }}">
-        {{ message }}
-    </div>
-    {% endfor %}
-    {% endfor %}
 
     <div class="container-fluid">
         <div class="row">
@@ -38,6 +31,13 @@
                 {% block topNavbar %}
                 {% include "components/_topNavbar.html.twig" %}
                 {% endblock %}
+                {% for category, messages in app.flashes %}
+                {% for message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endfor %}
                 {% block body %}
                 {% endblock %}
             </div>

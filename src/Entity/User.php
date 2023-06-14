@@ -43,8 +43,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $position = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $profilePicture = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $pictureFileName = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: false)]
@@ -177,14 +177,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getProfilePicture(): ?string
+    public function getPictureFileName(): ?string
     {
-        return $this->profilePicture;
+        return $this->pictureFileName;
     }
 
-    public function setProfilePicture(string $profilePicture): self
+    public function setPictureFileName(?string $pictureFileName): static
     {
-        $this->profilePicture = $profilePicture;
+        $this->pictureFileName = $pictureFileName;
 
         return $this;
     }
