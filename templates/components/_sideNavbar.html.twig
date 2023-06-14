@@ -55,9 +55,11 @@
             <hr class="mx-5">
 
             <li class="my-3 mx-3 fs-5">
+                {% if is_granted('ROLE_ADMIN') %}
                 <a href="{{ path('admin_users')}}" class="nav-link px-3 d-inline-block rounded">
                     <i class="bi bi-database-fill"></i> Admin
                 </a>
+                {% endif %}
             </li>
         </ul>
     </div>

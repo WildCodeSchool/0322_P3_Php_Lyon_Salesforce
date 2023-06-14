@@ -28,8 +28,12 @@ class AdminController extends AbstractController
     }
 
     #[Route('/users/{id}/edit', name: 'user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, UserRepository $userRepository, FileUploader $fileUploader): Response
-    {
+    public function edit(
+        Request $request,
+        User $user,
+        UserRepository $userRepository,
+        FileUploader $fileUploader
+    ): Response {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
