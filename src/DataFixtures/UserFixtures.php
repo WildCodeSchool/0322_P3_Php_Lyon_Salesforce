@@ -23,54 +23,55 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create();
 
-   /*     $offices = [
-            $this->getReference('office_brest'),
-            $this->getReference('office_paris'),
-            $this->getReference('office_lyon'),
-        ];
 
+        foreach (OfficeFixtures::OFFICES as $officeLocation) {
+            for ($i = 1; $i <= 10; $i++) {
+                $email = $faker->unique()->safeEmail;
 
-        for ($i = 1; $i <= 50; $i++) {
-            $contributor = new User();
-            $contributor->setEmail($faker->unique()->safeEmail);
-            $contributor->setFirstname($faker->firstName());
-            $contributor->setLastname($faker->lastName());
-            $contributor->setDepartment($faker->word());
-            $contributor->setProfilePicture($faker->image(null, 640, 480));
-            $contributor->setPosition($faker->jobTitle());
+                $contributor = new User();
+                $contributor->setEmail($email);
+                $contributor->setFirstname($faker->firstName());
+                $contributor->setLastname($faker->lastName());
+                $contributor->setDepartment($faker->word());
+                $contributor->setProfilePicture($faker->image());
+                $contributor->setPosition($faker->jobTitle());
+                $contributor->setWorkplace($this->getReference('office_' . $officeLocation));
+                $contributor->setRoles(['ROLE_CONTRIBUTOR']);
+                $hashedPassword = $this->passwordHasher->hashPassword(
+                    $contributor,
+                    'contributorpassword'
+                );
 
-            $chosenOffices = $faker->randomElements($offices, rand(1, 3));
-            foreach ($chosenOffices as $office) {
-                $contributor->setWorkplace($office);
+                $contributor->setPassword($hashedPassword);
+                $manager->persist($contributor);
+                $this->addReference('user_' . $i  . '_' . $officeLocation, $contributor);
             }
-            $contributor->setRoles(['ROLE_CONTRIBUTOR']);
-            $hashedPassword = $this->passwordHasher->hashPassword(
-                $contributor,
-                'contributorpassword'
-            );
-
-            $contributor->setPassword($hashedPassword);
-            $manager->persist($contributor);
         }
 
 
-        $contributor = new User();
-        $contributor->setEmail('contributor@sf.com');
-        $contributor->setFirstname('Bob');
-        $contributor->setLastname('Dylan');
-        $contributor->setDepartment('Comptabilité');
-        $contributor->setProfilePicture($faker->image(null, 640, 480));
-        $contributor->setPosition('Directeur');
-        $contributor->setWorkplace($this->getReference('office_lyon'));
-        $contributor->setRoles(['ROLE_CONTRIBUTOR']);
+
+        $dummyContributor = new User();
+        $dummyContributor->setEmail('contributor@sf.com');
+        $dummyContributor->setFirstname('Bob');
+        $dummyContributor->setLastname('Dylan');
+        $dummyContributor->setDepartment('Comptabilité');
+        $dummyContributor->setProfilePicture($faker->image(null, 640, 480));
+        $dummyContributor->setPosition('Directeur');
+        $dummyContributor->setWorkplace($this->getReference('office_' . $officeLocation));
+        $dummyContributor->setRoles(['ROLE_CONTRIBUTOR']);
         $hashedPassword = $this->passwordHasher->hashPassword(
-            $contributor,
+            $dummyContributor,
             'contributorpassword'
         );
 
-        $contributor->setPassword($hashedPassword);
-        $manager->persist($contributor);
-*/
+
+        $dummyContributor->setPassword($hashedPassword);
+        $manager->persist($dummyContributor);
+        $this->addReference('contributor@sf.com', $dummyContributor);
+
+
+
+
         $admin = new User();
         $admin->setEmail('superadmin@sf.com');
         $admin->setFirstname('Quentin');
@@ -78,7 +79,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $admin->setDepartment('Informatique');
         $admin->setProfilePicture($faker->image());
         $admin->setPosition('Assistant Manager');
-        $admin->setWorkplace($this->getReference('office_lyon'));
+        $admin->setWorkplace($this->getReference('office_' . $officeLocation));
         $admin->setRoles(['ROLE_ADMIN']);
         $hashedPassword = $this->passwordHasher->hashPassword(
             $admin,
@@ -88,13 +89,13 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($admin);
 
         $manager->flush();
-
-        $this->addReference('user_superadmin@sf.com', $admin);
     }
+
+
+
 
     public function getDependencies()
     {
-        // Tu retournes ici toutes les classes de fixtures dont ProgramFixtures dépend
         return [
           OfficeFixtures::class,
         ];

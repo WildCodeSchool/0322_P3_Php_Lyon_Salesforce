@@ -8,27 +8,25 @@ use Doctrine\Persistence\ObjectManager;
 
 class OfficeFixtures extends Fixture
 {
+    public const OFFICES = [
+        'Brest',
+        'Paris',
+        'Lyon',
+
+    ];
+
+
     public function load(ObjectManager $manager): void
     {
 
-        $brest = new Office();
-        $brest->setLocation('Brest');
+        foreach (self::OFFICES as $officeLocation) {
+            $office = new Office();
+            $office->setLocation($officeLocation);
 
-        $paris = new Office();
-        $paris->setLocation('Paris');
+            $manager->persist($office);
+            $manager->flush();
 
-        $lyon = new Office();
-        $lyon->setLocation('Lyon');
-
-        $manager->persist($brest);
-        $manager->persist($paris);
-        $manager->persist($lyon);
-
-
-        $manager->flush();
-
-        $this->addReference('office_brest', $brest);
-        $this->addReference('office_paris', $paris);
-        $this->addReference('office_lyon', $lyon);
+            $this->addReference('office_' . $officeLocation, $office);
+        }
     }
 }

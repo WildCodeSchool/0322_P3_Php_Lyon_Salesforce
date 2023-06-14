@@ -22,28 +22,45 @@ class IdeaFixtures extends Fixture implements DependentFixtureInterface
         ];
 
 
+        for ($j = 1; $j <= 10; $j++) {
+            $dummyIdea = new Idea();
+            $dummyIdea->setTitle($faker->word());
 
-        for ($i = 1; $i <= 50; $i++) {
-            $idea = new Idea();
-
-            $idea->setTitle($faker->word());
             $chosenPerimeters = $faker->randomElements($perimeters, rand(1, 3));
             foreach ($chosenPerimeters as $perimeter) {
-                $idea->setPerimeter($perimeter);
+                $dummyIdea->setPerimeter($perimeter);
             }
 
-            $idea->setPublicationDate(new DateTimeImmutable());
-            $idea->setAuthor($this->getReference('user_superadmin@sf.com'));
+            $dummyIdea->setPublicationDate(new DateTimeImmutable());
+            $dummyIdea->setAuthor($this->getReference('contributor@sf.com'));
 
 
-            $manager->persist($idea);
+            $manager->persist($dummyIdea);
         }
+
+        foreach (OfficeFixtures::OFFICES as $officeLocation) {
+            for ($i = 1; $i <= 10; $i++) {
+                $idea = new Idea();
+                $idea->setTitle($faker->word());
+
+                $chosenPerimeters = $faker->randomElements($perimeters, rand(1, 3));
+                foreach ($chosenPerimeters as $perimeter) {
+                    $idea->setPerimeter($perimeter);
+                }
+
+                $idea->setPublicationDate(new DateTimeImmutable());
+                $idea->setAuthor($this->getReference('user_' . $faker->numberBetween(1, 10) . '_' . $officeLocation));
+
+
+                $manager->persist($idea);
+            }
+        }
+
         $manager->flush();
     }
 
     public function getDependencies()
     {
-        // Tu retournes ici toutes les classes de fixtures dont ProgramFixtures dépend
         return [
           UserFixtures::class,
         ];
