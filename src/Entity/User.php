@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -47,6 +49,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Office $workplace = null;
+
+    #[ORM\OneToMany(mappedBy: 'Author', targetEntity: Idea::class)]
+    private Collection $ideas;
+
+    public function __construct()
+    {
+        $this->ideas = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -187,6 +197,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setWorkplace(?Office $workplace): static
     {
         $this->workplace = $workplace;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Idea>
+     */
+    public function getIdeas(): Collection
+    {
+        return $this->ideas;
+    }
+
+    public function addIdea(Idea $idea): static
+    {
+        if (!$this->ideas->contains($idea)) {
+            $this->ideas->add($idea);
+            $idea->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdea(Idea $idea): static
+    {
+        if ($this->ideas->removeElement($idea)) {
+            // set the owning side to null (unless already changed)
+            if ($idea->getAuthor() === $this) {
+                $idea->setAuthor(null);
+            }
+        }
+
         return $this;
     }
 }

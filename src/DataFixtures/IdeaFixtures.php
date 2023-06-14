@@ -3,11 +3,13 @@
 namespace App\DataFixtures;
 
 use App\Entity\Idea;
+use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-class IdeaFixtures extends Fixture
+class IdeaFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -19,6 +21,8 @@ class IdeaFixtures extends Fixture
             'Service',
         ];
 
+
+
         for ($i = 1; $i <= 50; $i++) {
             $idea = new Idea();
 
@@ -28,9 +32,20 @@ class IdeaFixtures extends Fixture
                 $idea->setPerimeter($perimeter);
             }
 
+            $idea->setPublicationDate(new DateTimeImmutable());
+            $idea->setAuthor($this->getReference('user_superadmin@sf.com'));
+
 
             $manager->persist($idea);
         }
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        // Tu retournes ici toutes les classes de fixtures dont ProgramFixtures dépend
+        return [
+          UserFixtures::class,
+        ];
     }
 }

@@ -23,7 +23,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create();
 
-        $offices = [
+   /*     $offices = [
             $this->getReference('office_brest'),
             $this->getReference('office_paris'),
             $this->getReference('office_lyon'),
@@ -39,7 +39,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             $contributor->setProfilePicture($faker->image(null, 640, 480));
             $contributor->setPosition($faker->jobTitle());
 
-            $chosenOffices = $faker->randomElements($offices, rand(1, 1));
+            $chosenOffices = $faker->randomElements($offices, rand(1, 3));
             foreach ($chosenOffices as $office) {
                 $contributor->setWorkplace($office);
             }
@@ -70,13 +70,13 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
 
         $contributor->setPassword($hashedPassword);
         $manager->persist($contributor);
-
+*/
         $admin = new User();
         $admin->setEmail('superadmin@sf.com');
         $admin->setFirstname('Quentin');
         $admin->setLastname('Tarantino');
         $admin->setDepartment('Informatique');
-        $admin->setProfilePicture($faker->image(null, 640, 480));
+        $admin->setProfilePicture($faker->image());
         $admin->setPosition('Assistant Manager');
         $admin->setWorkplace($this->getReference('office_lyon'));
         $admin->setRoles(['ROLE_ADMIN']);
@@ -88,6 +88,8 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($admin);
 
         $manager->flush();
+
+        $this->addReference('user_superadmin@sf.com', $admin);
     }
 
     public function getDependencies()
