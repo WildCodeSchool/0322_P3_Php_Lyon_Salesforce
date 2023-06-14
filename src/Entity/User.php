@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -34,13 +35,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $lastname = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $service = null;
+    private ?string $department = null;
 
-    #[ORM\Column(length: 100)]
-    private ?string $office = null;
 
     #[ORM\Column(length: 255)]
     private ?string $position = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $profilePicture = null;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Office $workplace = null;
 
     public function getId(): ?int
     {
@@ -136,29 +142,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getService(): ?string
+    public function getDepartment(): ?string
     {
-        return $this->service;
+        return $this->department;
     }
 
-    public function setService(string $service): self
+    public function setDepartment(string $department): self
     {
-        $this->service = $service;
+        $this->department = $department;
 
         return $this;
     }
 
-    public function getOffice(): ?string
-    {
-        return $this->office;
-    }
-
-    public function setOffice(string $office): self
-    {
-        $this->office = $office;
-
-        return $this;
-    }
 
     public function getPosition(): ?string
     {
@@ -169,6 +164,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->position = $position;
 
+        return $this;
+    }
+
+    public function getProfilePicture(): ?string
+    {
+        return $this->profilePicture;
+    }
+
+    public function setProfilePicture(string $profilePicture): self
+    {
+        $this->profilePicture = $profilePicture;
+
+        return $this;
+    }
+
+    public function getWorkplace(): ?Office
+    {
+        return $this->workplace;
+    }
+
+    public function setWorkplace(?Office $workplace): static
+    {
+        $this->workplace = $workplace;
         return $this;
     }
 }
