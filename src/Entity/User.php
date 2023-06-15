@@ -50,7 +50,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinColumn(nullable: false)]
     private ?Office $workplace = null;
 
-    #[ORM\OneToMany(mappedBy: 'Author', targetEntity: Idea::class)]
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Idea::class)]
     private Collection $ideas;
 
     public function __construct()
