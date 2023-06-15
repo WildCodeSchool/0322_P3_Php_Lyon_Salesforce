@@ -23,7 +23,7 @@ class IdeaController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
         $date = new DateTimeImmutable();
-        $publicationDate = $date->setDate(date('Y'), date('m'), date('d'));
+        $publicationDate = $date->setDate(intval(date('Y')), intval(date('m')), intval(date('d')));
 
         $idea = new Idea();
         $form = $this->createForm(IdeaType::class, $idea);
