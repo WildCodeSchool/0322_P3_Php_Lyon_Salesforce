@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Idées du service de l'utilisateur{% endblock %}
+
+{% block body %}
+<main class="container">
+    <div>
+        <h1>
+            SalesForce Idéation
+        </h1>
+    </div>
+
+    <div class="container my-5  ">
+        <div>
+            <h3 class="row row-cols-1 row-cols-md-2 justify-content-start row-cols-xl-3 g-4 mx-4">
+                Les idées de mon service {{ user.department }}
+            </h3>
+            <div class="row row-cols-1 row-cols-md-2 justify-content-center row-cols-xl-3 g-4 mx-4">
+                {% for idea in ideas %}
+                <div class="col">
+                    <div class="card h-100 shadow-lg p-2">
+                        <div class="card-body">
+                            <h3 class="card-title">{{ idea.title }} </h3>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

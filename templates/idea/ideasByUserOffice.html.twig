@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Not Home{% endblock %}
+{% block title %}Idées de l'agence de l'utilisateur{% endblock %}
 
 {% block body %}
 <main class="container">
@@ -13,22 +13,20 @@
     <div class="container my-5  ">
         <div>
             <h3 class="row row-cols-1 row-cols-md-2 justify-content-start row-cols-xl-3 g-4 mx-4">
-                Nouvelles idées pour le {{perimeter.perimeter}}
+                Les idées de mon agence de {{user.workplace.location}}
             </h3>
-
             <div class="row row-cols-1 row-cols-md-2 justify-content-center row-cols-xl-3 g-4 mx-4">
                 {% for idea in ideas %}
                 <div class="col">
                     <div class="card h-100 shadow-lg p-2">
                         <div class="card-body">
                             <h3 class="card-title">{{ idea.title }} </h3>
-                            <h6 class="card-title">Agence de </h6>
                         </div>
                     </div>
                 </div>
                 {% endfor %}
             </div>
-
+        </div>
     </div>
 </main>
 {% endblock %}
