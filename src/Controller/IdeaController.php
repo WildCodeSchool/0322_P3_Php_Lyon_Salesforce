@@ -3,17 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Idea;
-use App\Entity\Office;
 use App\Entity\User;
 use App\Repository\IdeaRepository;
 use App\Form\IdeaType;
-use App\Repository\OfficeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Doctrine\ORM\EntityManagerInterface;
 
 #[IsGranted('ROLE_USER')]
 #[Route('/idea', name: 'idea')]
