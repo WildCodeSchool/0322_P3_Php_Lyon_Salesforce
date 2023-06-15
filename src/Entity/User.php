@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -34,16 +37,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $lastname = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $service = null;
+    private ?string $department = null;
 
-    #[ORM\Column(length: 100)]
-    private ?string $office = null;
 
     #[ORM\Column(length: 255)]
     private ?string $position = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $pictureFileName = null;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Office $workplace = null;
+
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Idea::class)]
+    private Collection $ideas;
+
+    public function __construct()
+    {
+        $this->ideas = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -139,29 +152,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getService(): ?string
+    public function getDepartment(): ?string
     {
-        return $this->service;
+        return $this->department;
     }
 
-    public function setService(string $service): self
+    public function setDepartment(string $department): self
     {
-        $this->service = $service;
+        $this->department = $department;
 
         return $this;
     }
 
-    public function getOffice(): ?string
-    {
-        return $this->office;
-    }
-
-    public function setOffice(string $office): self
-    {
-        $this->office = $office;
-
-        return $this;
-    }
 
     public function getPosition(): ?string
     {
@@ -183,6 +185,47 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPictureFileName(?string $pictureFileName): static
     {
         $this->pictureFileName = $pictureFileName;
+
+        return $this;
+    }
+
+    public function getWorkplace(): ?Office
+    {
+        return $this->workplace;
+    }
+
+    public function setWorkplace(?Office $workplace): static
+    {
+        $this->workplace = $workplace;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Idea>
+     */
+    public function getIdeas(): Collection
+    {
+        return $this->ideas;
+    }
+
+    public function addIdea(Idea $idea): static
+    {
+        if (!$this->ideas->contains($idea)) {
+            $this->ideas->add($idea);
+            $idea->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdea(Idea $idea): static
+    {
+        if ($this->ideas->removeElement($idea)) {
+            // set the owning side to null (unless already changed)
+            if ($idea->getAuthor() === $this) {
+                $idea->setAuthor(null);
+            }
+        }
 
         return $this;
     }

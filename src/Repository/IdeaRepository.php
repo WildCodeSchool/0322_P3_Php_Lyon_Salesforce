@@ -39,9 +39,41 @@ class IdeaRepository extends ServiceEntityRepository
         }
     }
 
+
+
+    public function getIdeasByUserOffice(int $officeId): array
+    {
+        return $this->createQueryBuilder('i')
+            ->select('i.title', 'o.location')
+            ->innerJoin('i.author', 'u')
+            ->innerJoin('u.workplace', 'o')
+            ->where('o.id = :officeId')
+            ->setParameter('officeId', $officeId)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function getIdeasByUserDepartment(int $officeId, string $departmentName): array
+    {
+        return $this->createQueryBuilder('i')
+            ->select('i.title', 'o.location')
+            ->innerJoin('i.author', 'u')
+            ->innerJoin('u.workplace', 'o')
+            ->where('o.id = :officeId')
+            ->andWhere('u.department = :departmentName')
+            ->setParameter('officeId', $officeId)
+            ->setParameter('departmentName', $departmentName)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+}
+
     //    /**
     //     * @return Idea[] Returns an array of Idea objects
     //     */
+
     //    public function findByExampleField($value): array
     //    {
     //        return $this->createQueryBuilder('i')
@@ -63,4 +95,3 @@ class IdeaRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-}
