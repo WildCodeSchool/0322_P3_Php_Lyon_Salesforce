@@ -3,11 +3,11 @@
 {% block title %}{{user.firstname}} {{user.lastname}}{% endblock %}
 
 {% block body %}
-<div class="row m-4">
+<div class="row m-3">
     <div class="card h-100 shadow-lg p-2">
         <div class="card-body">
             <div class="row text-center text-md-start">
-                <div class="col-md-3">
+                <div class="col-md-auto">
                     {% if user.pictureFileName %}
                     <img src="{{ asset('/uploads/profiles_pictures/' ~ user.pictureFileName)}}" alt="profile picture"
                         class="profile-picture img-fluid rounded-circle">
@@ -17,7 +17,8 @@
                     {% endif %}
 
                     {% if app.user.email is same as user.email %}
-                    <form name="user" method="post" enctype="multipart/form-data" class="m-2">
+                    <form action="{{ path('user_show', {id:app.user.id}) }}" name="user" method="post"
+                        enctype="multipart/form-data" class="m-2">
                         <input type="file" id="upload-user-picture" name="upload-user-picture" class="form-control">
                         <label class="btn btn-primary text-white" for="upload-user-picture">
                             Changer de photo
@@ -36,8 +37,9 @@
                     {% endfor %}
                     {% endif %}
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-auto">
                     <h2> {{user.firstname}} {{user.lastname}} </h2>
+                    <p>Email : {{user.email}} </p>
                     <p>Agence de : {{user.workplace.location}}</p>
                     <p>Service : {{user.department}}</p>
                     <p>poste : {{user.position}}</p>
