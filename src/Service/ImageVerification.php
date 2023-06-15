@@ -4,7 +4,7 @@ namespace App\Service;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class ImageFileVerification
+class ImageVerification
 {
     public array $errors;
 
@@ -13,7 +13,7 @@ class ImageFileVerification
         $this->errors = [];
     }
 
-    public function imageVerification(UploadedFile $file)
+    public function imageVerification(UploadedFile $file): void
     {
         $extension = $file->guessExtension();
         if ($extension !== "jpg") {

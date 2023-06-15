@@ -7,6 +7,7 @@ use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Service\FileUploader;
 use App\Service\ImageFileVerification;
+use App\Service\ImageVerification;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,12 +24,12 @@ class UserController extends AbstractController
         Request $request,
         UserRepository $userRepository,
         FileUploader $fileUploader,
-        ImageFileVerification $imageFileVerification
+        ImageVerification $imageVerification
     ): Response {
         $pictureFile = $request->files->get('upload-user-picture');
         if ($pictureFile) {
-            $imageFileVerification->imageVerification($pictureFile);
-            $errors = $imageFileVerification->errors;
+            $imageVerification->imageVerification($pictureFile);
+            $errors = $imageVerification->errors;
             if (empty($errors)) {
                 $pictureFilename = $fileUploader->upload($pictureFile);
                 $user->setPictureFileName($pictureFilename);
