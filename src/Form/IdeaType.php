@@ -27,16 +27,6 @@ class IdeaType extends AbstractType
                     'A mon agence' => 'Agence',
                     'A mon service' => 'Service',
                 ],
-            ])
-            ->add('publicationDate', DateType::class, [
-                 'label' => 'Date de publication',
-                 'input' => 'datetime_immutable',
-            ])
-            ->add('author', EntityType::class, [
-                'class' => User::class,
-                'label' => 'Auteur',
-                'choice_label' => 'email',
-                'disabled' => true,
             ]);
     }
 
