@@ -8,6 +8,7 @@
         <div class="card-body">
             <div class="row text-center text-md-start">
                 <div class="col-md-auto">
+
                     {% if user.pictureFileName %}
                     <img src="{{ asset('/uploads/profiles_pictures/' ~ user.pictureFileName)}}" alt="profile picture"
                         class="profile-picture img-fluid rounded-circle">
@@ -28,13 +29,15 @@
                         <button type="submit" class="btn btn-primary text-white p-2"><i
                                 class="bi bi-upload"></i></button>
                     </form>
-                    {% endif %}
+
                     {% if errors is defined %}
                     {% for error in errors %}
                     <div class="alert alert-danger text-center">
                         <li>{{error}}</li>
                     </div>
                     {% endfor %}
+                    {% endif %}
+
                     {% endif %}
                 </div>
                 <div class="col-md-auto">
