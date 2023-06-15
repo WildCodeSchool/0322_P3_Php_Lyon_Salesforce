@@ -6,8 +6,8 @@
 <div class="row m-4">
     <div class="card h-100 shadow-lg p-2">
         <div class="card-body">
-            <div class="row m-4 text-center text-md-start">
-                <div class="col-md-6">
+            <div class="row text-center text-md-start">
+                <div class="col-md-3">
                     {% if user.pictureFileName %}
                     <img src="{{ asset('/uploads/profiles_pictures/' ~ user.pictureFileName)}}" alt="profile picture"
                         class="profile-picture img-fluid rounded-circle">
@@ -15,17 +15,30 @@
                     <img src="{{ asset('build/images/blank-profil-picture.png' )}}" alt="profile picture"
                         class="profile-picture img-fluid rounded-circle">
                     {% endif %}
+
                     {% if app.user.email is same as user.email %}
-                    <form name="user" method="post" enctype="multipart/form-data">
-                        <input type="file" id="user_picture" name="user_picture" class="form-control">
+                    <form name="user" method="post" enctype="multipart/form-data" class="m-2">
+                        <input type="file" id="upload-user-picture" name="upload-user-picture" class="form-control">
+                        <label class="btn btn-primary text-white" for="upload-user-picture">
+                            Changer de photo
+                        </label>
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                        <button type="submit" class="btn btn-primary text-white my-2">Mettre à jour</button>
+
+                        <button type="submit" class="btn btn-primary text-white p-2"><i
+                                class="bi bi-upload"></i></button>
                     </form>
                     {% endif %}
+                    {% if errors is defined %}
+                    {% for error in errors %}
+                    <div class="alert alert-danger text-center">
+                        <li>{{error}}</li>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-9">
                     <h2> {{user.firstname}} {{user.lastname}} </h2>
-                    <p>Agence de : {{user.office}}</p>
+                    <p>Agence de {{user.office}}</p>
                     <p>Service : {{user.service}}</p>
                     <p>poste : {{user.position}}</p>
                 </div>

@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Service\FileUploader;
+use App\Service\ImageFileVerification;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,16 +22,23 @@ class UserController extends AbstractController
         User $user,
         Request $request,
         UserRepository $userRepository,
-        FileUploader $fileUploader
+        FileUploader $fileUploader,
+        ImageFileVerification $imageFileVerification
     ): Response {
-        $pictureFile = $request->files->get('user_picture');
-
+        $pictureFile = $request->files->get('upload-user-picture');
         if ($pictureFile) {
-            $pictureFilename = $fileUploader->upload($pictureFile);
-            $user->setPictureFileName($pictureFilename);
+            $imageFileVerification->imageVerification($pictureFile);
+            $errors = $imageFileVerification->errors;
+            if (empty($errors)) {
+                $pictureFilename = $fileUploader->upload($pictureFile);
+                $user->setPictureFileName($pictureFilename);
+                $userRepository->save($user, true);
+            }
+            return $this->render('user/profil.html.twig', [
+                'user' => $user,
+                'errors' => $errors,
+            ]);
         }
-        $userRepository->save($user, true);
-
         return $this->render('user/profil.html.twig', [
             'user' => $user,
         ]);
