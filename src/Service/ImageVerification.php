@@ -16,7 +16,7 @@ class ImageVerification
     public function imageVerification(UploadedFile $file): void
     {
         $extension = $file->guessExtension();
-        if ($extension !== "jpg") {
+        if ($extension !== "jpg" && $extension !== "png" && $extension !== "jpeg") {
             $this->errors[] = "Veuillez utilisez une image au Format PNG, JPG ou JPEG";
         }
     }
