@@ -4,11 +4,12 @@ namespace App\DataFixtures;
 
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Faker\Factory;
 
-class UserFixtures extends Fixture
+class UserFixtures extends Fixture implements DependentFixtureInterface
 {
     private UserPasswordHasherInterface $passwordHasher;
 
@@ -22,48 +23,63 @@ class UserFixtures extends Fixture
     {
         $faker = Factory::create();
 
-        for ($i = 1; $i <= 50; $i++) {
-            $contributor = new User();
-            $contributor->setEmail($faker->unique()->safeEmail);
-            $contributor->setFirstname($faker->firstName());
-            $contributor->setLastname($faker->lastName());
-            $contributor->setService($faker->word());
-            $contributor->setOffice($faker->word());
-            $contributor->setPosition($faker->jobTitle());
-            $contributor->setRoles(['ROLE_CONTRIBUTOR']);
-            $hashedPassword = $this->passwordHasher->hashPassword(
-                $contributor,
-                'contributorpassword'
-            );
 
-            $contributor->setPassword($hashedPassword);
-            $manager->persist($contributor);
+        foreach (OfficeFixtures::OFFICES as $officeLocation) {
+            for ($i = 1; $i <= 10; $i++) {
+                $email = $faker->unique()->safeEmail;
+
+                $contributor = new User();
+                $contributor->setEmail($email);
+                $contributor->setFirstname($faker->firstName());
+                $contributor->setLastname($faker->lastName());
+                $contributor->setDepartment($faker->word());
+                $contributor->setPictureFileName($faker->image());
+                $contributor->setPosition($faker->jobTitle());
+                $contributor->setWorkplace($this->getReference('office_' . $officeLocation));
+                $contributor->setRoles(['ROLE_CONTRIBUTOR']);
+                $hashedPassword = $this->passwordHasher->hashPassword(
+                    $contributor,
+                    'contributorpassword'
+                );
+
+                $contributor->setPassword($hashedPassword);
+                $manager->persist($contributor);
+                $this->addReference('user_' . $i  . '_' . $officeLocation, $contributor);
+            }
         }
 
 
-        $contributor = new User();
-        $contributor->setEmail('contributor@sf.com');
-        $contributor->setFirstname('Bob');
-        $contributor->setLastname('Dylan');
-        $contributor->setService('Comptabilité');
-        $contributor->setOffice('Lyon');
-        $contributor->setPosition('Directeur');
-        $contributor->setRoles(['ROLE_CONTRIBUTOR']);
+
+        $dummyContributor = new User();
+        $dummyContributor->setEmail('contributor@sf.com');
+        $dummyContributor->setFirstname('Bob');
+        $dummyContributor->setLastname('Dylan');
+        $dummyContributor->setDepartment('Comptabilité');
+        $dummyContributor->setPictureFileName($faker->image(null, 640, 480));
+        $dummyContributor->setPosition('Directeur');
+        $dummyContributor->setWorkplace($this->getReference('office_' . $officeLocation));
+        $dummyContributor->setRoles(['ROLE_CONTRIBUTOR']);
         $hashedPassword = $this->passwordHasher->hashPassword(
-            $contributor,
+            $dummyContributor,
             'contributorpassword'
         );
 
-        $contributor->setPassword($hashedPassword);
-        $manager->persist($contributor);
+
+        $dummyContributor->setPassword($hashedPassword);
+        $manager->persist($dummyContributor);
+        $this->addReference('contributor@sf.com', $dummyContributor);
+
+
+
 
         $admin = new User();
         $admin->setEmail('superadmin@sf.com');
         $admin->setFirstname('Quentin');
         $admin->setLastname('Tarantino');
-        $admin->setService('Informatique');
-        $admin->setOffice('Paris');
+        $admin->setDepartment('Informatique');
+        $admin->setPictureFileName($faker->image());
         $admin->setPosition('Assistant Manager');
+        $admin->setWorkplace($this->getReference('office_' . $officeLocation));
         $admin->setRoles(['ROLE_ADMIN']);
         $hashedPassword = $this->passwordHasher->hashPassword(
             $admin,
@@ -73,5 +89,15 @@ class UserFixtures extends Fixture
         $manager->persist($admin);
 
         $manager->flush();
+    }
+
+
+
+
+    public function getDependencies()
+    {
+        return [
+          OfficeFixtures::class,
+        ];
     }
 }

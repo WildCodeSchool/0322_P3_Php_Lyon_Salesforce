@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\IdeaRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -40,6 +41,15 @@ class Idea
 
     private ?string $perimeter = null;
 
+    #[ORM\ManyToOne(inversedBy: 'ideas')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $author = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $publicationDate = null;
+
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -65,6 +75,30 @@ class Idea
     public function setPerimeter(string $perimeter): self
     {
         $this->perimeter = $perimeter;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): static
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    public function getPublicationDate(): ?\DateTimeImmutable
+    {
+        return $this->publicationDate;
+    }
+
+    public function setPublicationDate(\DateTimeImmutable $publicationDate): static
+    {
+        $this->publicationDate = $publicationDate;
 
         return $this;
     }

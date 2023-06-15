@@ -2,10 +2,12 @@
 
 namespace App\Form;
 
+use App\Entity\Office;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -40,11 +42,13 @@ class UserType extends AbstractType
                     ])
                 ],
             ])
-            ->add('service', TextType::class, [
+            ->add('department', TextType::class, [
                 'label' => 'Service'
             ])
-            ->add('office', TextType::class, [
-                'label' => 'Agence'
+            ->add('workplace', EntityType::class, [
+                'class' => Office::class,
+                'label' => 'Agence',
+                'choice_label' => 'location',
             ])
             ->add('position', TextType::class, [
                 'label' => 'Poste'
