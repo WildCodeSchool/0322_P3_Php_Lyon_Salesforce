@@ -3,19 +3,23 @@
 namespace App\Controller;
 
 use App\Entity\Idea;
+use App\Entity\Office;
+use App\Entity\User;
 use App\Repository\IdeaRepository;
 use App\Form\IdeaType;
+use App\Repository\OfficeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Doctrine\ORM\EntityManagerInterface;
 
 #[IsGranted('ROLE_USER')]
-#[Route('/idea', name: 'idea_')]
+#[Route('/idea', name: 'idea')]
 class IdeaController extends AbstractController
 {
-    #[Route('/new', name: 'new')]
+    #[Route('/new', name: '_new')]
     public function new(Request $request, IdeaRepository $ideaRepository): Response
     {
         $idea = new Idea();
@@ -35,20 +39,40 @@ class IdeaController extends AbstractController
         ]);
     }
 
-    #[Route('/{perimeterName}', name: 'perimeter_show')]
-    public function show(string $perimeterName, IdeaRepository $ideaRepository): Response
+    #[Route('/MyOffice', name: 's_by_user_office')]
+    public function showOffice(IdeaRepository $ideaRepository): Response
     {
-        $perimeter = $ideaRepository->findOneBy(['perimeter' => $perimeterName]);
 
-        $ideas = $ideaRepository->findby(
-            ['perimeter' => $perimeterName],
-            ['id' => 'DESC'],
-        );
+        /** @var User $user */
+        $user = $this->getUser();
 
+        $officeId = $user->getWorkplace()->getId();
 
-        return $this->render('idea/ideaByPerimeter.html.twig', [
-            'perimeter' => $perimeter,
+        $ideas = $ideaRepository->getIdeasByUserOffice($officeId);
+
+        return $this->render('idea/ideasByUserOffice.html.twig', [
+            'user' => $user,
             'ideas' => $ideas,
+
+        ]);
+    }
+
+    #[Route('/MyDepartment', name: 's_by_user_department')]
+    public function showDepartment(IdeaRepository $ideaRepository): Response
+    {
+
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $officeId = $user->getWorkplace()->getId();
+        $departmentName = $user-> getDepartment();
+
+        $ideas = $ideaRepository->getIdeasByUserDepartment($officeId, $departmentName);
+
+        return $this->render('idea/ideasByUserDepartment.html.twig', [
+            'user' => $user,
+            'ideas' => $ideas,
+
         ]);
     }
 }
