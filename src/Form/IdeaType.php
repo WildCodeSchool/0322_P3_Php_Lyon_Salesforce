@@ -3,8 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Idea;
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -24,11 +26,16 @@ class IdeaType extends AbstractType
                     'A mon agence' => 'Agence',
                     'A mon service' => 'Service',
                 ],
+            ])
+            ->add('publicationDate', DateType::class, [
+                 'label' => 'Date de publication',
+                 'input' => 'datetime_immutable',
+            ])
+            ->add('author', EntityType::class, [
+                'class' => User::class,
+                'label' => 'Auteur',
+                'choice_label' => 'location',
             ]);
-            // ->add('publishedAt', DateType::class, [
-            //     'label' => 'Date de publication',
-            //     'disabled' => false,
-            // ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
