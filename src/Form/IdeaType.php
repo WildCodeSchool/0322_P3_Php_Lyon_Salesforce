@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Idea;
 use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -34,7 +35,8 @@ class IdeaType extends AbstractType
             ->add('author', EntityType::class, [
                 'class' => User::class,
                 'label' => 'Auteur',
-                'choice_label' => 'location',
+                'choice_label' => 'email',
+                'disabled' => true,
             ]);
     }
 
