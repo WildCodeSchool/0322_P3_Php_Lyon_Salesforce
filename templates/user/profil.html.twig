@@ -1,13 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserController!{% endblock %}
+{% block title %}{{user.firstname}} {{user.lastname}}{% endblock %}
 
 {% block body %}
-<div class="row m-4">
+<div class="row m-3">
     <div class="card h-100 shadow-lg p-2">
         <div class="card-body">
-            <div class="row m-4 text-center text-md-start">
-                <div class="col-md-6">
+            <div class="row text-center text-md-start">
+                <div class="col-md-auto">
+
                     {% if user.pictureFileName %}
                     <img src="{{ asset('/uploads/profiles_pictures/' ~ user.pictureFileName)}}" alt="profile picture"
                         class="profile-picture img-fluid rounded-circle">
@@ -15,9 +16,33 @@
                     <img src="{{ asset('build/images/blank-profil-picture.png' )}}" alt="profile picture"
                         class="profile-picture img-fluid rounded-circle">
                     {% endif %}
+
+                    {% if app.user.email is same as user.email %}
+                    <form action="{{ path('user_show', {id:app.user.id}) }}" name="user" method="post"
+                        enctype="multipart/form-data" class="m-2">
+                        <input type="file" id="upload-user-picture" name="upload-user-picture" class="form-control">
+                        <label class="btn btn-primary text-white" for="upload-user-picture">
+                            Changer de photo
+                        </label>
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                        <button type="submit" class="btn btn-primary text-white p-2"><i
+                                class="bi bi-upload"></i></button>
+                    </form>
+
+                    {% if errors is defined %}
+                    {% for error in errors %}
+                    <div class="alert alert-danger text-center">
+                        <li>{{error}}</li>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+
+                    {% endif %}
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-auto">
                     <h2> {{user.firstname}} {{user.lastname}} </h2>
+                    <p>Email : {{user.email}} </p>
                     <p>Agence de : {{user.workplace.location}}</p>
                     <p>Service : {{user.department}}</p>
                     <p>poste : {{user.position}}</p>

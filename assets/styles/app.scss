@@ -35,9 +35,16 @@ body {
     width: 150px;
 }
 
-//-------- Profil picture --------//
+//-------- Profil page --------//
 
 .profile-picture {
     width: 200px;
     height: 200px;
+}
+
+#upload-user-picture {
+    opacity: 0;
+    width: 0.1px;
+    height: 0.1px;
+    position: absolute;
 }
