@@ -6,6 +6,7 @@ use App\Entity\Idea;
 use App\Entity\User;
 use App\Repository\IdeaRepository;
 use App\Form\IdeaType;
+use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,8 +20,17 @@ class IdeaController extends AbstractController
     #[Route('/new', name: '_new')]
     public function new(Request $request, IdeaRepository $ideaRepository): Response
     {
+        /** @var User $user */
+        $user = $this->getUser();
+        $date = new DateTimeImmutable();
+        $publicationDate = $date->setDate(intval(date('Y')), intval(date('m')), intval(date('d')));
+
         $idea = new Idea();
         $form = $this->createForm(IdeaType::class, $idea);
+
+        $idea->setPublicationDate($publicationDate);
+        $idea->setAuthor($user);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -62,7 +72,7 @@ class IdeaController extends AbstractController
         $user = $this->getUser();
 
         $officeId = $user->getWorkplace()->getId();
-        $departmentName = $user-> getDepartment();
+        $departmentName = $user->getDepartment();
 
         $ideas = $ideaRepository->getIdeasByUserDepartment($officeId, $departmentName);
 

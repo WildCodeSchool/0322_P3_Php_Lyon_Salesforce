@@ -20,13 +20,11 @@ class IdeaType extends AbstractType
             ->add('perimeter', ChoiceType::class, [
                 'label' => 'A qui est destinée mon idée?',
                 'choices' => [
-                        'A tout le monde' => 'Global',
-                        'A mon agence' => 'Agence',
-                        'A mon service' => 'Service',
-                    ],
-
-
-                ]);
+                    'A tout le monde' => 'Global',
+                    'A mon agence' => 'Agence',
+                    'A mon service' => 'Service',
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
