@@ -44,7 +44,7 @@ class IdeaRepository extends ServiceEntityRepository
     public function getIdeasByUserOffice(int $officeId): array
     {
         return $this->createQueryBuilder('i')
-            ->select('i.title', 'o.location')
+            ->select('i.title', 'o.location', 'i.publicationDate', 'u.lastname', 'u.firstname')
             ->innerJoin('i.author', 'u')
             ->innerJoin('u.workplace', 'o')
             ->where('o.id = :officeId')
