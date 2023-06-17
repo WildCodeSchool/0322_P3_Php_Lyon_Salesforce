@@ -29,6 +29,7 @@
                             data-bs-target="#staticBackdrop">
                             Changer de photo de profil
                         </button>
+
                         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
                             tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -41,12 +42,12 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-
                                         <form action="{{ path('user_show', {id:app.user.id}) }}" name="user"
                                             method="post" enctype="multipart/form-data" class="m-2">
 
                                             <div class="input-group">
-                                                <input type="file" class="form-control" name="upload-user-picture">
+                                                <input type="file" class="form-control" name="upload-user-picture"
+                                                    id="upload-user-picture">
                                                 <input type="hidden" name="_csrf_token"
                                                     value="{{ csrf_token('authenticate') }}">
 
@@ -54,6 +55,7 @@
                                                     Envoyer
                                                 </button>
                                             </div>
+                                            <p class="file-size text-center"></p>
                                         </form>
                                     </div>
                                 </div>
