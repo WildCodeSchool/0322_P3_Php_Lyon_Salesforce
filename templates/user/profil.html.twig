@@ -59,13 +59,16 @@
             </h3>
         </div>
         <div class="row row-cols-1 row-cols-md-2 justify-content-center row-cols-xl-3 g-4 mx-4">
+            {% for idea in user.ideas %}
             <div class="col">
                 <div class="card h-100 shadow-lg p-2">
                     <div class="card-body">
-                        <h3 class="card-title">titre</h3>
+                        <h3 class="card-title">{{ idea.title }} </h3>
+                        <h6 class="card-title">Publier le {{ idea.publicationDate|date("d/m/Y") }} </h6>
                     </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
     </div>
 </div>

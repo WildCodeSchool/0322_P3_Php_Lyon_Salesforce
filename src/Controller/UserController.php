@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Repository\IdeaRepository;
 use App\Repository\UserRepository;
 use App\Service\FileUploader;
 use App\Service\ImageVerification;
@@ -21,9 +22,11 @@ class UserController extends AbstractController
         User $user,
         Request $request,
         UserRepository $userRepository,
+        IdeaRepository $ideaRepository,
         FileUploader $fileUploader,
         ImageVerification $imageVerification
     ): Response {
+
         $pictureFile = $request->files->get('upload-user-picture');
         if ($pictureFile) {
             $imageVerification->imageVerification($pictureFile);
@@ -33,6 +36,7 @@ class UserController extends AbstractController
                 $user->setPictureFileName($pictureFilename);
                 $userRepository->save($user, true);
             }
+
             return $this->render('user/profil.html.twig', [
                 'user' => $user,
                 'errors' => $errors,
