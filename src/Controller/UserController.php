@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Repository\IdeaRepository;
 use App\Repository\UserRepository;
 use App\Service\FileUploader;
 use App\Service\ImageVerification;
@@ -22,7 +21,6 @@ class UserController extends AbstractController
         User $user,
         Request $request,
         UserRepository $userRepository,
-        IdeaRepository $ideaRepository,
         FileUploader $fileUploader,
         ImageVerification $imageVerification
     ): Response {
