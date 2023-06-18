@@ -49,6 +49,7 @@ class IdeaRepository extends ServiceEntityRepository
             ->innerJoin('u.workplace', 'o')
             ->where('o.id = :officeId')
             ->setParameter('officeId', $officeId)
+            ->orderBy('i.publicationDate', 'DESC')
             ->getQuery()
             ->getResult()
             ;
@@ -64,6 +65,7 @@ class IdeaRepository extends ServiceEntityRepository
             ->andWhere('u.department = :departmentName')
             ->setParameter('officeId', $officeId)
             ->setParameter('departmentName', $departmentName)
+            ->orderBy('i.publicationDate', 'DESC')
             ->getQuery()
             ->getResult()
             ;
