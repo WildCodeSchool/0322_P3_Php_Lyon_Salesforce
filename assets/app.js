@@ -46,14 +46,14 @@ setTimeout(function() {
 
 var input = document.getElementById('upload-user-picture');
 input.addEventListener('change', (e) => {
-  let fileSize = input.files[0].size;
-  let fileSizeText = '';
+    let fileSize = input.files[0].size;
+    let fileSizeText = '';
 
-  if (fileSize < 1048576) {
-    fileSizeText = (fileSize / 1024).toFixed(2) + ' KB';
-  } else if (fileSize < 1073741824) {
-    fileSizeText = (fileSize / 1048576).toFixed(2) + ' MB';
-  }
-  let fileSizeElement = document.querySelector('.file-size');
-  fileSizeElement.textContent = 'File size: ' + fileSizeText;
+    if (fileSize < 1048576) {
+        fileSizeText = (fileSize / 1024).toFixed(2) + ' KB';
+    } else if (fileSize < 1073741824) {
+        fileSizeText = (fileSize / 1048576).toFixed(2) + ' MB';
+    }
+    let fileSizeElement = document.querySelector('.file-size');
+    fileSizeElement.textContent = 'File size: ' + fileSizeText;
 });
