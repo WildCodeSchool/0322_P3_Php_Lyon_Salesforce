@@ -15,10 +15,7 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(IdeaRepository $ideaRepository): Response
     {
-        $ideas = $ideaRepository->findBy(
-            [],
-            ['id' => 'DESC']
-        );
+        $ideas = $ideaRepository->findBy([], ['publicationDate' => 'DESC']);
         return $this->render('home/index.html.twig', [
             'ideas' => $ideas,
         ]);

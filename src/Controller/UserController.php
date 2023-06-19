@@ -24,6 +24,7 @@ class UserController extends AbstractController
         FileUploader $fileUploader,
         ImageVerification $imageVerification
     ): Response {
+
         $pictureFile = $request->files->get('upload-user-picture');
 
         if (!empty($pictureFile)) {
