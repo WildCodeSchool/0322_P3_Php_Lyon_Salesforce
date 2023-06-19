@@ -25,18 +25,15 @@ class UserController extends AbstractController
         ImageVerification $imageVerification
     ): Response {
         $pictureFile = $request->files->get('upload-user-picture');
-        if ($pictureFile) {
-            $imageVerification->imageVerification($pictureFile);
-            $errors = $imageVerification->errors;
-            if (empty($errors)) {
+
+        if (!empty($pictureFile)) {
+            if (!$imageVerification->imageVerification($pictureFile)) {
+                $this->addFlash('danger', 'Veuillez utilisez une image au Format PNG, JPG ou JPEG');
+            } else {
                 $pictureFilename = $fileUploader->upload($pictureFile);
                 $user->setPictureFileName($pictureFilename);
                 $userRepository->save($user, true);
             }
-            return $this->render('user/profil.html.twig', [
-                'user' => $user,
-                'errors' => $errors,
-            ]);
         }
         return $this->render('user/profil.html.twig', [
             'user' => $user,

@@ -13,11 +13,12 @@ class ImageVerification
         $this->errors = [];
     }
 
-    public function imageVerification(UploadedFile $file): void
+    public function imageVerification(UploadedFile $file): bool
     {
         $extension = $file->guessExtension();
         if ($extension !== "jpg" && $extension !== "png" && $extension !== "jpeg") {
-            $this->errors[] = "Veuillez utilisez une image au Format PNG, JPG ou JPEG";
+            return false;
         }
+        return true;
     }
 }
