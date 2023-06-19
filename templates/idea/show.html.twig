@@ -3,7 +3,20 @@
 {% block title %}Nouvelle idée{% endblock %}
 
 {% block body %}
-<main>
-    <h1 class="text-center">{{idea.title}}</h1>
+<main class="container">
+    <div class="row">
+        <div class="col-5">
+            <h1>{{idea.title}}</h1>
+            <h6>destination : {{ idea.perimeter }}</h6>
+            <h6>{{ idea.author.firstname }} {{ idea.author.lastname }}</h6>
+            <h6>{{ idea.author.workplace.location }}</h6>
+            <h6>Publier le {{ idea.publicationDate|date("d/m/Y") }} </h6>
+        </div>
+        <div class="col-4">
+            <div class="card bg-slack h-100 shadow-lg p-2">
+                <button class="btn btn-primary text-white">Rejoindre le canal slack</button>
+            </div>
+        </div>
+    </div>
 </main>
 {% endblock %}

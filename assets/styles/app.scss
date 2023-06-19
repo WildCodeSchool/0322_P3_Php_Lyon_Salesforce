@@ -1,5 +1,6 @@
 $primary: (#0d9dda);
 $secondary: (#002e5f);
+$slackColor: (#4a154b);
 @import "~bootstrap/scss/bootstrap";
 @import "~bootstrap-icons/font/bootstrap-icons";
 
@@ -9,6 +10,9 @@ body {
     background-color: whitesmoke;
 }
 
+.bg-slack {
+    background-color: $slackColor;
+}
 //-------- Top Navbar --------//
 
 .logo {
