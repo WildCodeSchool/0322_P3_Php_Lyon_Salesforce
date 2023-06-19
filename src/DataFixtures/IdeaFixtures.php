@@ -48,7 +48,7 @@ class IdeaFixtures extends Fixture implements DependentFixtureInterface
                     $idea->setPerimeter($perimeter);
                 }
 
-                $idea->setPublicationDate(new DateTimeImmutable());
+                $idea->setPublicationDate(new DateTimeImmutable($faker->date()));
                 $idea->setAuthor($this->getReference('user_' . $faker->numberBetween(1, 10) . '_' . $officeLocation));
 
 

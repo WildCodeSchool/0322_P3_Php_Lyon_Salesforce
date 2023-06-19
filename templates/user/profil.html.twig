@@ -4,11 +4,17 @@
 
 {% block body %}
 <div class="row m-3">
+    {% if errors is defined %}
+    {% for error in errors %}
+    <div class="alert alert-danger text-center">
+        <li>{{error}}</li>
+    </div>
+    {% endfor %}
+    {% endif %}
     <div class="card h-100 shadow-lg p-2">
         <div class="card-body">
-            <div class="row text-center text-md-start">
-                <div class="col-md-auto">
-
+            <div class="row text-center text-md-start justify-content-center justify-content-md-start">
+                <div class="col-6 col-md-auto">
                     {% if user.pictureFileName %}
                     <img src="{{ asset('/uploads/profiles_pictures/' ~ user.pictureFileName)}}" alt="profile picture"
                         class="profile-picture img-fluid rounded-circle">
@@ -17,28 +23,46 @@
                         class="profile-picture img-fluid rounded-circle">
                     {% endif %}
 
-                    {% if app.user.email is same as user.email %}
-                    <form action="{{ path('user_show', {id:app.user.id}) }}" name="user" method="post"
-                        enctype="multipart/form-data" class="m-2">
-                        <input type="file" id="upload-user-picture" name="upload-user-picture" class="form-control">
-                        <label class="btn btn-primary text-white" for="upload-user-picture">
-                            Changer de photo
-                        </label>
-                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    <div class="row text-center text-md-start">
+                        {% if app.user.email is same as user.email %}
+                        <button type="button" class="btn btn-primary text-white" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">
+                            Changer de photo de profil
+                        </button>
 
-                        <button type="submit" class="btn btn-primary text-white p-2"><i
-                                class="bi bi-upload"></i></button>
-                    </form>
+                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                                            Changer de photo de profil
+                                        </h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ path('user_show', {id:app.user.id}) }}" name="user"
+                                            method="post" enctype="multipart/form-data" class="m-2">
 
-                    {% if errors is defined %}
-                    {% for error in errors %}
-                    <div class="alert alert-danger text-center">
-                        <li>{{error}}</li>
+                                            <div class="input-group">
+                                                <input type="file" class="form-control" name="upload-user-picture"
+                                                    id="upload-user-picture">
+                                                <input type="hidden" name="_csrf_token"
+                                                    value="{{ csrf_token('authenticate') }}">
+
+                                                <button type="submit" class="btn btn-primary text-white p-2">
+                                                    Envoyer
+                                                </button>
+                                            </div>
+                                            <p class="file-size text-center"></p>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
                     </div>
-                    {% endfor %}
-                    {% endif %}
-
-                    {% endif %}
                 </div>
                 <div class="col-md-auto">
                     <h2> {{user.firstname}} {{user.lastname}} </h2>

@@ -2,11 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Idea;
 use App\Entity\User;
 use App\Repository\IdeaRepository;
-use App\Form\IdeaType;
-use DateTimeImmutable;
+use App\Service\IdeaFormHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,22 +16,12 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class IdeaController extends AbstractController
 {
     #[Route('/new', name: '_new')]
-    public function new(Request $request, IdeaRepository $ideaRepository): Response
+    public function new(Request $request, IdeaRepository $ideaRepository, IdeaFormHandler $ideaFormHandler): Response
     {
-        /** @var User $user */
-        $user = $this->getUser();
-        $date = new DateTimeImmutable();
-        $publicationDate = $date->setDate(
-            intval(date('Y')),
-            intval(date('m')),
-            intval(date('d'))
-        );
 
-        $idea = new Idea();
-        $form = $this->createForm(IdeaType::class, $idea);
-
-        $idea->setPublicationDate($publicationDate);
-        $idea->setAuthor($user);
+        $result = $ideaFormHandler->formHandler();
+        $form = $result['form'];
+        $idea = $result['idea'];
 
         $form->handleRequest($request);
 
