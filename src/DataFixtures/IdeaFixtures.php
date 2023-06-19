@@ -31,7 +31,7 @@ class IdeaFixtures extends Fixture implements DependentFixtureInterface
                 $dummyIdea->setPerimeter($perimeter);
             }
 
-            $dummyIdea->setPublicationDate(new DateTimeImmutable());
+            $dummyIdea->setPublicationDate(new DateTimeImmutable($faker->date()));
             $dummyIdea->setAuthor($this->getReference('contributor@sf.com'));
 
 
