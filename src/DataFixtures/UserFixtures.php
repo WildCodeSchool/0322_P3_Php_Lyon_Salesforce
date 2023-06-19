@@ -25,6 +25,15 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
 
 
         foreach (OfficeFixtures::OFFICES as $officeLocation) {
+            $departments = [
+                    'Ressources Humaines',
+                    'Informatique',
+                    'Comptabilité',
+                    'Marketing',
+                    'Communication',
+                    'Commercial',
+            ];
+
             for ($i = 1; $i <= 10; $i++) {
                 $email = $faker->unique()->safeEmail;
 
@@ -32,7 +41,12 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                 $contributor->setEmail($email);
                 $contributor->setFirstname($faker->firstName());
                 $contributor->setLastname($faker->lastName());
-                $contributor->setDepartment($faker->word());
+
+                $chosenDepartments = $faker->randomElements($departments, rand(1, 6));
+                foreach ($chosenDepartments as $perimeter) {
+                    $contributor->setDepartment($perimeter);
+                }
+
                 $contributor->setPictureFileName($faker->image());
                 $contributor->setPosition($faker->jobTitle());
                 $contributor->setWorkplace($this->getReference('office_' . $officeLocation));
