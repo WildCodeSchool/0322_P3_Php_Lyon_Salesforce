@@ -12,19 +12,21 @@
 
     <div class="container my-5  ">
         <div>
-            <h3 class="row row-cols-1 row-cols-md-2 justify-content-start row-cols-xl-3 g-4 mx-4">
+            <h3>
                 Nouvelles idées
             </h3>
         </div>
-        <div class="row row-cols-1 row-cols-md-2 justify-content-center row-cols-xl-3 g-4 mx-4">
+        <div class="row row-cols-1 row-cols-md-2 justify-content-center row-cols-xl-2 g-2 mx-2">
             {% for idea in ideas %}
             <div class="col">
                 <div class="card h-100 shadow-lg p-2">
                     <div class="card-body">
-                        <h3 class="card-title">{{ idea.title }} </h3>
-                        <h6 class="card-title">Agence de {{ idea.author.workplace.location }}</h6>
-                        <h6 class="card-title">{{ idea.author.firstname }} {{ idea.author.lastname }}</h6>      
-                        <h6 class="card-title">Publier le {{ idea.publicationDate|date("d/m/Y") }} </h6>      
+                        <h2 class="card-title">{{ idea.title }} </h3>
+                        <h6 class="card-title fst-italic">{{ idea.author.workplace.location }}</h6>
+                        <div class="d-flex justify-content-end">
+                            <h6 class="card-title fst-italic">{{ idea.author.firstname }} {{ idea.author.lastname }}</h6>
+                            <h6 class="card-title ms-2">{{ idea.publicationDate|date("d/m/Y") }} </h6>
+                        </div>  
                     </div>
                 </div>
             </div>

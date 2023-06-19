@@ -12,7 +12,7 @@
 
     <div class="container my-5  ">
         <div>
-            <h3 class="row row-cols-1 row-cols-md-2 justify-content-start row-cols-xl-3 g-4 mx-4">
+            <h3>
                 Les idées de mon service {{ user.department }}
             </h3>
             <div class="row row-cols-1 row-cols-md-2 justify-content-center row-cols-xl-3 g-4 mx-4">
@@ -22,7 +22,7 @@
                         <div class="card-body">
                             <h3 class="card-title">{{ idea.title }} </h3>
                             <h6 class="card-title">{{ idea.firstname }} {{ idea.lastname }}</h6>
-                            <h6 class="card-title">Publier le {{ idea.publicationDate|date("d/m/Y") }} </h6>
+                            <h6 class="card-title">{{ idea.publicationDate|date("d/m/Y") }} </h6>
                         </div>
                     </div>
                 </div>
