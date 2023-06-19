@@ -44,11 +44,12 @@ class IdeaRepository extends ServiceEntityRepository
     public function getIdeasByUserOffice(int $officeId): array
     {
         return $this->createQueryBuilder('i')
-            ->select('i.title', 'o.location')
+            ->select('i.title', 'o.location', 'i.publicationDate', 'u.lastname', 'u.firstname')
             ->innerJoin('i.author', 'u')
             ->innerJoin('u.workplace', 'o')
             ->where('o.id = :officeId')
             ->setParameter('officeId', $officeId)
+            ->orderBy('i.publicationDate', 'DESC')
             ->getQuery()
             ->getResult()
             ;
@@ -57,13 +58,14 @@ class IdeaRepository extends ServiceEntityRepository
     public function getIdeasByUserDepartment(int $officeId, string $departmentName): array
     {
         return $this->createQueryBuilder('i')
-            ->select('i.title', 'o.location')
+            ->select('i.title', 'o.location', 'i.publicationDate', 'u.lastname', 'u.firstname')
             ->innerJoin('i.author', 'u')
             ->innerJoin('u.workplace', 'o')
             ->where('o.id = :officeId')
             ->andWhere('u.department = :departmentName')
             ->setParameter('officeId', $officeId)
             ->setParameter('departmentName', $departmentName)
+            ->orderBy('i.publicationDate', 'DESC')
             ->getQuery()
             ->getResult()
             ;
