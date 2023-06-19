@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\IdeaRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -46,6 +47,8 @@ class Idea
 
     #[ORM\Column]
     private ?\DateTimeImmutable $publicationDate = null;
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $content = null;
 
 
 
@@ -99,6 +102,17 @@ class Idea
     {
         $this->publicationDate = $publicationDate;
 
+        return $this;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): static
+    {
+        $this->content = $content;
         return $this;
     }
 }

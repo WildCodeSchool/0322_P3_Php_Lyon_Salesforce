@@ -1,0 +1,46 @@
+# Read the documentation: https://symfony.com/doc/current/bundles/FOSCKEditorBundle/index.html
+
+twig:
+    form_themes:
+        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+
+fos_ck_editor:
+    configs:
+        main_config:
+            allowedContent: true # Désactive le filtrage dans le code source, par exemple sur l'ajout de propriété HTML
+            toolbar:
+                - {
+                    name: "styles",
+                    items: 
+                      [
+                        "Bold",
+                        "Italic",
+                        "Underline",
+                        "Strike",
+                        "Blockquote",
+                        "-",
+                        "Link",
+                        "-",
+                        "RemoveFormat",
+                        "NumberedList",
+                        "BulletedList",
+                        "-",
+                        "Outdent",
+                        "Indent",
+                        "-",
+                        "-",
+                        "JustifyLeft",
+                        "JustifyCenter",
+                        "JustifyRight",
+                        "JustifyBlock",
+                        "-",
+                        "Image",
+                        "Table",
+                        "-",
+                        "TextColor",
+                        "BGColor",
+                        "HorizontalRule",
+                        "/",
+                        "Styles", "Format", "Font", "FontSize", "Source",
+                      ]
+                  }
