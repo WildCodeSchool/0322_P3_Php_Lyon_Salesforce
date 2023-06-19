@@ -24,6 +24,7 @@ class UserController extends AbstractController
         FileUploader $fileUploader,
         ImageVerification $imageVerification
     ): Response {
+
         $pictureFile = $request->files->get('upload-user-picture');
         if ($pictureFile) {
             $imageVerification->imageVerification($pictureFile);
@@ -33,6 +34,7 @@ class UserController extends AbstractController
                 $user->setPictureFileName($pictureFilename);
                 $userRepository->save($user, true);
             }
+
             return $this->render('user/profil.html.twig', [
                 'user' => $user,
                 'errors' => $errors,

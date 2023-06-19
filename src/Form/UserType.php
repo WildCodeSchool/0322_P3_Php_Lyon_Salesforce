@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -42,8 +43,16 @@ class UserType extends AbstractType
                     ])
                 ],
             ])
-            ->add('department', TextType::class, [
-                'label' => 'Service'
+            ->add('department', ChoiceType::class, [
+                'label' => 'Service',
+                'choices' => [
+                    'Ressources Humaines' => 'Ressources Humaines',
+                    'Informatique' => 'Informatique',
+                    'Comptabilité' => 'Comptabilité',
+                    'Marketing' => 'Marketing',
+                    'Communication' => 'Communication',
+                    'Commercial' => 'Commercial',
+                ]
             ])
             ->add('workplace', EntityType::class, [
                 'class' => Office::class,
