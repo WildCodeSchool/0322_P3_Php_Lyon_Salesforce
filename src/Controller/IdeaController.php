@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Idea;
 use App\Entity\User;
 use App\Repository\IdeaRepository;
 use App\Service\IdeaFormHandler;
@@ -15,6 +16,14 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/idea', name: 'idea')]
 class IdeaController extends AbstractController
 {
+    #[Route('/{id}', name: '_show')]
+    public function show(Idea $idea): Response
+    {
+        return $this->render('idea/show.html.twig', [
+            'idea' => $idea,
+        ]);
+    }
+
     #[Route('/new', name: '_new')]
     public function new(Request $request, IdeaRepository $ideaRepository, IdeaFormHandler $ideaFormHandler): Response
     {
