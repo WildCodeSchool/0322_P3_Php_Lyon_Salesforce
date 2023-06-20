@@ -31,7 +31,7 @@ class AdminController extends AbstractController
     #[Route('/ideas', name: 'ideas')]
     public function ideas(IdeaRepository $ideaRepository): Response
     {
-        $ideas = $ideaRepository->findAll();
+        $ideas = $ideaRepository->findBy([], ['publicationDate' => 'DESC']);
         return $this->render('admin/ideas.html.twig', [
             'ideas' => $ideas,
         ]);

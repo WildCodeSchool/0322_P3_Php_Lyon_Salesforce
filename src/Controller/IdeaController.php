@@ -16,14 +16,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/idea', name: 'idea')]
 class IdeaController extends AbstractController
 {
-    #[Route('/{id}', name: '_show')]
-    public function show(Idea $idea): Response
-    {
-        return $this->render('idea/show.html.twig', [
-            'idea' => $idea,
-        ]);
-    }
-
     #[Route('/new', name: '_new')]
     public function new(Request $request, IdeaRepository $ideaRepository, IdeaFormHandler $ideaFormHandler): Response
     {
@@ -44,6 +36,14 @@ class IdeaController extends AbstractController
 
         return $this->render('idea/new.html.twig', [
             'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}', name: '_show')]
+    public function show(Idea $idea): Response
+    {
+        return $this->render('idea/show.html.twig', [
+            'idea' => $idea,
         ]);
     }
 
