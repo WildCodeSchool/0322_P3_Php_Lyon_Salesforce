@@ -28,7 +28,7 @@ class UserType extends AbstractType
                 'label' => 'Nom'
             ])
             ->add('picture', FileType::class, [
-                'label' => 'Profile picture',
+                'label' => 'Photo de profil',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
