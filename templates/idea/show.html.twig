@@ -14,7 +14,7 @@
         </div>
         <div class="col-md-3 col-xl-2">
             <div class="row">
-                <div class="col-6 col-md-12 my-2">
+                <div class="col-6 col-md-12 my-3">
                     <div class="card h-100 shadow-lg p-2">
                         <h6>destination : {{ idea.perimeter }}</h6>
                         <h6>Auteur : {{ idea.author.firstname }} {{ idea.author.lastname }}</h6>
@@ -22,7 +22,7 @@
                         <h6>Publier le {{ idea.publicationDate|date("d/m/Y") }} </h6>
                     </div>
                 </div>
-                <div class="col-6 col-md-12 my-2">
+                <div class="col-6 col-md-12 my-3">
                     <div class="card h-100 bg-slack shadow-lg p-2">
                         <img src="{{ asset('build/images/slack_logo.png')}}" alt="logo" class="logo mx-auto my-2">
                         <button class="btn btn-primary text-white">Rejoindre le canal</button>
