@@ -9,29 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class RoutesTest extends WebTestCase
 {
-    private array $allRoute = [
-        ['/'],
-        ['/idea/new'],
-        ['/idea/MyOffice'],
-        ['/idea/MyDepartment'],
-        ['/user/1'],
-        ['/admin/users'],
-        ['/admin/users/1/edit'],
-    ];
-
-    private array $userRoute = [
-        ['/'],
-        ['/idea/new'],
-        ['/idea/MyOffice'],
-        ['/idea/MyDepartment'],
-        ['/user/1'],
-    ];
-
-    private array $adminRoute = [
-        ['/admin/users'],
-        ['/admin/users/1/edit'],
-    ];
-
     public function testLogingPage(): void
     {
         $client = static::createClient();
@@ -60,7 +37,13 @@ class RoutesTest extends WebTestCase
 
     public function userProvideRoutes(): array
     {
-        return $this->userRoute;
+        return [
+            ['/'],
+            ['/idea/new'],
+            ['/idea/MyOffice'],
+            ['/idea/MyDepartment'],
+            ['/user/1'],
+        ];
     }
 
     /**
@@ -81,7 +64,10 @@ class RoutesTest extends WebTestCase
 
     public function userUnaccessibleRoutes(): array
     {
-        return $this->adminRoute;
+        return [
+            ['/admin/users'],
+            ['/admin/users/1/edit'],
+        ];
     }
 
     //----------------- ADMIN ROUTES -----------------//
@@ -104,6 +90,14 @@ class RoutesTest extends WebTestCase
 
     public function adminProvideRoutes(): array
     {
-        return $this->allRoute;
+        return [
+            ['/'],
+            ['/idea/new'],
+            ['/idea/MyOffice'],
+            ['/idea/MyDepartment'],
+            ['/user/1'],
+            ['/admin/users'],
+            ['/admin/users/1/edit'],
+        ];
     }
 }
