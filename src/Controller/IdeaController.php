@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Idea;
 use App\Entity\User;
 use App\Repository\IdeaRepository;
 use App\Service\IdeaFormHandler;
@@ -34,6 +35,33 @@ class IdeaController extends AbstractController
         }
 
         return $this->render('idea/new.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}/edit', name: '_edit')]
+    public function edit(
+        Request $request,
+        Idea $idea,
+        IdeaRepository $ideaRepository,
+        IdeaFormHandler $ideaFormHandler
+    ): Response {
+
+        $result = $ideaFormHandler->formHandler();
+        $form = $result['form'];
+        $idea = $result['idea'];
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $ideaRepository->save($idea, true);
+
+            $this->addFlash('success', 'Votre nouvelle idée a été partagé!');
+
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->render('idea/edit.html.twig', [
             'form' => $form,
         ]);
     }
