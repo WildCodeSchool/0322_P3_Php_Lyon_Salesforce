@@ -49,6 +49,8 @@ class Idea
     private ?\DateTimeImmutable $publicationDate = null;
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
+    #[ORM\Column]
+    private ?bool $archived = null;
 
 
 
@@ -113,6 +115,17 @@ class Idea
     public function setContent(string $content): static
     {
         $this->content = $content;
+        return $this;
+    }
+
+    public function isArchived(): ?bool
+    {
+        return $this->archived;
+    }
+
+    public function setArchived(bool $archived): static
+    {
+        $this->archived = $archived;
         return $this;
     }
 }

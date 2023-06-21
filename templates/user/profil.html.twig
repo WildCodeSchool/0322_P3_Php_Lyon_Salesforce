@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('deleteIdea') }}
+{% endblock %}
+
 {% block title %}{{user.firstname}} {{user.lastname}}{% endblock %}
 
 {% block body %}
@@ -76,12 +81,13 @@
             </h3>
         </div>
         <div class="row row-cols-1 row-cols-md-2 justify-content-center row-cols-xl-3 g-4 mx-4">
-            {% for idea in user.ideas %}
+            {% for idea in ideas %}
             <div class="col">
                 <div class="card h-100 shadow-lg p-2">
                     <div class="card-body">
                         <h3 class="card-title">{{ idea.title }} </h3>
                         <h6 class="card-title">Publier le {{ idea.publicationDate|date("d/m/Y") }} </h6>
+                        <a class="deleteBtn btn btn-danger m-0 shadow-lg text-white" href="{{path('archives_idea', {'idIdea': idea.id})}}">Supprimer</a>
                     </div>
                 </div>
             </div>

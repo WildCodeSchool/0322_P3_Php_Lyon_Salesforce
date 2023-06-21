@@ -70,6 +70,20 @@ class IdeaRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+
+    public function getActiveUserIdeas(int $userId): array
+    {
+        return $this->createQueryBuilder('i')
+            ->select('i.id', 'i.title', 'i.publicationDate', 'i.perimeter')
+            ->where('i.author = :userId')
+            ->andWhere('i.archived = :archived')
+            ->setParameter('userId', $userId)
+            ->setParameter('archived', false)
+            ->orderBy('i.publicationDate', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }
 
     //    /**
