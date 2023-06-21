@@ -47,7 +47,7 @@ class IdeaController extends AbstractController
         IdeaRepository $ideaRepository,
     ): Response {
         if ($this->getUser() !== $idea->getAuthor()) {
-            throw $this->createAccessDeniedException('Only the owner can edit the idea!');
+            throw $this->createAccessDeniedException('Seul l\'auteur d\'une idée peut la modifier');
         }
 
         $form = $this->createForm(IdeaType::class, $idea);
