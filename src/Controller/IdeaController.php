@@ -68,13 +68,6 @@ class IdeaController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: '_show')]
-    public function show(Idea $idea): Response
-    {
-        return $this->render('idea/show.html.twig', [
-            'idea' => $idea,
-        ]);
-    }
 
     #[Route('/MyOffice', name: 's_by_user_office')]
     public function showOffice(IdeaRepository $ideaRepository): Response
@@ -110,6 +103,14 @@ class IdeaController extends AbstractController
             'user' => $user,
             'ideas' => $ideas,
 
+        ]);
+    }
+
+    #[Route('/{id}', name: '_show')]
+    public function show(Idea $idea): Response
+    {
+        return $this->render('idea/show.html.twig', [
+            'idea' => $idea,
         ]);
     }
 }
