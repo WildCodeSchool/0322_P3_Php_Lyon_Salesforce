@@ -26,6 +26,7 @@ class IdeaFixtures extends Fixture implements DependentFixtureInterface
         for ($j = 1; $j <= 10; $j++) {
             $dummyIdea = new Idea();
             $dummyIdea->setTitle($faker->word());
+            $dummyIdea->setContent($faker->paragraphs(5, true));
 
             $chosenPerimeters = $faker->randomElements($perimeters, rand(1, 3));
             foreach ($chosenPerimeters as $perimeter) {
@@ -45,6 +46,7 @@ class IdeaFixtures extends Fixture implements DependentFixtureInterface
             for ($i = 1; $i <= 10; $i++) {
                 $idea = new Idea();
                 $idea->setTitle($faker->word());
+                $idea->setContent($faker->paragraphs(5, true));
 
                 $chosenPerimeters = $faker->randomElements($perimeters, rand(1, 3));
                 foreach ($chosenPerimeters as $perimeter) {
@@ -66,7 +68,7 @@ class IdeaFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
-          UserFixtures::class,
+            UserFixtures::class,
         ];
     }
 }
