@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Idea;
 use App\Entity\User;
 use App\Repository\IdeaRepository;
 use App\Service\IdeaFormHandler;
@@ -35,6 +36,14 @@ class IdeaController extends AbstractController
 
         return $this->render('idea/new.html.twig', [
             'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}', name: '_show')]
+    public function show(Idea $idea): Response
+    {
+        return $this->render('idea/show.html.twig', [
+            'idea' => $idea,
         ]);
     }
 
