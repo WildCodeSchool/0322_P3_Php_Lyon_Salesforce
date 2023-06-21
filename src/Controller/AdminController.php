@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\IdeaRepository;
 use App\Repository\UserRepository;
 use App\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,6 +23,15 @@ class AdminController extends AbstractController
         $users = $userRepository->findAll();
         return $this->render('admin/users.html.twig', [
             'users' => $users,
+        ]);
+    }
+
+    #[Route('/ideas', name: 'ideas')]
+    public function ideas(IdeaRepository $ideaRepository): Response
+    {
+        $ideas = $ideaRepository->findBy([], ['publicationDate' => 'DESC']);
+        return $this->render('admin/ideas.html.twig', [
+            'ideas' => $ideas,
         ]);
     }
 
