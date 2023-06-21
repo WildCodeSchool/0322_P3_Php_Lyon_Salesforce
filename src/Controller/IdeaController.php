@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Idea;
 use App\Entity\User;
+use App\Form\IdeaType;
+use App\Form\UserType;
 use App\Repository\IdeaRepository;
 use App\Service\IdeaFormHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -44,24 +46,22 @@ class IdeaController extends AbstractController
         Request $request,
         Idea $idea,
         IdeaRepository $ideaRepository,
-        IdeaFormHandler $ideaFormHandler
+        IdeaFormHandler $ideaFormHandler,
     ): Response {
 
-        $result = $ideaFormHandler->formHandler();
-        $form = $result['form'];
-        $idea = $result['idea'];
-
+        $form = $this->createForm(IdeaType::class, $idea);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $ideaRepository->save($idea, true);
 
-            $this->addFlash('success', 'Votre nouvelle idée a été partagé!');
+            $this->addFlash('success', 'Votre idée a été modifié!');
 
             return $this->redirectToRoute('app_home');
         }
 
         return $this->render('idea/edit.html.twig', [
+            'idea' => $idea,
             'form' => $form,
         ]);
     }
