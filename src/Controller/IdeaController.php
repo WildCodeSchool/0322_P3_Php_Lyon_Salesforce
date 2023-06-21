@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Idea;
 use App\Entity\User;
 use App\Form\IdeaType;
-use App\Form\UserType;
 use App\Repository\IdeaRepository;
 use App\Service\IdeaFormHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -46,7 +45,6 @@ class IdeaController extends AbstractController
         Request $request,
         Idea $idea,
         IdeaRepository $ideaRepository,
-        IdeaFormHandler $ideaFormHandler,
     ): Response {
         if ($this->getUser() !== $idea->getAuthor()) {
             throw $this->createAccessDeniedException('Only the owner can edit the idea!');
