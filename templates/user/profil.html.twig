@@ -80,18 +80,21 @@
                 Listes des idées de {{user.firstname}} {{user.lastname}} :
             </h3>
         </div>
-        <div id="userIdeas"class="row row-cols-1 row-cols-md-2 justify-content-center row-cols-xl-3 g-4 mx-4">
+        <div id="userIdeas"class="row row-cols-1 row-cols-md-2 justify-content-center row-cols-xl-3 g-2 mx-2">
             {% for idea in ideas %}
             <div class="col">
                 <div class="card h-100 shadow-lg p-2">
                     <div class="card-body d-flex flex-column">
                         <h3 class="card-title">{{ idea.title|u.truncate(16, '...', false) }}</h3>
-                        <p>{{ idea.content|striptags|u.truncate(130, '...', false) |raw }}</p>
+                        <p>{{ idea.content|striptags|u.truncate(100, '...', false) |raw }}</p>
                         <div class="d-flex justify-content-between mt-auto p-2">
                             <h6 class="card-title fst-italic">{{ idea.perimeter }}</h6>
                             <h6 class="card-title ms-2 text-info">{{ idea.publicationDate|date("d/m/Y") }} </h6>
                         </div>
-                        <a class="deleteBtn btn btn-danger m-0 shadow-lg text-white" href="{{path('archives_idea', {'idIdea': idea.id})}}">Supprimer</a>
+                        {% if app.user.email is same as user.email %}
+                        <a class="deleteBtn btn btn-danger m-0 shadow-lg text-white" 
+                        href="{{path('archives_idea', {'idIdea': idea.id})}}">Supprimer</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
