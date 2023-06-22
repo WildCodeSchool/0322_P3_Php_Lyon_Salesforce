@@ -24,9 +24,9 @@ class AjaxController extends AbstractController
 
             return new Response(status: 200);
         } elseif ($this->isGranted('ROLE_CONTRIBUTOR')) {
+
             /** @var User $user */
             $user = $this->getUser();
-
             $userId = $user->getId();
 
             $idea = $ideaRepository->findOneBy([
@@ -34,9 +34,13 @@ class AjaxController extends AbstractController
                 'author' => $userId
             ]);
 
+            if (is_null($idea)) {
+                $this->addFlash('danger', 'Seul l\'auteur d\'une idée peut la supprimer');
+                return $this->redirectToRoute('app_home');
+            }
+
             $idea->setArchived(true);
             $ideaRepository->save($idea, true);
-
 
             return new Response(status: 200);
         }
