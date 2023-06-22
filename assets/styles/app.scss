@@ -44,3 +44,10 @@ body {
     width: 200px;
     height: 200px;
 }
+
+.title {
+    background-image: linear-gradient(to top, $primary, $secondary);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+}
