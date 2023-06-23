@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Idea;
 use App\Entity\User;
+use App\Form\IdeaType;
 use App\Repository\IdeaRepository;
 use App\Service\IdeaFormHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,13 +40,34 @@ class IdeaController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: '_show')]
-    public function show(Idea $idea): Response
-    {
-        return $this->render('idea/show.html.twig', [
+    #[Route('/{id}/edit', name: '_edit')]
+    public function edit(
+        Request $request,
+        Idea $idea,
+        IdeaRepository $ideaRepository,
+    ): Response {
+        if ($this->getUser() !== $idea->getAuthor()) {
+            $this->addFlash('danger', 'Seul l\'auteur d\'une idée peut la modifier');
+            return $this->redirectToRoute('app_home');
+        }
+
+        $form = $this->createForm(IdeaType::class, $idea);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $ideaRepository->save($idea, true);
+
+            $this->addFlash('success', 'Votre idée a été modifié!');
+
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->render('idea/edit.html.twig', [
             'idea' => $idea,
+            'form' => $form,
         ]);
     }
+
 
     #[Route('/MyOffice', name: 's_by_user_office')]
     public function showOffice(IdeaRepository $ideaRepository): Response
@@ -81,6 +103,14 @@ class IdeaController extends AbstractController
             'user' => $user,
             'ideas' => $ideas,
 
+        ]);
+    }
+
+    #[Route('/{id}', name: '_show')]
+    public function show(Idea $idea): Response
+    {
+        return $this->render('idea/show.html.twig', [
+            'idea' => $idea,
         ]);
     }
 }
