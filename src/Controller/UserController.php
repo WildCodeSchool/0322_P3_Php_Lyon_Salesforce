@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Repository\IdeaRepository;
 use App\Repository\UserRepository;
 use App\Service\FileUploader;
 use App\Service\ImageVerification;
@@ -21,10 +22,13 @@ class UserController extends AbstractController
         User $user,
         Request $request,
         UserRepository $userRepository,
+        IdeaRepository $ideaRepository,
         FileUploader $fileUploader,
         ImageVerification $imageVerification
     ): Response {
 
+        $userId = $user->getId();
+        $ideas = $ideaRepository->getActiveUserIdeas($userId);
         $pictureFile = $request->files->get('upload-user-picture');
 
         if (!empty($pictureFile)) {
@@ -38,8 +42,12 @@ class UserController extends AbstractController
         }
         return $this->render('user/profil.html.twig', [
             'user' => $user,
+            'ideas' => $ideas,
         ]);
     }
+
+
+
     #[Route('/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, User $user, UserRepository $userRepository): Response
     {

@@ -21,8 +21,8 @@
             <div class="col">
                 <div class="card h-100 shadow-lg p-2">
                     <div class="card-body  d-flex flex-column">
-                        <h2 class="card-title fs-2">{{ idea.title|u.truncate(16, '...', false) }}</h2>
-                        <p>{{ idea.content|striptags|u.truncate(130, '...', false) |raw }}</p>
+                        <h3 class="card-title fs-2">{{ idea.title|u.truncate(16, '...', false) }}</h3>
+                        <p>{{ idea.content|striptags|u.truncate(100, '...', false) |raw }}</p>                  
                         <div class="d-flex justify-content-between mt-auto p-2">
                             <h6 class="card-title fst-italic">{{ idea.author.workplace.location }}</h6>
                             <h6 class="card-title">
@@ -32,8 +32,10 @@
                                 <span class=" ms-2 text-info">{{ idea.publicationDate|date("d/m/Y") }}</span>
                             </h6>
                         </div>
-                        <a href="{{ path('idea_show', {id:idea.id}) }}" class="mx-3 btn btn-primary text-white">
-                            Voir l'idée</a>
+                        <div class="d-flex justify-content-end mt-auto">
+                            <a href="{{ path('idea_show', {id:idea.id}) }}" class="mx-3 btn btn-primary text-white">
+                                Voir l'idée</a>
+                        </div>
                     </div>
                 </div>
             </div>

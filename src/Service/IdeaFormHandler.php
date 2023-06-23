@@ -22,6 +22,7 @@ class IdeaFormHandler extends AbstractController
         $form = $this->createForm(IdeaType::class, $idea);
 
         $idea->setPublicationDate($publicationDate);
+        $idea->setArchived(false);
         $idea->setAuthor($user);
 
          return [
