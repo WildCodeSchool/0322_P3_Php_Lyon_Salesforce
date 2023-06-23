@@ -26,14 +26,13 @@ class IdeaFixtures extends Fixture implements DependentFixtureInterface
         for ($j = 1; $j <= 10; $j++) {
             $dummyIdea = new Idea();
             $dummyIdea->setTitle($faker->word());
-            $dummyIdea->setContent($faker->paragraph(5, true));
+            $dummyIdea->setContent($faker->paragraphs(5, true));
 
             $chosenPerimeters = $faker->randomElements($perimeters, rand(1, 3));
             foreach ($chosenPerimeters as $perimeter) {
                 $dummyIdea->setPerimeter($perimeter);
             }
 
-            $dummyIdea->setContent($faker->paragraphs(5, true));
             $dummyIdea->setArchived(false);
             $dummyIdea->setPublicationDate(new DateTimeImmutable($faker->date()));
             $dummyIdea->setAuthor($this->getReference('contributor@sf.com'));
@@ -52,7 +51,6 @@ class IdeaFixtures extends Fixture implements DependentFixtureInterface
                 foreach ($chosenPerimeters as $perimeter) {
                     $idea->setPerimeter($perimeter);
                 }
-                $idea->setContent($faker->paragraph(5, true));
                 $idea->setArchived(false);
                 $idea->setPublicationDate(new DateTimeImmutable($faker->date()));
                 $idea->setAuthor($this->getReference('user_' . $faker->numberBetween(1, 10) . '_' . $officeLocation));
