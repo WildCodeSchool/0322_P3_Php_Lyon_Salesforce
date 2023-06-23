@@ -36,7 +36,7 @@ for(const deleteIdeaBtn of deleteIdeaBtns) {
 
 
 
-const deleteBtnShow = document.getElementsByClassName('deleteBtnShow')[0];
+const deleteBtnShow = document.getElementById('deleteBtnShow');
 
 
 deleteBtnShow.addEventListener('click', function (event) {
@@ -49,7 +49,7 @@ deleteBtnShow.addEventListener('click', function (event) {
                     
                 const confirmation = confirm("Etes vous sûr de vouloir supprimer votre idée?");
                 if (confirmation) {
-                    location.replace('http://localhost:8000');
+                    window.location.replace("http://localhost:8000");
                     const flashMessage = document.createElement('div');
                     flashMessage.classList.add('flash-message');
                     flashMessage.textContent = 'Votre idée a été supprimé.';
