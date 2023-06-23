@@ -47,8 +47,13 @@ class Idea
 
     #[ORM\Column]
     private ?\DateTimeImmutable $publicationDate = null;
+
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'Pendez à développer votre idée!')]
     private ?string $content = null;
+
+    #[ORM\Column]
+    private ?bool $archived = null;
 
 
 
@@ -113,6 +118,17 @@ class Idea
     public function setContent(string $content): static
     {
         $this->content = $content;
+        return $this;
+    }
+
+    public function isArchived(): ?bool
+    {
+        return $this->archived;
+    }
+
+    public function setArchived(bool $archived): static
+    {
+        $this->archived = $archived;
         return $this;
     }
 }
