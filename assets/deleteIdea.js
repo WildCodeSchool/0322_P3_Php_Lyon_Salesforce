@@ -11,7 +11,7 @@ for(const deleteIdeaBtn of deleteIdeaBtns) {
                     
                     const confirmation = confirm("Etes vous sûr de vouloir supprimer votre idée?");
                     if (confirmation) {
-                        deleteIdeaBtn.parentElement.parentElement.parentElement.remove();
+                        deleteIdeaBtn.parentElement.parentElement.parentElement.parentElement.remove();
                         const flashMessage = document.createElement('div');
                         flashMessage.classList.add('flash-message');
                         flashMessage.textContent = 'Votre idée a été supprimé.';
