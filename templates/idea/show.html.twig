@@ -24,6 +24,8 @@
                         {% if app.user.id is same as idea.author.id %}
                         <a href="{{ path('idea_edit', {id:idea.id}) }}" class="btn btn-primary text-white">
                             Modifier l'idée</a>
+                            <a class="deleteBtnShow btn btn-danger m-0 shadow-lg text-white" 
+                            href="{{path('archives_idea', {'idIdea': idea.id})}}">Supprimer</a>
                         {% endif %}
                     </div>
                 </div>
