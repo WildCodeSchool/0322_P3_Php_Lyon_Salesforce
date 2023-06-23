@@ -3,18 +3,45 @@
 namespace App\Tests;
 
 use App\Repository\UserRepository;
-use Gitonomy\Git\Admin;
-use PhpParser\Node\Expr\Cast\Array_;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class RoutesTest extends WebTestCase
 {
+    private array $allRoute = [
+        ['/'],
+        ['/idea/new'],
+        ['/idea/MyOffice'],
+        ['/idea/MyDepartment'],
+
+        ['/user/1'],
+
+        ['/admin/users'],
+        ['/admin/users/1/edit'],
+        ['/admin/ideas'],
+    ];
+
     public function testLogingPage(): void
     {
         $client = static::createClient();
         $client->request('GET', '/login');
 
         $this->assertResponseIsSuccessful();
+    }
+
+    /**
+     * @dataProvider visitorUnaccessibleRoutes
+     */
+    public function testVisitorUnaccessibleRoute(string $route): void
+    {
+        $client = static::createClient();
+        $client->request('GET', $route);
+
+        $this->assertResponseRedirects('http://localhost/login');
+    }
+
+    public function visitorUnaccessibleRoutes(): array
+    {
+        return $this->allRoute;
     }
 
     //--------------- USER ROUTES ---------------//
@@ -42,6 +69,7 @@ class RoutesTest extends WebTestCase
             ['/idea/new'],
             ['/idea/MyOffice'],
             ['/idea/MyDepartment'],
+
             ['/user/1'],
         ];
     }
@@ -67,6 +95,7 @@ class RoutesTest extends WebTestCase
         return [
             ['/admin/users'],
             ['/admin/users/1/edit'],
+            ['/admin/ideas'],
         ];
     }
 
@@ -90,14 +119,6 @@ class RoutesTest extends WebTestCase
 
     public function adminProvideRoutes(): array
     {
-        return [
-            ['/'],
-            ['/idea/new'],
-            ['/idea/MyOffice'],
-            ['/idea/MyDepartment'],
-            ['/user/1'],
-            ['/admin/users'],
-            ['/admin/users/1/edit'],
-        ];
+        return $this->allRoute;
     }
 }
