@@ -26,6 +26,10 @@
                                 <h6 class="card-title fst-italic">{{ idea.firstname }} {{ idea.lastname }}</h6>
                                 <h6 class="card-title ms-2 text-info">{{ idea.publicationDate|date("d/m/Y") }} </h6>
                             </div>
+                            <div class="d-flex justify-content-end mt-auto">
+                                <a href="{{ path('idea_show', {id:idea.id}) }}" class="mx-2 btn btn-primary text-white">
+                                    Voir l'idée</a>
+                            </div>
                         </div>
                     </div>
                 </div>

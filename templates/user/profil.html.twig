@@ -91,10 +91,14 @@
                             <h6 class="card-title fst-italic">{{ idea.perimeter }}</h6>
                             <h6 class="card-title ms-2 text-info">{{ idea.publicationDate|date("d/m/Y") }} </h6>
                         </div>
-                        {% if app.user.email is same as user.email %}
-                        <a class="deleteBtn btn btn-danger m-0 shadow-lg text-white" 
-                        href="{{path('archives_idea', {'idIdea': idea.id})}}">Supprimer</a>
-                        {% endif %}
+                        <div class="d-flex justify-content-between mt-auto">
+                            <a href="{{ path('idea_show', {id:idea.id}) }}" class="mx-2 btn btn-primary text-white">
+                                Voir l'idée</a>
+                            {% if app.user.email is same as user.email %}
+                            <a class="deleteBtn btn btn-danger m-0 shadow-lg text-white" 
+                            href="{{path('archives_idea', {'idIdea': idea.id})}}">Supprimer</a>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
