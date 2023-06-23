@@ -4,15 +4,14 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\IdeaRepository;
 use App\Repository\UserRepository;
 use App\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[IsGranted('ROLE_ADMIN')]
 #[Route('/admin', name: 'admin_')]
@@ -24,6 +23,15 @@ class AdminController extends AbstractController
         $users = $userRepository->findAll();
         return $this->render('admin/users.html.twig', [
             'users' => $users,
+        ]);
+    }
+
+    #[Route('/ideas', name: 'ideas')]
+    public function ideas(IdeaRepository $ideaRepository): Response
+    {
+        $ideas = $ideaRepository->findBy([], ['publicationDate' => 'DESC']);
+        return $this->render('admin/ideas.html.twig', [
+            'ideas' => $ideas,
         ]);
     }
 

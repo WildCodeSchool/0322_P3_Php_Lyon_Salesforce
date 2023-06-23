@@ -47,13 +47,18 @@
 
             <hr class="mx-5">
 
+            {% if is_granted('ROLE_ADMIN') %}
             <li class="my-3 mx-3 fs-5">
-                {% if is_granted('ROLE_ADMIN') %}
                 <a href="{{ path('admin_users')}}" class="nav-link px-3 d-inline-block rounded">
-                    <i class="bi bi-database-fill"></i> Admin
+                    <i class="bi bi-people-fill"></i> Utilisateurs
                 </a>
-                {% endif %}
             </li>
+            <li class="my-3 mx-3 fs-5">
+                <a href="{{ path('admin_ideas')}}" class="nav-link px-3 d-inline-block rounded">
+                    <i class="bi bi-archive-fill"></i> Idées
+                </a>
+            </li>
+            {% endif %}
         </ul>
     </div>
 </div>
