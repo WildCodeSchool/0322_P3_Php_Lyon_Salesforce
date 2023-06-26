@@ -14,7 +14,7 @@ class SlackService
 
     public function createChannel(string $channelName): array
     {
-        $this->token = $_ENV['SLACK_OAUTH_TOKEN']; // Get the Slack OAuth token from the environment variables
+        $this->token = $_ENV['SLACK_OAUTH_TOKEN']; // Get the Slack OAuth token from the local environment variables
         $this->client = HttpClient::create([
             'base_uri' => 'https://slack.com/api/conversations.create', // Set the base URI for the HTTP client
             'headers' => [
