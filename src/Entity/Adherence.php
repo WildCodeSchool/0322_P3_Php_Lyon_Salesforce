@@ -2,24 +2,24 @@
 
 namespace App\Entity;
 
-use App\Repository\AdheranceRepository;
+use App\Repository\AdherenceRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: AdheranceRepository::class)]
-class Adherance
+#[ORM\Entity(repositoryClass: AdherenceRepository::class)]
+class Adherence
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'adherances')]
+    #[ORM\ManyToOne(inversedBy: 'adherences')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Idea $concept = null;
 
-    #[ORM\ManyToOne(inversedBy: 'adherances')]
+    #[ORM\ManyToOne(inversedBy: 'adherences')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $adherant = null;
+    private ?User $adherent = null;
 
     public function getId(): ?int
     {
@@ -38,14 +38,14 @@ class Adherance
         return $this;
     }
 
-    public function getAdherant(): ?User
+    public function getAdherent(): ?User
     {
-        return $this->adherant;
+        return $this->adherent;
     }
 
-    public function setAdherant(?User $adherant): static
+    public function setAdherent(?User $adherent): static
     {
-        $this->adherant = $adherant;
+        $this->adherent = $adherent;
 
         return $this;
     }

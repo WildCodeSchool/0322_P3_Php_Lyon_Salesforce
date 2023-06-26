@@ -53,13 +53,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Idea::class)]
     private Collection $ideas;
 
-    #[ORM\OneToMany(mappedBy: 'adherant', targetEntity: Adherance::class)]
-    private Collection $adherances;
+    #[ORM\OneToMany(mappedBy: 'adherent', targetEntity: Adherence::class)]
+    private Collection $adherences;
 
     public function __construct()
     {
         $this->ideas = new ArrayCollection();
-        $this->adherances = new ArrayCollection();
+        $this->adherences = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -235,29 +235,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Adherance>
+     * @return Collection<int, Adherence>
      */
-    public function getAdherances(): Collection
+    public function getadherences(): Collection
     {
-        return $this->adherances;
+        return $this->adherences;
     }
 
-    public function addAdherance(Adherance $adherance): static
+    public function addadherence(Adherence $adherence): static
     {
-        if (!$this->adherances->contains($adherance)) {
-            $this->adherances->add($adherance);
-            $adherance->setAdherant($this);
+        if (!$this->adherences->contains($adherence)) {
+            $this->adherences->add($adherence);
+            $adherence->setAdherent($this);
         }
 
         return $this;
     }
 
-    public function removeAdherance(Adherance $adherance): static
+    public function removeadherence(Adherence $adherence): static
     {
-        if ($this->adherances->removeElement($adherance)) {
+        if ($this->adherences->removeElement($adherence)) {
             // set the owning side to null (unless already changed)
-            if ($adherance->getAdherant() === $this) {
-                $adherance->setAdherant(null);
+            if ($adherence->getAdherent() === $this) {
+                $adherence->setAdherent(null);
             }
         }
 

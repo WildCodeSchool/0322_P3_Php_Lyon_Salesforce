@@ -57,12 +57,12 @@ class Idea
     #[ORM\Column]
     private ?bool $archived = null;
 
-    #[ORM\OneToMany(mappedBy: 'concept', targetEntity: Adherance::class)]
-    private Collection $adherances;
+    #[ORM\OneToMany(mappedBy: 'concept', targetEntity: Adherence::class)]
+    private Collection $adherences;
 
     public function __construct()
     {
-        $this->adherances = new ArrayCollection();
+        $this->adherences = new ArrayCollection();
     }
 
 
@@ -143,29 +143,29 @@ class Idea
     }
 
     /**
-     * @return Collection<int, Adherance>
+     * @return Collection<int, Adherence>
      */
-    public function getAdherances(): Collection
+    public function getadherences(): Collection
     {
-        return $this->adherances;
+        return $this->adherences;
     }
 
-    public function addAdherance(Adherance $adherance): static
+    public function addadherence(Adherence $adherence): static
     {
-        if (!$this->adherances->contains($adherance)) {
-            $this->adherances->add($adherance);
-            $adherance->setConcept($this);
+        if (!$this->adherences->contains($adherence)) {
+            $this->adherences->add($adherence);
+            $adherence->setConcept($this);
         }
 
         return $this;
     }
 
-    public function removeAdherance(Adherance $adherance): static
+    public function removeadherence(Adherence $adherence): static
     {
-        if ($this->adherances->removeElement($adherance)) {
+        if ($this->adherences->removeElement($adherence)) {
             // set the owning side to null (unless already changed)
-            if ($adherance->getConcept() === $this) {
-                $adherance->setConcept(null);
+            if ($adherence->getConcept() === $this) {
+                $adherence->setConcept(null);
             }
         }
 
