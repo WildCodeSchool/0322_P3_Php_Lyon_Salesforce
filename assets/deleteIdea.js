@@ -31,13 +31,7 @@ for(const deleteIdeaBtn of deleteIdeaBtns) {
     });
 }
 
-
-
-
-
-
 const deleteBtnShow = document.getElementById('deleteBtnShow');
-
 
 deleteBtnShow.addEventListener('click', function (event) {
     event.preventDefault();
