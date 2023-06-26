@@ -111,11 +111,20 @@ class IdeaController extends AbstractController
     #[Route('/{id}', name: '_show')]
     public function show(Idea $idea, Request $request, AdherenceRepository $adherenceRepository): Response
     {
+        /** @var User $user */
+        $user = $this->getUser();
+
         if ($request->get('adherence')) {
-            $adherence = new Adherence();
-            $adherence->setAdherent($this->getUser());
-            $adherence->setConcept($idea);
-            $adherenceRepository->save($adherence, true);
+            if ($adherenceRepository->getAdherence($idea->getId(), $user->getId())) {
+                $this->addFlash('danger', 'vous avez déjà voter pour cette idée');
+            } else {
+                $adherence = new Adherence();
+                $adherence->setAdherent($this->getUser());
+                $adherence->setConcept($idea);
+                $adherenceRepository->save($adherence, true);
+
+                $this->addFlash('success', 'vous avez bien adhérer à cette idée');
+            }
         }
 
         return $this->render('idea/show.html.twig', [

@@ -145,12 +145,12 @@ class Idea
     /**
      * @return Collection<int, Adherence>
      */
-    public function getadherences(): Collection
+    public function getAdherences(): Collection
     {
         return $this->adherences;
     }
 
-    public function addadherence(Adherence $adherence): static
+    public function addAdherence(Adherence $adherence): static
     {
         if (!$this->adherences->contains($adherence)) {
             $this->adherences->add($adherence);
@@ -160,7 +160,7 @@ class Idea
         return $this;
     }
 
-    public function removeadherence(Adherence $adherence): static
+    public function removeAdherence(Adherence $adherence): static
     {
         if ($this->adherences->removeElement($adherence)) {
             // set the owning side to null (unless already changed)
