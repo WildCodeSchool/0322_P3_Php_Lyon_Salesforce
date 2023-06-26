@@ -53,9 +53,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Idea::class)]
     private Collection $ideas;
 
+    #[ORM\OneToMany(mappedBy: 'adherant', targetEntity: Adherance::class)]
+    private Collection $adherances;
+
     public function __construct()
     {
         $this->ideas = new ArrayCollection();
+        $this->adherances = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -224,6 +228,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($idea->getAuthor() === $this) {
                 $idea->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Adherance>
+     */
+    public function getAdherances(): Collection
+    {
+        return $this->adherances;
+    }
+
+    public function addAdherance(Adherance $adherance): static
+    {
+        if (!$this->adherances->contains($adherance)) {
+            $this->adherances->add($adherance);
+            $adherance->setAdherant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdherance(Adherance $adherance): static
+    {
+        if ($this->adherances->removeElement($adherance)) {
+            // set the owning side to null (unless already changed)
+            if ($adherance->getAdherant() === $this) {
+                $adherance->setAdherant(null);
             }
         }
 

@@ -33,6 +33,39 @@
                         <button class="btn btn-primary text-white">Rejoindre le canal</button>
                     </div>
                 </div>
+                <div class="col-6 col-md-12 my-3">
+                    <div class="card h-100 shadow-lg p-2">
+                        <button type="button" class="btn btn-primary text-white" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">
+                            Adhérer à l'idée
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        </div>
+    </div>
+
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                        Adhérer à l'idée
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" name="user" method="post" enctype="multipart/form-data" class="m-2">
+                        <div class="mb-3 form-check">
+                            <label class="form-check-label" for="adherence">Je souhaite adhérer à cette idée et
+                                rejoindre sont canal lorsqu'il sera crée</label>
+                            <input type="checkbox" class="form-check-input" id="adherence" name="adherence">
+                        </div>
+                        <button type="submit" class="btn btn-primary text-white">Submit</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

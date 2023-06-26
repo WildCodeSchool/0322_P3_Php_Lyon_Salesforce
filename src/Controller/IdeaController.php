@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Adherance;
 use App\Entity\Idea;
 use App\Entity\User;
 use App\Form\IdeaType;
+use App\Repository\AdheranceRepository;
 use App\Repository\IdeaRepository;
 use App\Service\IdeaFormHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -107,8 +109,16 @@ class IdeaController extends AbstractController
     }
 
     #[Route('/{id}', name: '_show')]
-    public function show(Idea $idea): Response
+    public function show(Idea $idea, Request $request, AdheranceRepository $adheranceRepository): Response
     {
+        var_dump($request->request);
+        if ($request->get('adherence')) {
+            $adherance = new Adherance();
+            $adherance->setAdherant($this->getUser());
+            $adherance->setConcept($idea);
+            $adheranceRepository->save($adherance, true);
+        }
+
         return $this->render('idea/show.html.twig', [
             'idea' => $idea,
         ]);

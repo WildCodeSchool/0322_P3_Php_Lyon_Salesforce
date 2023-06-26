@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\IdeaRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -31,12 +33,12 @@ class Idea
     )]
 
     #[Assert\Choice(
-        choices:[
+        choices: [
             "Global",
             "Agence",
             "Service",
         ],
-        message:"Le service spécifié n'est pas valide"
+        message: "Le service spécifié n'est pas valide"
     )]
 
     private ?string $perimeter = null;
@@ -54,6 +56,14 @@ class Idea
 
     #[ORM\Column]
     private ?bool $archived = null;
+
+    #[ORM\OneToMany(mappedBy: 'concept', targetEntity: Adherance::class)]
+    private Collection $adherances;
+
+    public function __construct()
+    {
+        $this->adherances = new ArrayCollection();
+    }
 
 
 
@@ -129,6 +139,36 @@ class Idea
     public function setArchived(bool $archived): static
     {
         $this->archived = $archived;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Adherance>
+     */
+    public function getAdherances(): Collection
+    {
+        return $this->adherances;
+    }
+
+    public function addAdherance(Adherance $adherance): static
+    {
+        if (!$this->adherances->contains($adherance)) {
+            $this->adherances->add($adherance);
+            $adherance->setConcept($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdherance(Adherance $adherance): static
+    {
+        if ($this->adherances->removeElement($adherance)) {
+            // set the owning side to null (unless already changed)
+            if ($adherance->getConcept() === $this) {
+                $adherance->setConcept(null);
+            }
+        }
+
         return $this;
     }
 }
