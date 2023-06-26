@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SlackController!{% endblock %}
+{% block title %}Slack{% endblock %}
 
 {% block body %}
 <style>
@@ -9,12 +9,9 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
+    <h1>Create a slack channel ✅</h1>
     <ul>
-        <li>Your controller at <code><a href="{{ 'C:/dev/projets/projet_3/Salesforce/0322_P3_Php_Lyon_Salesforce/src/Controller/SlackController.php'|file_link(0) }}">src/Controller/SlackController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/dev/projets/projet_3/Salesforce/0322_P3_Php_Lyon_Salesforce/templates/slack/index.html.twig'|file_link(0) }}">templates/slack/index.html.twig</a></code></li>
+        <button><a href="{{ path('create_channel') }}">Create Channel</a></button>
     </ul>
 </div>
 {% endblock %}
