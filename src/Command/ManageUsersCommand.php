@@ -7,42 +7,75 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use InvalidArgumentException;
 use League\Csv\Reader;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * @Command("app:import-data")
- * @Description("Import data from CSV file to database")
- */
-
+#[AsCommand(name: 'app:import-data')]
 class ImportDataCommand extends Command
 {
-    //private EntityManagerInterface $entityManager;
+    private EntityManagerInterface $entityManager;
     private Reader $csvReader;
 
-    public function __construct(/*EntityManagerInterface $entityManager*/)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         parent::__construct();
 
-        //$this->entityManager = $entityManager;
+        $this->entityManager = $entityManager;
         $this->csvReader = Reader::createFromPath('assets\Import\data-I1oIuhWZh01D5tIN2mGsg.csv');
     }
 
-    protected function configure(): void
+
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this
-            ->setName('app:import-data')
-            ->setDescription('Import data from CSV file to database');
+
+        $filteredData = $this->filterFile();
+        $newUsers = $filteredData['newUsers'];
+        $formerUsers = $filteredData['formerUsers'];
+
+        foreach ($newUsers as $user) {
+            $newUser = new User();
+            $newUser->setFirstName($user['firstName']);
+            $newUser->setLastName($user['lastName']);
+            //$newUser->setPhoneNumber($user['phoneNumber']);
+            $newUser->setEmail($user['email']);
+            $newUser->setDepartment($user['department']);
+            $newUser->setWorkplace($user['workplace']);
+
+            $this->entityManager->persist($newUser);
+        }
+
+
+        foreach ($formerUsers as $user) {
+            $email = $user['email'];
+
+            $userRepository = $this->entityManager->getRepository(User::class);
+            $formerUser = $userRepository->findOneBy(['email' => $email]);
+
+            if ($formerUser) {
+                $this->entityManager->remove($formerUser);
+            }
+        }
+
+        $this->entityManager->flush();
+
+        $newUsersCount = count($newUsers);
+        $formerUsersCount = count($formerUsers);
+        $output->writeln("Successfully added $newUsersCount new users.");
+        $output->writeln("Successfully deleted $formerUsersCount former users.");
+
+        return Command::SUCCESS;
     }
 
-    protected function filterFile(InputInterface $input, OutputInterface $output): array
+
+
+    protected function filterFile(): array
     {
         $this->csvReader->setDelimiter(',');
         $this->csvReader->setHeaderOffset(1);
 
         $records = $this->csvReader->getRecords();
-        //$importedUsersCount = 0;
 
         $formerUsers = [];
         $newUsers = [];
