@@ -15,4 +15,13 @@ class SlackController extends AbstractController
             'controller_name' => 'SlackController',
         ]);
     }
+
+    #[Route('/createchannel', name: 'create_channel')]
+    public function createChannel(SlackService $slackService): Response
+    {
+        $channelName = 'testcreatechannel'; // Set the channel name to 'channelname' (replace with desired channel name)
+        // Put in slug cf doc symfony -> automatically create a channel from an idea
+        $channel = $slackService->createChannel($channelName); 
+        // Call the createChannel method of SlackService with the specified channel name
+    }
 }
