@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Form\IdeaType;
 use App\Repository\AdherenceRepository;
 use App\Repository\IdeaRepository;
+use App\Service\AdhereToIdea;
 use App\Service\IdeaFormHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -109,26 +110,31 @@ class IdeaController extends AbstractController
     }
 
     #[Route('/{id}', name: '_show')]
-    public function show(Idea $idea, Request $request, AdherenceRepository $adherenceRepository): Response
-    {
+    public function show(
+        Idea $idea,
+        Request $request,
+        AdherenceRepository $adherenceRepository,
+        AdhereToIdea $adhereToIdea
+    ): Response {
         /** @var User $user */
         $user = $this->getUser();
 
-        if ($request->get('adherence')) {
-            if ($adherenceRepository->getAdherence($idea->getId(), $user->getId())) {
-                $this->addFlash('danger', 'vous avez déjà voter pour cette idée');
-            } else {
-                $adherence = new Adherence();
-                $adherence->setAdherent($this->getUser());
-                $adherence->setConcept($idea);
-                $adherenceRepository->save($adherence, true);
+        if (!empty($adherenceRepository->getUserAdherence($idea->getId(), $user->getId()))) {
+            $isAdhere = true;
+        } else {
+            $isAdhere = false;
+        }
 
-                $this->addFlash('success', 'vous avez bien adhérer à cette idée');
-            }
+        if ($request->get('adherence') && $isAdhere === false) {
+            $adhereToIdea->adhereToIdea($user, $idea);
+            $this->addFlash('success', 'vous avez bien adhérer à cette idée');
+            return $this->redirectToRoute('idea_show', ['id' => $idea->getId()]);
         }
 
         return $this->render('idea/show.html.twig', [
             'idea' => $idea,
+            'numberOfAdherence' => $adherenceRepository->getNumberOfAdherence($idea->getId()),
+            'isAdhere' => $isAdhere,
         ]);
     }
 }

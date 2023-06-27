@@ -39,13 +39,22 @@ class AdherenceRepository extends ServiceEntityRepository
         }
     }
 
-    public function getAdherence(int $conceptId, int $adherentId): array
+    public function getUserAdherence(int $conceptId, int $adherentId): array
     {
         return $this->createQueryBuilder('a')
             ->where('a.concept = ' . $conceptId)
             ->andWhere('a.adherent = ' . $adherentId)
             ->getQuery()
             ->getResult();
+    }
+
+    public function getNumberOfAdherence(int $conceptId): int
+    {
+        return $this->createQueryBuilder('a')
+            ->select('count(a.adherent)')
+            ->where('a.concept = ' . $conceptId)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     //    /**

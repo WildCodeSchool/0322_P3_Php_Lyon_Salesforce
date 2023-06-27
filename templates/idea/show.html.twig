@@ -25,11 +25,22 @@
                         <h6>Auteur : {{ idea.author.firstname }} {{ idea.author.lastname }}</h6>
                         <h6>Agence de {{ idea.author.workplace.location }}</h6>
                         <h6>Publier le {{ idea.publicationDate|date("d/m/Y") }} </h6>
+                        <h6>nombre d'adhésion : {{numberOfAdherence}} </h6>
+
+                        {% if isAdhere is same as false %}
+                        <button type="button" class="btn btn-primary text-white" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">
+                            Adhérer à l'idée
+                        </button>
+                        {% else %}
+                        <h6 class="text-success"> Vous adhérer déja à cette idée</h6>
+                        {% endif %}
+
 
                         {% if app.user.id is same as idea.author.id %}
                         <a href="{{ path('idea_edit', {id:idea.id}) }}" class="btn btn-primary text-white">
                             Modifier l'idée</a>
-                            <a id="deleteBtnShow" class="btn btn-danger m-0 shadow-lg text-white" 
+                        <a id="deleteBtnShow" class="btn btn-danger m-0 shadow-lg text-white"
                             href="{{path('archives_idea', {'idIdea': idea.id})}}">Supprimer</a>
                         {% endif %}
                     </div>
@@ -38,14 +49,6 @@
                     <div class="card h-100 bg-slack shadow-lg p-2">
                         <img src="{{ asset('build/images/slack_logo.png')}}" alt="logo" class="logo mx-auto my-2">
                         <button class="btn btn-primary text-white">Rejoindre le canal</button>
-                    </div>
-                </div>
-                <div class="col-6 col-md-12 my-3">
-                    <div class="card h-100 shadow-lg p-2">
-                        <button type="button" class="btn btn-primary text-white" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop">
-                            Adhérer à l'idée
-                        </button>
                     </div>
                 </div>
             </div>
