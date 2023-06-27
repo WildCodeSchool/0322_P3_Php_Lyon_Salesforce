@@ -5,7 +5,6 @@ namespace App\Command;
 use App\Entity\Office;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use InvalidArgumentException;
 use League\Csv\Reader;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -35,21 +34,44 @@ class ImportDataCommand extends Command
         $formerUsers = $filteredData['formerUsers'];
 
         foreach ($newUsers as $user) {
-            $newUser = new User();
-            $newUser->setFirstName($user['firstName']);
-            $newUser->setLastName($user['lastName']);
-            //$newUser->setPhoneNumber($user['phoneNumber']);
-            $newUser->setEmail($user['email']);
-            $newUser->setDepartment($user['department']);
-            $newUser->setWorkplace($user['workplace']);
+            $workplaceName = $user['workplace'];
 
-            $this->entityManager->persist($newUser);
+            // Check if the Office with the given location already exists
+            $officeRepository = $this->entityManager->getRepository(Office::class);
+            $office = $officeRepository->findOneBy(['location' => $workplaceName]);
+
+            // If the Office doesn't exist, create a new one
+            if (!$office) {
+                $office = new Office();
+                $office->setLocation($workplaceName);
+                $this->entityManager->persist($office);
+            }
+
+            $email = $user['email'];
+
+            // Check if the User with the given email already exists
+            $userRepository = $this->entityManager->getRepository(User::class);
+            $newUser = $userRepository->findOneBy(['email' => $email]);
+
+            // If the User doesn't exist, create a new one
+            if (!$newUser) {
+                $newUser = new User();
+                $newUser->setFirstName($user['firstName']);
+                $newUser->setLastName($user['lastName']);
+                //$newUser->setPhoneNumber($user['phoneNumber']);
+                $newUser->setEmail($user['email']);
+                $newUser->setDepartment($user['department']);
+                $newUser->setWorkplace($office);
+
+                $this->entityManager->persist($newUser);
+            }
         }
 
 
         foreach ($formerUsers as $user) {
             $email = $user['email'];
 
+            // Find the User exists, remove them from the database
             $userRepository = $this->entityManager->getRepository(User::class);
             $formerUser = $userRepository->findOneBy(['email' => $email]);
 
