@@ -15,12 +15,15 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[AsCommand(name: 'app:import-data')]
 class ImportDataCommand extends Command
 {
-    private EntityManagerInterface $entityManager;
-    private Reader $csvReader;
-    private UserPasswordHasherInterface $passwordHasher;
+    //private EntityManagerInterface $entityManager;
+    //private Reader $csvReader;
+    //private UserPasswordHasherInterface $passwordHasher;
 
-    public function __construct(EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher)
-    {
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        private UserPasswordHasherInterface $passwordHasher,
+        private Reader $csvReader
+    ) {
         parent::__construct();
         $this->passwordHasher = $passwordHasher;
         $this->entityManager = $entityManager;
