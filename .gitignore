@@ -34,5 +34,4 @@ yarn-error.log
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
-###< ngrok ###
-*.exe
+
