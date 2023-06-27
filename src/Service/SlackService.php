@@ -18,7 +18,7 @@ class SlackService
         $this->client = HttpClient::create([
             'base_uri' => 'https://slack.com/api/conversations.create', // Set the base URI for the HTTP client
             'headers' => [
-                'Authorization' => 'Bearer' . $this->token, // Set the authorization header with the OAuth token
+                'Authorization' => 'Bearer ' . $this->token, // Set the authorization header with the OAuth token
                 'Content-type' => 'application/json', // Set the content type header to JSON
             ],
         ]);
