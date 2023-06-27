@@ -59,7 +59,7 @@ class ImportDataCommand extends Command
                 $newUser = new User();
                 $newUser->setFirstName($user['firstName']);
                 $newUser->setLastName($user['lastName']);
-                //$newUser->setPhoneNumber($user['phoneNumber']);
+                $newUser->setContactNumber($user['phoneNumber']);
                 $newUser->setEmail($user['email']);
                 $newUser->setDepartment($user['department']);
                 $newUser->setWorkplace($office);
@@ -101,25 +101,27 @@ class ImportDataCommand extends Command
     protected function filterFile(): array
     {
         $this->csvReader->setDelimiter(',');
-        $this->csvReader->setHeaderOffset(1);
+        $this->csvReader->setHeaderOffset(0);
 
         $records = $this->csvReader->getRecords();
+
 
         $formerUsers = [];
         $newUsers = [];
 
         foreach ($records as $record) {
-            $action = $record[0];
+           // dump($record);
+            $action = $record['action'];
 
-            $name = $record[1];
+            $name = $record['name'];
                 $nameParts = explode(' ', $name);
                 $firstName = $nameParts[0];
                 $lastName = $nameParts[1];
 
-            $phoneNumber = $record[2];
-            $email = $record[3];
-            $department = $record[4];
-            $workplace = $record[5];
+            $phoneNumber = $record['phone'];
+            $email = $record['email'];
+            $department = $record['service'];
+            $workplace = $record['agency'];
 
             if ($action === 'Leave') {
                 $formerUsers[] = [
