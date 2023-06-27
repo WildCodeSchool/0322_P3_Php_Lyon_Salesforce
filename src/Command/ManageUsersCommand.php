@@ -10,17 +10,19 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[AsCommand(name: 'app:import-data')]
 class ImportDataCommand extends Command
 {
     private EntityManagerInterface $entityManager;
     private Reader $csvReader;
+    private UserPasswordHasherInterface $passwordHasher;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher)
     {
         parent::__construct();
-
+        $this->passwordHasher = $passwordHasher;
         $this->entityManager = $entityManager;
         $this->csvReader = Reader::createFromPath('assets\Import\data-I1oIuhWZh01D5tIN2mGsg.csv');
     }
@@ -36,11 +38,10 @@ class ImportDataCommand extends Command
         foreach ($newUsers as $user) {
             $workplaceName = $user['workplace'];
 
-            // Check if the Office with the given location already exists
+
             $officeRepository = $this->entityManager->getRepository(Office::class);
             $office = $officeRepository->findOneBy(['location' => $workplaceName]);
 
-            // If the Office doesn't exist, create a new one
             if (!$office) {
                 $office = new Office();
                 $office->setLocation($workplaceName);
@@ -49,11 +50,11 @@ class ImportDataCommand extends Command
 
             $email = $user['email'];
 
-            // Check if the User with the given email already exists
+
             $userRepository = $this->entityManager->getRepository(User::class);
             $newUser = $userRepository->findOneBy(['email' => $email]);
 
-            // If the User doesn't exist, create a new one
+
             if (!$newUser) {
                 $newUser = new User();
                 $newUser->setFirstName($user['firstName']);
@@ -63,6 +64,12 @@ class ImportDataCommand extends Command
                 $newUser->setDepartment($user['department']);
                 $newUser->setWorkplace($office);
 
+                $hashedPassword = $this->passwordHasher->hashPassword(
+                    $newUser,
+                    $user['firstName'] . $user['lastName']
+                );
+                $newUser->setPassword($hashedPassword);
+
                 $this->entityManager->persist($newUser);
             }
         }
@@ -71,7 +78,6 @@ class ImportDataCommand extends Command
         foreach ($formerUsers as $user) {
             $email = $user['email'];
 
-            // Find the User exists, remove them from the database
             $userRepository = $this->entityManager->getRepository(User::class);
             $formerUser = $userRepository->findOneBy(['email' => $email]);
 
