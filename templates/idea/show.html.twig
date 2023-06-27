@@ -25,9 +25,9 @@
                         <h6>Auteur : {{ idea.author.firstname }} {{ idea.author.lastname }}</h6>
                         <h6>Agence de {{ idea.author.workplace.location }}</h6>
                         <h6>Publier le {{ idea.publicationDate|date("d/m/Y") }} </h6>
-                        <h6>nombre d'adhésion : {{numberOfAdherence}} </h6>
+                        <h6>nombre d'adhésion : {{numberOfMembership}} </h6>
 
-                        {% if isAdhere is same as false %}
+                        {% if isMember is same as false %}
                         <button type="button" class="btn btn-primary text-white" data-bs-toggle="modal"
                             data-bs-target="#staticBackdrop">
                             Adhérer à l'idée
@@ -69,9 +69,9 @@
                 <div class="modal-body">
                     <form action="" name="user" method="post" enctype="multipart/form-data" class="m-2">
                         <div class="mb-3 form-check">
-                            <label class="form-check-label" for="adherence">Je souhaite adhérer à cette idée et
+                            <label class="form-check-label" for="membership">Je souhaite adhérer à cette idée et
                                 rejoindre sont canal lorsqu'il sera crée</label>
-                            <input type="checkbox" class="form-check-input" id="adherence" name="adherence">
+                            <input type="checkbox" class="form-check-input" id="membership" name="membership">
                         </div>
                         <button type="submit" class="btn btn-primary text-white">Submit</button>
                     </form>

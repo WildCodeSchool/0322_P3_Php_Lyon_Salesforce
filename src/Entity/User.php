@@ -53,13 +53,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Idea::class)]
     private Collection $ideas;
 
-    #[ORM\OneToMany(mappedBy: 'adherent', targetEntity: Adherence::class)]
-    private Collection $adherences;
+    #[ORM\OneToMany(mappedBy: 'member', targetEntity: Membership::class)]
+    private Collection $memberships;
 
     public function __construct()
     {
         $this->ideas = new ArrayCollection();
-        $this->adherences = new ArrayCollection();
+        $this->memberships = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -235,29 +235,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Adherence>
+     * @return Collection<int, Membership>
      */
-    public function getAdherences(): Collection
+    public function getMemberships(): Collection
     {
-        return $this->adherences;
+        return $this->memberships;
     }
 
-    public function addAdherence(Adherence $adherence): static
+    public function addMembership(Membership $membership): static
     {
-        if (!$this->adherences->contains($adherence)) {
-            $this->adherences->add($adherence);
-            $adherence->setAdherent($this);
+        if (!$this->memberships->contains($membership)) {
+            $this->memberships->add($membership);
+            $membership->setMember($this);
         }
 
         return $this;
     }
 
-    public function removeAdherence(Adherence $adherence): static
+    public function removeMembership(Membership $membership): static
     {
-        if ($this->adherences->removeElement($adherence)) {
+        if ($this->memberships->removeElement($membership)) {
             // set the owning side to null (unless already changed)
-            if ($adherence->getAdherent() === $this) {
-                $adherence->setAdherent(null);
+            if ($membership->getMember() === $this) {
+                $membership->setMember(null);
             }
         }
 
