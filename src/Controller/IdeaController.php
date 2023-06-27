@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Adherence;
 use App\Entity\Idea;
 use App\Entity\User;
 use App\Form\IdeaType;
