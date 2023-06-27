@@ -35,8 +35,10 @@ class ImportDataCommand extends Command
         $newUsers = $filteredData['newUsers'];
         $formerUsers = $filteredData['formerUsers'];
 
+
         foreach ($newUsers as $user) {
             $workplaceName = $user['workplace'];
+
 
 
             $officeRepository = $this->entityManager->getRepository(Office::class);
@@ -64,10 +66,13 @@ class ImportDataCommand extends Command
                 $newUser->setDepartment($user['department']);
                 $newUser->setWorkplace($office);
 
+                $password = $user['firstName'] . $user['lastName'];
+
                 $hashedPassword = $this->passwordHasher->hashPassword(
                     $newUser,
-                    $user['firstName'] . $user['lastName']
+                    $password
                 );
+
                 $newUser->setPassword($hashedPassword);
 
                 $this->entityManager->persist($newUser);
@@ -110,7 +115,6 @@ class ImportDataCommand extends Command
         $newUsers = [];
 
         foreach ($records as $record) {
-           // dump($record);
             $action = $record['action'];
 
             $name = $record['name'];
@@ -143,6 +147,7 @@ class ImportDataCommand extends Command
                 ];
             }
         }
+
         return [
             'newUsers' => $newUsers,
             'formerUsers' => $formerUsers
