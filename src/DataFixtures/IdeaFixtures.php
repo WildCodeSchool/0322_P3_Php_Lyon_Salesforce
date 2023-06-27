@@ -8,6 +8,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use PHPUnit\Framework\Constraint\IsFalse;
 
 class IdeaFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -32,6 +33,7 @@ class IdeaFixtures extends Fixture implements DependentFixtureInterface
                 $dummyIdea->setPerimeter($perimeter);
             }
 
+            $dummyIdea->setArchived(false);
             $dummyIdea->setPublicationDate(new DateTimeImmutable($faker->date()));
             $dummyIdea->setAuthor($this->getReference('contributor@sf.com'));
 
@@ -49,7 +51,7 @@ class IdeaFixtures extends Fixture implements DependentFixtureInterface
                 foreach ($chosenPerimeters as $perimeter) {
                     $idea->setPerimeter($perimeter);
                 }
-
+                $idea->setArchived(false);
                 $idea->setPublicationDate(new DateTimeImmutable($faker->date()));
                 $idea->setAuthor($this->getReference('user_' . $faker->numberBetween(1, 10) . '_' . $officeLocation));
 

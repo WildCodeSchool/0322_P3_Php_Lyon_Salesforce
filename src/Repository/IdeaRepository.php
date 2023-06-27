@@ -44,10 +44,21 @@ class IdeaRepository extends ServiceEntityRepository
     public function getIdeasByUserOffice(int $officeId): array
     {
         return $this->createQueryBuilder('i')
-            ->select('i.id', 'i.title', 'i.content', 'o.location', 'i.publicationDate', 'u.lastname', 'u.firstname')
+            ->select(
+                'i.id',
+                'i.title',
+                'i.content',
+                'o.location',
+                'i.publicationDate',
+                'u.lastname',
+                'u.firstname',
+                'u.pictureFileName'
+            )
             ->innerJoin('i.author', 'u')
             ->innerJoin('u.workplace', 'o')
             ->where('o.id = :officeId')
+            ->andWhere('i.archived = :archived')
+            ->setParameter('archived', false)
             ->setParameter('officeId', $officeId)
             ->orderBy('i.publicationDate', 'DESC')
             ->getQuery()
@@ -57,13 +68,48 @@ class IdeaRepository extends ServiceEntityRepository
     public function getIdeasByUserDepartment(int $officeId, string $departmentName): array
     {
         return $this->createQueryBuilder('i')
-            ->select('i.id', 'i.title', 'i.content', 'o.location', 'i.publicationDate', 'u.lastname', 'u.firstname')
+            ->select(
+                'i.id',
+                'i.title',
+                'i.content',
+                'o.location',
+                'i.publicationDate',
+                'u.lastname',
+                'u.firstname',
+                'u.pictureFileName'
+            )
             ->innerJoin('i.author', 'u')
             ->innerJoin('u.workplace', 'o')
             ->where('o.id = :officeId')
             ->andWhere('u.department = :departmentName')
+            ->andWhere('i.archived = :archived')
+            ->setParameter('archived', false)
             ->setParameter('officeId', $officeId)
             ->setParameter('departmentName', $departmentName)
+            ->orderBy('i.publicationDate', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getActiveUserIdeas(int $userId): array
+    {
+        return $this->createQueryBuilder('i')
+            ->select('i.id', 'i.title', 'i.publicationDate', 'i.perimeter', 'i.content')
+            ->where('i.author = :userId')
+            ->andWhere('i.archived = :archived')
+            ->setParameter('userId', $userId)
+            ->setParameter('archived', false)
+            ->orderBy('i.publicationDate', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getUserIdeaMembership(int $userId): array
+    {
+        return $this->createQueryBuilder('i')
+            ->select('i')
+            ->innerJoin('i.memberships', 'a')
+            ->where('a.member = ' . $userId)
             ->orderBy('i.publicationDate', 'DESC')
             ->getQuery()
             ->getResult();

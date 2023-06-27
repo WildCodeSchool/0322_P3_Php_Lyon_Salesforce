@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\IdeaRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -31,12 +33,12 @@ class Idea
     )]
 
     #[Assert\Choice(
-        choices:[
+        choices: [
             "Global",
             "Agence",
             "Service",
         ],
-        message:"Le service spécifié n'est pas valide"
+        message: "Le service spécifié n'est pas valide"
     )]
 
     private ?string $perimeter = null;
@@ -47,8 +49,21 @@ class Idea
 
     #[ORM\Column]
     private ?\DateTimeImmutable $publicationDate = null;
+
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'Pendez à développer votre idée!')]
     private ?string $content = null;
+
+    #[ORM\Column]
+    private ?bool $archived = null;
+
+    #[ORM\OneToMany(mappedBy: 'concept', targetEntity: Membership::class)]
+    private Collection $memberships;
+
+    public function __construct()
+    {
+        $this->memberships = new ArrayCollection();
+    }
 
 
 
@@ -113,6 +128,47 @@ class Idea
     public function setContent(string $content): static
     {
         $this->content = $content;
+        return $this;
+    }
+
+    public function isArchived(): ?bool
+    {
+        return $this->archived;
+    }
+
+    public function setArchived(bool $archived): static
+    {
+        $this->archived = $archived;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Membership>
+     */
+    public function getMemberships(): Collection
+    {
+        return $this->memberships;
+    }
+
+    public function addMembership(Membership $membership): static
+    {
+        if (!$this->memberships->contains($membership)) {
+            $this->memberships->add($membership);
+            $membership->setConcept($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMembership(Membership $membership): static
+    {
+        if ($this->memberships->removeElement($membership)) {
+            // set the owning side to null (unless already changed)
+            if ($membership->getConcept() === $this) {
+                $membership->setConcept(null);
+            }
+        }
+
         return $this;
     }
 }
