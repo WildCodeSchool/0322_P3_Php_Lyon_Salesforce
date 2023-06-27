@@ -35,4 +35,4 @@ yarn-error.log
 ###< phpunit/phpunit ###
 
 ###< ngrok ###
-ngrok.exe
+*.exe
