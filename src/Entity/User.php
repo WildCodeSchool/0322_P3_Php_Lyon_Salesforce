@@ -49,6 +49,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Idea::class)]
     private Collection $ideas;
 
+    #[ORM\OneToMany(mappedBy: 'member', targetEntity: Membership::class)]
+    private Collection $memberships;
+
     #[ORM\Column(length: 255)]
     private ?string $contactNumber = null;
 
@@ -58,6 +61,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->ideas = new ArrayCollection();
+        $this->memberships = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -213,6 +217,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($idea->getAuthor() === $this) {
                 $idea->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Membership>
+     */
+    public function getMemberships(): Collection
+    {
+        return $this->memberships;
+    }
+
+    public function addMembership(Membership $membership): static
+    {
+        if (!$this->memberships->contains($membership)) {
+            $this->memberships->add($membership);
+            $membership->setMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMembership(Membership $membership): static
+    {
+        if ($this->memberships->removeElement($membership)) {
+            // set the owning side to null (unless already changed)
+            if ($membership->getMember() === $this) {
+                $membership->setMember(null);
             }
         }
 
