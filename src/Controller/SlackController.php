@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Idea;
 use App\Service\SlackService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,11 +18,11 @@ class SlackController extends AbstractController
         ]);
     }
 
-    #[Route('/createchannel', name: 'create_channel')]
-    public function createChannel(SlackService $slackService): Response
+    #[Route('/createchannel/{title}', name: 'create_channel')]
+    public function createChannel(SlackService $slackService, Idea $ideaTitle): Response
     {
-        $channelName = 'testcreatechannel'; // Set the channel name to 'channelname' (replace with desired channel name)
-        // Set in slug cf doc symfony -> automatically create a channel from an idea
+        $channelName = $ideaTitle->getTitle(); // Set the channel name based on idea name
+
         $channel = $slackService->createChannel($channelName);
         // Call the createChannel method of SlackService with the specified channel name
 
