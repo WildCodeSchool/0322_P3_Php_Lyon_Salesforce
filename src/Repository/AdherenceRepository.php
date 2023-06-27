@@ -39,7 +39,7 @@ class AdherenceRepository extends ServiceEntityRepository
         }
     }
 
-    public function getUserAdherence(int $conceptId, int $adherentId): array
+    public function getIfUserAdhereToIdea(int $conceptId, int $adherentId): array
     {
         return $this->createQueryBuilder('a')
             ->where('a.concept = ' . $conceptId)

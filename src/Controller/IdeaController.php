@@ -118,7 +118,7 @@ class IdeaController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
 
-        if (!empty($adherenceRepository->getUserAdherence($idea->getId(), $user->getId()))) {
+        if (!empty($adherenceRepository->getIfUserAdhereToIdea($idea->getId(), $user->getId()))) {
             $isAdhere = true;
         } else {
             $isAdhere = false;
