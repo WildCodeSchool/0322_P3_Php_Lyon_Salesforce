@@ -26,12 +26,12 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
 
         foreach (OfficeFixtures::OFFICES as $officeLocation) {
             $departments = [
-                    'Ressources Humaines',
-                    'Informatique',
-                    'Comptabilité',
-                    'Marketing',
-                    'Communication',
-                    'Commercial',
+                'Ressources Humaines',
+                'Informatique',
+                'Comptabilité',
+                'Marketing',
+                'Communication',
+                'Commercial',
             ];
 
             for ($i = 1; $i <= 10; $i++) {
@@ -105,13 +105,10 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-
-
-
     public function getDependencies()
     {
         return [
-          OfficeFixtures::class,
+            OfficeFixtures::class,
         ];
     }
 }
