@@ -41,6 +41,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                 $contributor->setEmail($email);
                 $contributor->setFirstname($faker->firstName());
                 $contributor->setLastname($faker->lastName());
+                $contributor->setContactNumber($faker->phoneNumber());
 
                 $chosenDepartments = $faker->randomElements($departments, rand(1, 6));
                 foreach ($chosenDepartments as $perimeter) {
@@ -48,7 +49,6 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                 }
 
                 $contributor->setPictureFileName($faker->image());
-                $contributor->setPosition($faker->jobTitle());
                 $contributor->setWorkplace($this->getReference('office_' . $officeLocation));
                 $contributor->setRoles(['ROLE_CONTRIBUTOR']);
                 $hashedPassword = $this->passwordHasher->hashPassword(
@@ -68,9 +68,10 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $dummyContributor->setEmail('contributor@sf.com');
         $dummyContributor->setFirstname('Bob');
         $dummyContributor->setLastname('Dylan');
+        $dummyContributor->setContactNumber($faker->phoneNumber());
+
         $dummyContributor->setDepartment('Comptabilité');
         $dummyContributor->setPictureFileName($faker->image(null, 640, 480));
-        $dummyContributor->setPosition('Directeur');
         $dummyContributor->setWorkplace($this->getReference('office_' . $officeLocation));
         $dummyContributor->setRoles(['ROLE_CONTRIBUTOR']);
         $hashedPassword = $this->passwordHasher->hashPassword(
@@ -90,9 +91,9 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $admin->setEmail('superadmin@sf.com');
         $admin->setFirstname('Quentin');
         $admin->setLastname('Tarantino');
+        $admin->setContactNumber($faker->phoneNumber());
         $admin->setDepartment('Informatique');
         $admin->setPictureFileName($faker->image());
-        $admin->setPosition('Assistant Manager');
         $admin->setWorkplace($this->getReference('office_' . $officeLocation));
         $admin->setRoles(['ROLE_ADMIN']);
         $hashedPassword = $this->passwordHasher->hashPassword(
