@@ -7,8 +7,8 @@ use App\Service\SlackService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[IsGranted('ROLE_USER')]
 class SlackController extends AbstractController
@@ -22,11 +22,10 @@ class SlackController extends AbstractController
     }
 
     #[Route('/createchannel', name: 'create_channel')]
-    public function createChannel(SlackService $slackService, Idea $ideaTitle): Response
+    public function createChannel(SlackService $slackService, Idea $ideaTitle, SluggerInterface $slugger): Response
     {
         $channelName = $ideaTitle->getTitle(); // Set the channel name based on idea name
 
-        $slugger = new AsciiSlugger(); // Create a new instance of the AsciiSlugger
         $slug = $slugger->slug($channelName, '_'); // Apply the slugger to the channel name
 
         $channel = $slackService->createChannel($slug);
