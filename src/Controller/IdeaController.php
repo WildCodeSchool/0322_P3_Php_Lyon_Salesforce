@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Idea;
 use App\Entity\User;
 use App\Form\IdeaType;
+use App\Repository\MembershipRepository;
 use App\Repository\IdeaRepository;
+use App\Service\BecomeIdeaMember;
 use App\Service\IdeaFormHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -107,10 +109,31 @@ class IdeaController extends AbstractController
     }
 
     #[Route('/{id}', name: '_show')]
-    public function show(Idea $idea): Response
-    {
+    public function show(
+        Idea $idea,
+        Request $request,
+        MembershipRepository $membershipRepository,
+        BecomeIdeaMember $becomeIdeaMember
+    ): Response {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        if (!empty($membershipRepository->getIfUserIsIdeaMember($idea->getId(), $user->getId()))) {
+            $isMember = true;
+        } else {
+            $isMember = false;
+        }
+
+        if ($request->get('membership') && $isMember === false) {
+            $becomeIdeaMember->becomeIdeaMember($user, $idea);
+            $this->addFlash('success', 'vous avez bien adhérer à cette idée');
+            return $this->redirectToRoute('idea_show', ['id' => $idea->getId()]);
+        }
+
         return $this->render('idea/show.html.twig', [
             'idea' => $idea,
+            'numberOfMembership' => $membershipRepository->getNumberOfMembership($idea->getId()),
+            'isMember' => $isMember,
         ]);
     }
 }
