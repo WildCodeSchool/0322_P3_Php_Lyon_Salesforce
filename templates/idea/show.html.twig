@@ -40,20 +40,49 @@
                         {% if app.user.id is same as idea.author.id %}
                         <a href="{{ path('idea_edit', {id:idea.id}) }}" class="btn btn-primary text-white">
                             Modifier l'idée</a>
-                        <a id="deleteBtnShow" class="btn btn-danger m-0 shadow-lg text-white"
-                            href="{{path('archives_idea', {'idIdea': idea.id})}}">Supprimer</a>
-                        {% endif %}
+
+                        <button type="button" class="btn btn-danger m-0 shadow-lg text-white" data-bs-toggle="modal"
+                            data-bs-target="#deleteIdeaModal">
+                            Supprimer
+                        </button>
+
+                        <div class="modal fade" id="deleteIdeaModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Supprimer cette idée
+                                        </h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Êtes vous sur de vouloir supprimer cette idée ?</p>
+                                    </div>
+                                    <div class="modal-footer d-flex justify-content-between">
+                                        <button type="button" class="btn btn-primary text-white"
+                                            data-bs-dismiss="modal">Annuler</button>
+
+                                        <a class="btn btn-danger m-0 shadow-lg text-white" id="deleteBtnShow"
+                                            href="{{path('archives_idea', {'idIdea': idea.id})}}"
+                                            data-bs-dismiss="modal">Confirmer</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-6 col-md-12 my-3">
-                    <div class="card h-100 bg-slack shadow-lg p-2">
-                        <img src="{{ asset('build/images/slack_logo.png')}}" alt="logo" class="logo mx-auto my-2">
-                        <button class="btn btn-primary text-white">Rejoindre le canal</button>
-                    </div>
+                    {% endif %}
                 </div>
             </div>
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <div class="col-6 col-md-12 my-3">
+                <div class="card h-100 bg-slack shadow-lg p-2">
+                    <img src="{{ asset('build/images/slack_logo.png')}}" alt="logo" class="logo mx-auto my-2">
+                    <button class="btn btn-primary text-white">Rejoindre le canal</button>
+                </div>
+            </div>
         </div>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+    </div>
     </div>
 
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
