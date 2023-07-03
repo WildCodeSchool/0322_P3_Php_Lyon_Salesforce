@@ -7,6 +7,7 @@ use App\Service\SlackService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class SlackController extends AbstractController
 {
@@ -23,7 +24,10 @@ class SlackController extends AbstractController
     {
         $channelName = $ideaTitle->getTitle(); // Set the channel name based on idea name
 
-        $channel = $slackService->createChannel($channelName);
+        $slugger = new AsciiSlugger(); // Create a new instance of the AsciiSlugger
+        $slug = $slugger->slug($channelName); // Apply the slugger to the channel name
+
+        $channel = $slackService->createChannel($slug);
         // Call the createChannel method of SlackService with the specified channel name
 
         if ($channel['ok']) {
