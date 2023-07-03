@@ -118,13 +118,19 @@ class IdeaController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
 
-        if (!empty($membershipRepository->getIfUserIsIdeaMember($idea->getId(), $user->getId()))) {
+        if (
+            !empty($membershipRepository->getIfUserIsIdeaMember($idea->getId(), $user->getId()))
+        ) {
             $isMember = true;
         } else {
             $isMember = false;
         }
 
-        if ($request->get('membership') && $isMember === false) {
+        if (
+            $request->get('membership')
+            && $isMember === false
+            && $user->getId() !== $idea->getAuthor()->getId()
+        ) {
             $becomeIdeaMember->becomeIdeaMember($user, $idea);
             $this->addFlash('success', 'vous avez bien adhérer à cette idée');
             return $this->redirectToRoute('idea_show', ['id' => $idea->getId()]);
