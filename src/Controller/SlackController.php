@@ -21,7 +21,7 @@ class SlackController extends AbstractController
         ]);
     }
 
-    #[Route('/createchannel/{title}', name: 'create_channel')]
+    #[Route('/createchannel', name: 'create_channel')]
     public function createChannel(SlackService $slackService, Idea $ideaTitle): Response
     {
         $channelName = $ideaTitle->getTitle(); // Set the channel name based on idea name
