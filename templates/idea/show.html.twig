@@ -2,13 +2,14 @@
 block javascripts %}
 {{ parent() }}
 {{ encore_entry_script_tags("deleteIdea") }}
-{% endblock %} {% block body %}
+{% endblock %}
+{% block body %}
 <main class="container">
     <div class="row d-flex flex-wrap-reverse flex-md">
         <div class="col-12 col-md-9 col-xl-10">
             <div class="my-3 card h-100 shadow-lg p-3">
                 <h1 class="text-center">{{ idea.title }}</h1>
-                <hr class="m-1" />
+                <hr class="m-1">
                 <p>{{ idea.content | raw }}</p>
             </div>
         </div>
@@ -26,100 +27,105 @@ block javascripts %}
                         <h6>
                             Publier le {{ idea.publicationDate|date("d/m/Y") }}
                         </h6>
-
-                        {% if app.user.id is same as idea.author.id %}
-                        <a
-                            href="{{ path('idea_edit', { id: idea.id }) }}"
-                            class="btn btn-primary text-white"
-                        >
-                            Modifier l'idée</a
-                        >
-                        <a
-                            id="deleteBtnShow"
-                            class="btn btn-danger m-0 shadow-lg text-white mt-2"
-                            href="{{
-                                path('archives_idea', { idIdea: idea.id })
-                            }}"
-                            >Supprimer</a
-                        >
-                        <div class="slack-button mt-2">
-                            <a
-                                href="{{ path('create_channel') }}"
-        
-                                ><svg class="slacksvg"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    
-                                    viewBox="0 0 122.8 122.8"
-                                >
-                                    <path
-                                        d="M25.8 77.6c0 7.1-5.8 12.9-12.9 12.9S0 84.7 0 77.6s5.8-12.9 12.9-12.9h12.9v12.9zm6.5 0c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9v32.3c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V77.6z"
-                                        fill="#e01e5a"
-                                    ></path>
-                                    <path
-                                        d="M45.2 25.8c-7.1 0-12.9-5.8-12.9-12.9S38.1 0 45.2 0s12.9 5.8 12.9 12.9v12.9H45.2zm0 6.5c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H12.9C5.8 58.1 0 52.3 0 45.2s5.8-12.9 12.9-12.9h32.3z"
-                                        fill="#36c5f0"
-                                    ></path>
-                                    <path
-                                        d="M97 45.2c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9-5.8 12.9-12.9 12.9H97V45.2zm-6.5 0c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V12.9C64.7 5.8 70.5 0 77.6 0s12.9 5.8 12.9 12.9v32.3z"
-                                        fill="#2eb67d"
-                                    ></path>
-                                    <path
-                                        d="M77.6 97c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9-12.9-5.8-12.9-12.9V97h12.9zm0-6.5c-7.1 0-12.9-5.8-12.9-12.9s5.8-12.9 12.9-12.9h32.3c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H77.6z"
-                                        fill="#ecb22e"
-                                    ></path></svg
-                                >Créer un Slack</a
-                            >
-                        </div>
-
-                        <h6>Publier le {{ idea.publicationDate|date("d/m/Y") }} </h6>
                         <h6>nombre d'adhésion : {{numberOfMembership}} </h6>
 
+
+                        {% if app.user.id is not same as idea.author.id %}
                         {% if isMember is same as false %}
-                        <button type="button" class="btn btn-primary text-white" data-bs-toggle="modal"
+                        <button type="button" class="btn btn-primary shadow-lg text-white my-1" data-bs-toggle="modal"
                             data-bs-target="#staticBackdrop">
                             Adhérer à l'idée
                         </button>
+
+                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                                            Adhérer à l'idée
+                                        </h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="" name="user" method="post" enctype="multipart/form-data"
+                                            class="m-2">
+                                            <div class="mb-3 form-check">
+                                                <label class="form-check-label" for="membership">Je souhaite adhérer à
+                                                    cette
+                                                    idée et rejoindre sont canal lorsqu'il sera crée</label>
+                                                <input type="checkbox" class="form-check-input" id="membership"
+                                                    name="membership">
+                                                <input type="hidden" name="_csrf_token"
+                                                    value="{{ csrf_token('authenticate') }}">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary text-white">Submit</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         {% else %}
                         <h6 class="text-success"> Vous adhérer déja à cette idée</h6>
                         {% endif %}
 
-
-                        {% if app.user.id is same as idea.author.id %}
-                        <a href="{{ path('idea_edit', {id:idea.id}) }}" class="btn btn-primary text-white">
+                        {% else %}
+                        <a href="{{ path('idea_edit', {id:idea.id}) }}"
+                            class="btn btn-primary shadow-lg text-white my-1">
                             Modifier l'idée</a>
-                        <a id="deleteBtnShow" class="btn btn-danger m-0 shadow-lg text-white"
-                            href="{{path('archives_idea', {'idIdea': idea.id})}}">Supprimer</a>
 
+                        <button type="button" class="btn btn-danger shadow-lg text-white my-1" data-bs-toggle="modal"
+                            data-bs-target="#deleteIdeaModal">
+                            Supprimer
+                        </button>
+
+                        <div class="modal fade" id="deleteIdeaModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Supprimer cette idée
+                                        </h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Êtes vous sur de vouloir supprimer cette idée ?</p>
+                                    </div>
+                                    <div class="modal-footer d-flex justify-content-between">
+                                        <button type="button" class="btn btn-primary text-white"
+                                            data-bs-dismiss="modal">Annuler</button>
+
+                                        <a class="btn btn-danger m-0 shadow-lg text-white" id="deleteBtnShow"
+                                            href="{{path('archives_idea', {'idIdea': idea.id})}}"
+                                            data-bs-dismiss="modal">Confirmer</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="slack-button mt-2">
+                            <a href="{{ path('create_channel') }}"><svg class="slacksvg"
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.8 122.8">
+                                    <path
+                                        d="M25.8 77.6c0 7.1-5.8 12.9-12.9 12.9S0 84.7 0 77.6s5.8-12.9 12.9-12.9h12.9v12.9zm6.5 0c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9v32.3c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V77.6z"
+                                        fill="#e01e5a"></path>
+                                    <path
+                                        d="M45.2 25.8c-7.1 0-12.9-5.8-12.9-12.9S38.1 0 45.2 0s12.9 5.8 12.9 12.9v12.9H45.2zm0 6.5c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H12.9C5.8 58.1 0 52.3 0 45.2s5.8-12.9 12.9-12.9h32.3z"
+                                        fill="#36c5f0"></path>
+                                    <path
+                                        d="M97 45.2c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9-5.8 12.9-12.9 12.9H97V45.2zm-6.5 0c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V12.9C64.7 5.8 70.5 0 77.6 0s12.9 5.8 12.9 12.9v32.3z"
+                                        fill="#2eb67d"></path>
+                                    <path
+                                        d="M77.6 97c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9-12.9-5.8-12.9-12.9V97h12.9zm0-6.5c-7.1 0-12.9-5.8-12.9-12.9s5.8-12.9 12.9-12.9h32.3c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H77.6z"
+                                        fill="#ecb22e"></path>
+                                </svg>Créer un Slack</a>
+                        </div>
                         {% endif %}
                     </div>
                 </div>
             </div>
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-        </div>
-    </div>
-
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">
-                        Adhérer à l'idée
-                    </h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="" name="user" method="post" enctype="multipart/form-data" class="m-2">
-                        <div class="mb-3 form-check">
-                            <label class="form-check-label" for="membership">Je souhaite adhérer à cette idée et
-                                rejoindre sont canal lorsqu'il sera crée</label>
-                            <input type="checkbox" class="form-check-input" id="membership" name="membership">
-                        </div>
-                        <button type="submit" class="btn btn-primary text-white">Submit</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 </main>
 {% endblock %}

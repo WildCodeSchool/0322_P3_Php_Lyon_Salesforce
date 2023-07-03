@@ -24,12 +24,13 @@
                     <div class="row text-center text-md-start">
                         {% if app.user.email is same as user.email %}
                         <button type="button" class="btn btn-primary text-white mt-2" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop">
+                            data-bs-target="#userProfilPictureModal">
                             Changer de photo de profil
                         </button>
 
-                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-                            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal fade" id="userProfilPictureModal" data-bs-backdrop="static"
+                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                            aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -73,12 +74,11 @@
     </div>
 </div>
 <div class="row m-4">
-    <div class="container my-4">
-        <div>
-            <h3 class="row row-cols-1 g-4 mx-4">
-                Listes des idées de {{user.firstname}} {{user.lastname}} :
-            </h3>
-        </div>
+    <div class="container my-5">
+        <h3 class="row row-cols-1 g-4 mx-4">
+            Listes des idées de {{user.firstname}} {{user.lastname}} :
+        </h3>
+        <hr class="border-2">
         <div id="userIdeas" class="row row-cols-1 row-cols-md-2 justify-content-center row-cols-xl-3 g-2 mx-2">
             {% for idea in ideas %}
             <div class="col">
@@ -93,9 +93,38 @@
                         <div class="d-flex justify-content-between mt-auto">
                             <a href="{{ path('idea_show', {id:idea.id}) }}" class="mx-2 btn btn-primary text-white">
                                 Voir l'idée</a>
+
                             {% if app.user.email is same as user.email %}
-                            <a class="deleteBtn btn btn-danger m-0 shadow-lg text-white"
-                                href="{{path('archives_idea', {'idIdea': idea.id})}}">Supprimer</a>
+                            <button type="button" class="btn btn-danger m-0 shadow-lg text-white" data-bs-toggle="modal"
+                                data-bs-target="#deleteIdeaModal">
+                                Supprimer
+                            </button>
+
+                            <div class="modal fade" id="deleteIdeaModal" data-bs-backdrop="static"
+                                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Supprimer cette idée
+                                            </h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Êtes vous sur de vouloir supprimer cette idée ?</p>
+                                        </div>
+                                        <div class="modal-footer d-flex justify-content-between">
+                                            <button type="button" class="btn btn-primary text-white"
+                                                data-bs-dismiss="modal">Annuler</button>
+
+                                            <a class="deleteBtn btn btn-danger m-0 shadow-lg text-white"
+                                                href="{{path('archives_idea', {'idIdea': idea.id})}}"
+                                                data-bs-dismiss="modal">Confirmer</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             {% endif %}
                         </div>
                     </div>
@@ -108,11 +137,10 @@
 
 <div class="row m-4">
     <div class="container my-5">
-        <div>
-            <h3 class="row row-cols-1 g-4 mx-4">
-                Listes des idées auxquels adhère {{user.firstname}} {{user.lastname}} :
-            </h3>
-        </div>
+        <h3 class="row row-cols-1 g-4 mx-4">
+            Listes des idées auxquels adhère {{user.firstname}} {{user.lastname}} :
+        </h3>
+        <hr class="border-2">
         <div id="userIdeas" class="row row-cols-1 row-cols-md-2 justify-content-center row-cols-xl-3 g-2 mx-2">
             {% for idea in membershipIdea %}
             <div class="col">
