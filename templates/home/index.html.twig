@@ -32,9 +32,16 @@
                                 <span class=" ms-2 text-info">{{ idea.publicationDate|date("d/m/Y") }}</span>
                             </h6>
                         </div>
-                        <div class="d-flex justify-content-end mt-auto">
-                            <a href="{{ path('idea_show', {id:idea.id}) }}" class="mx-3 btn btn-primary text-white">
-                                Voir l'idée</a>
+                        <div class="d-flex justify-content-between mt-auto">
+                                {% if idea.author.pictureFileName %}
+                                <img src="{{ asset('/uploads/profiles_pictures/' ~ idea.author.pictureFileName)}}" alt="profile picture"
+                                    class="profile-picture-idea img-fluid rounded-circle">
+                                {% else %}
+                                <img src="{{ asset('build/images/blank-profil-picture.png' )}}" alt="profile picture"
+                                    class="profile-picture-idea img-fluid rounded-circle">
+                                {% endif %}
+                                <a href="{{ path('idea_show', {id:idea.id}) }}" class="mx-3 btn btn-primary text-white">
+                                    Voir l'idée</a>
                         </div>
                     </div>
                 </div>

@@ -44,7 +44,16 @@ class IdeaRepository extends ServiceEntityRepository
     public function getIdeasByUserOffice(int $officeId): array
     {
         return $this->createQueryBuilder('i')
-            ->select('i.id', 'i.title', 'i.content', 'o.location', 'i.publicationDate', 'u.lastname', 'u.firstname')
+            ->select(
+                'i.id',
+                'i.title',
+                'i.content',
+                'o.location',
+                'i.publicationDate',
+                'u.lastname',
+                'u.firstname',
+                'u.pictureFileName'
+            )
             ->innerJoin('i.author', 'u')
             ->innerJoin('u.workplace', 'o')
             ->where('o.id = :officeId')
@@ -59,7 +68,16 @@ class IdeaRepository extends ServiceEntityRepository
     public function getIdeasByUserDepartment(int $officeId, string $departmentName): array
     {
         return $this->createQueryBuilder('i')
-            ->select('i.id', 'i.title', 'i.content', 'o.location', 'i.publicationDate', 'u.lastname', 'u.firstname')
+            ->select(
+                'i.id',
+                'i.title',
+                'i.content',
+                'o.location',
+                'i.publicationDate',
+                'u.lastname',
+                'u.firstname',
+                'u.pictureFileName'
+            )
             ->innerJoin('i.author', 'u')
             ->innerJoin('u.workplace', 'o')
             ->where('o.id = :officeId')
@@ -83,8 +101,18 @@ class IdeaRepository extends ServiceEntityRepository
             ->setParameter('archived', false)
             ->orderBy('i.publicationDate', 'DESC')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
+    }
+
+    public function getUserIdeaMembership(int $userId): array
+    {
+        return $this->createQueryBuilder('i')
+            ->select('i')
+            ->innerJoin('i.memberships', 'a')
+            ->where('a.member = ' . $userId)
+            ->orderBy('i.publicationDate', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 }
 

@@ -22,6 +22,7 @@ block javascripts %}
                             {{ idea.author.lastname }}
                         </h6>
                         <h6>Agence de {{ idea.author.workplace.location }}</h6>
+
                         <h6>
                             Publier le {{ idea.publicationDate|date("d/m/Y") }}
                         </h6>
@@ -69,8 +70,53 @@ block javascripts %}
                                 >Créer un Slack</a
                             >
                         </div>
+
+                        <h6>Publier le {{ idea.publicationDate|date("d/m/Y") }} </h6>
+                        <h6>nombre d'adhésion : {{numberOfMembership}} </h6>
+
+                        {% if isMember is same as false %}
+                        <button type="button" class="btn btn-primary text-white" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">
+                            Adhérer à l'idée
+                        </button>
+                        {% else %}
+                        <h6 class="text-success"> Vous adhérer déja à cette idée</h6>
+                        {% endif %}
+
+
+                        {% if app.user.id is same as idea.author.id %}
+                        <a href="{{ path('idea_edit', {id:idea.id}) }}" class="btn btn-primary text-white">
+                            Modifier l'idée</a>
+                        <a id="deleteBtnShow" class="btn btn-danger m-0 shadow-lg text-white"
+                            href="{{path('archives_idea', {'idIdea': idea.id})}}">Supprimer</a>
+
                         {% endif %}
                     </div>
+                </div>
+            </div>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        </div>
+    </div>
+
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                        Adhérer à l'idée
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" name="user" method="post" enctype="multipart/form-data" class="m-2">
+                        <div class="mb-3 form-check">
+                            <label class="form-check-label" for="membership">Je souhaite adhérer à cette idée et
+                                rejoindre sont canal lorsqu'il sera crée</label>
+                            <input type="checkbox" class="form-check-input" id="membership" name="membership">
+                        </div>
+                        <button type="submit" class="btn btn-primary text-white">Submit</button>
+                    </form>
                 </div>
             </div>
         </div>
