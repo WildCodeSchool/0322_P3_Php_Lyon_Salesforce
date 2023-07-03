@@ -39,7 +39,7 @@ deleteBtnShow.addEventListener('click', function (event) {
         .then(response => {
             if (response.status === 200) {
 
-              location.href = '/';
+                location.href = '/';
                 const flashMessage = document.createElement('div');
                 flashMessage.classList.add('flash-message');
                 flashMessage.textContent = 'Votre idée a été supprimé.';
