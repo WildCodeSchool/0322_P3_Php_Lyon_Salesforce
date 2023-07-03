@@ -48,7 +48,6 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                 }
 
                 $contributor->setPictureFileName($faker->image());
-                $contributor->setPosition($faker->jobTitle());
                 $contributor->setWorkplace($this->getReference('office_' . $officeLocation));
                 $contributor->setRoles(['ROLE_CONTRIBUTOR']);
                 $hashedPassword = $this->passwordHasher->hashPassword(
@@ -70,7 +69,6 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $dummyContributor->setLastname('Dylan');
         $dummyContributor->setDepartment('Comptabilité');
         $dummyContributor->setPictureFileName($faker->image(null, 640, 480));
-        $dummyContributor->setPosition('Directeur');
         $dummyContributor->setWorkplace($this->getReference('office_' . $officeLocation));
         $dummyContributor->setRoles(['ROLE_CONTRIBUTOR']);
         $hashedPassword = $this->passwordHasher->hashPassword(
@@ -92,7 +90,6 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $admin->setLastname('Tarantino');
         $admin->setDepartment('Informatique');
         $admin->setPictureFileName($faker->image());
-        $admin->setPosition('Assistant Manager');
         $admin->setWorkplace($this->getReference('office_' . $officeLocation));
         $admin->setRoles(['ROLE_ADMIN']);
         $hashedPassword = $this->passwordHasher->hashPassword(
