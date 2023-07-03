@@ -25,10 +25,10 @@ class SlackController extends AbstractController
         $channelName = $ideaTitle->getTitle(); // Set the channel name based on idea name
 
         $slugger = new AsciiSlugger(); // Create a new instance of the AsciiSlugger
-        $slug = $slugger->slug($channelName); // Apply the slugger to the channel name
+        $slug = $slugger->slug($channelName, '_'); // Apply the slugger to the channel name
 
         $channel = $slackService->createChannel($slug);
-        // Call the createChannel method of SlackService with the specified channel name
+        // Call the createChannel method of SlackService with the specified channel name with slug
 
         if ($channel['ok']) {
             $channelId = $channel['channel']['id']; // Extract the channel ID from the response
