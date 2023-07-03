@@ -39,10 +39,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 100)]
     private ?string $department = null;
 
-
-    #[ORM\Column(length: 255)]
-    private ?string $position = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $pictureFileName = null;
 
@@ -53,9 +49,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Idea::class)]
     private Collection $ideas;
 
+    #[ORM\OneToMany(mappedBy: 'member', targetEntity: Membership::class)]
+    private Collection $memberships;
+
+    #[ORM\Column(length: 255)]
+    private ?string $contactNumber = null;
+
+    #[ORM\Column(type: 'boolean')]
+    private ?bool $firstConnection = true;
+
     public function __construct()
     {
         $this->ideas = new ArrayCollection();
+        $this->memberships = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -164,19 +170,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-
-    public function getPosition(): ?string
-    {
-        return $this->position;
-    }
-
-    public function setPosition(string $position): self
-    {
-        $this->position = $position;
-
-        return $this;
-    }
-
     public function getPictureFileName(): ?string
     {
         return $this->pictureFileName;
@@ -226,6 +219,60 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $idea->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Membership>
+     */
+    public function getMemberships(): Collection
+    {
+        return $this->memberships;
+    }
+
+    public function addMembership(Membership $membership): static
+    {
+        if (!$this->memberships->contains($membership)) {
+            $this->memberships->add($membership);
+            $membership->setMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMembership(Membership $membership): static
+    {
+        if ($this->memberships->removeElement($membership)) {
+            // set the owning side to null (unless already changed)
+            if ($membership->getMember() === $this) {
+                $membership->setMember(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getContactNumber(): ?string
+    {
+        return $this->contactNumber;
+    }
+
+    public function setContactNumber(string $contactNumber): static
+    {
+        $this->contactNumber = $contactNumber;
+
+        return $this;
+    }
+
+    public function isFirstConnection(): ?bool
+    {
+        return $this->firstConnection;
+    }
+
+    public function setFirstConnection(bool $firstConnection): static
+    {
+        $this->firstConnection = $firstConnection;
 
         return $this;
     }

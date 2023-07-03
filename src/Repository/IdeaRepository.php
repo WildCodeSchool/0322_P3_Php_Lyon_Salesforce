@@ -101,8 +101,18 @@ class IdeaRepository extends ServiceEntityRepository
             ->setParameter('archived', false)
             ->orderBy('i.publicationDate', 'DESC')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
+    }
+
+    public function getUserIdeaMembership(int $userId): array
+    {
+        return $this->createQueryBuilder('i')
+            ->select('i')
+            ->innerJoin('i.memberships', 'a')
+            ->where('a.member = ' . $userId)
+            ->orderBy('i.publicationDate', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 }
 
