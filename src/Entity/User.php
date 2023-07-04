@@ -57,6 +57,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'boolean')]
     private ?bool $firstConnection = true;
+
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $slackId = null;
 
