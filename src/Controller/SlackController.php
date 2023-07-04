@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Idea;
 use App\Service\SlackService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[IsGranted('ROLE_USER')]
 class SlackController extends AbstractController
@@ -20,13 +22,14 @@ class SlackController extends AbstractController
     }
 
     #[Route('/createchannel', name: 'create_channel')]
-    public function createChannel(SlackService $slackService): Response
+    public function createChannel(SlackService $slackService, Idea $ideaTitle, SluggerInterface $slugger): Response
     {
-        $channelName = 'testnbidk';
-        // Set the channel name to 'channelname' (replace with desired channel name)
-        // Set in slug cf doc symfony -> automatically create a channel from an idea
-        $channel = $slackService->createChannel($channelName);
-        // Call the createChannel method of SlackService with the specified channel name
+        $channelName = $ideaTitle->getTitle(); // Set the channel name based on idea name
+
+        $slug = $slugger->slug($channelName, '_'); // Apply the slugger to the channel name
+
+        $channel = $slackService->createChannel($slug);
+        // Call the createChannel method of SlackService with the specified channel name with slug
 
         if ($channel['ok']) {
             $channelId = $channel['channel']['id']; // Extract the channel ID from the response
