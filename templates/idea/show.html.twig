@@ -75,7 +75,6 @@ block javascripts %}
                         <h6>Publier le {{ idea.publicationDate|date("d/m/Y") }} </h6>
                         <h6>nombre d'adhésion : {{numberOfMembership}} </h6>
 
-
                         {% if app.user.id is not same as idea.author.id %}
                         {% if isMember is same as false %}
                         <button type="button" class="btn btn-primary shadow-lg text-white my-1" data-bs-toggle="modal"
