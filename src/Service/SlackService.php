@@ -4,6 +4,7 @@ namespace App\Service;
 
 use RuntimeException;
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
@@ -43,4 +44,23 @@ class SlackService
 
         return $content; // Return the response content as an array
     }
+
+    // public function inviteUsers(SlackServiceInviteUsers $slackServiceInviteUsers): Response
+    // {
+    //     $channelId = 'channel_id';
+    //     $slackId = ['slackId1', 'slackId2'];
+
+    //     $response = $slackServiceInviteUsers->inviteUsersToChannel();
+    //     // Call the inviteUsersToChannel method of SlackServiceInviteUsers
+
+    //     if ($response['ok']) {
+    //         $message = 'Les utilisateurs ont bien été invités sur le canal slack.'; // Success message created
+    //     } else {
+    //         $error = $response['error'];
+    //         $message = 'Les utilisateurs n\'ont pas été invités sur le canal: {$error}.';
+    //         // Create an error message with the error details
+    //     }
+
+    //     return Response;
+    // }
 }

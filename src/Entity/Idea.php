@@ -51,7 +51,7 @@ class Idea
     private ?\DateTimeImmutable $publicationDate = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank(message: 'Pendez à développer votre idée!')]
+    #[Assert\NotBlank(message: 'Pensez à développer votre idée!')]
     private ?string $content = null;
 
     #[ORM\Column]

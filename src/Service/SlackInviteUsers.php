@@ -7,7 +7,7 @@ use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class SlackServiceInviteUsers
+class SlackInviteUsers
 {
     public string $token;
     public HttpClientInterface $client;
@@ -16,13 +16,13 @@ class SlackServiceInviteUsers
     {
         $this->token = $_ENV['SLACK_OAUTH_TOKEN']; // Get the Slack OAuth token from the local environment variables
         $this->client = HttpClient::create([
-            'base_uri' => 'https://slack.com/api/conversations.create', // Set the base URI for the HTTP client
+            'base_uri' => 'https://slack.com/api/conversations.invite', // Set the base URI for the HTTP client
             'headers' => [
                 'Authorization' => 'Bearer ' . $this->token, // Set the authorization header with the OAuth token
                 'Content-type' => 'application/json', // Set the content type header to JSON
             ],
         ]);
-        $response = $this->client->request('POST', 'conversations.create', [
+        $response = $this->client->request('POST', 'conversations.invite', [
             'body' => json_encode([
                 'channelId' => $channelId, // Set the channel name in the request body
                 'slackId' => $slackId, // Get user slack ID
