@@ -21,7 +21,7 @@ class SlackController extends AbstractController
         ]);
     }
 
-    #[Route('/createchannel', name: 'create_channel')]
+    #[Route('{id}/createchannel', name: 'create_channel')]
     public function createChannel(SlackService $slackService, Idea $title, SluggerInterface $slugger): Response
     {
         $channelName = $title->getTitle(); // Set the channel name based on idea name
