@@ -57,6 +57,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'boolean')]
     private ?bool $firstConnection = true;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $slackId = null;
 
     public function __construct()
     {
@@ -274,6 +276,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->firstConnection = $firstConnection;
 
+        return $this;
+    }
+
+    public function getSlackId(): ?string
+    {
+        return $this->slackId;
+    }
+
+    public function setSlackId(?string $slackId): static
+    {
+        $this->slackId = $slackId;
         return $this;
     }
 }
