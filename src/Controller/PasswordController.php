@@ -31,6 +31,7 @@ class PasswordController extends AbstractController
 
         $newPassword = $request->get('new-password');
 
+
         if (!empty($newPassword)) {
             $hashedPassword = $this->passwordHasher->hashPassword(
                 $user,
