@@ -3,16 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\NewPasswordType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Exception;
-
 
 class PasswordController extends AbstractController
 {
@@ -22,42 +18,34 @@ class PasswordController extends AbstractController
     {
         $this->passwordHasher = $passwordHasher;
     }
-    
+
     #[Route('/change-password', name: 'app_change_password')]
     public function changePassword(Request $request, UserRepository $userRepository): Response
     {
-            /** @var User $user */
+        /** @var User $user */
         $user = $this->getUser();
 
-        // Create the password change form
-        $form = $this->createForm(NewPasswordType::class);
-        $form->handleRequest($request);
+        if (!$user->isFirstConnection()) {
+            return $this->redirectToRoute('app_home');
+        }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Encode the new password
-            $userRepository->save($form, true);
+        $newPassword = $request->get('new-password');
 
-            // Update the user's password and set firstLogin to false
-            $user->setPassword($encodedPassword);
+        if (!empty($newPassword)) {
+            $hashedPassword = $this->passwordHasher->hashPassword(
+                $user,
+                $newPassword
+            );
+            $user->setPassword($hashedPassword);
             $user->setFirstConnection(false);
+            $userRepository->save($user, true);
 
-            // Save the changes to the database
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            // Redirect the user after successfully changing the password
-            return $this->redirectToRoute('app_homepage');
+            $this->addFlash('success', 'Votre mot de passe a bien été mis à jour!
+             Bienvenue sur notre plateforme d\'idéation!');
+            return $this->redirectToRoute('app_home');
         }
 
         // Render the password change form
-        return $this->render('login/passwordForm.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        return $this->render('login/passwordForm.html.twig');
     }
-
-
-
-
-
 }

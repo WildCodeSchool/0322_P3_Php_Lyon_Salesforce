@@ -26,12 +26,12 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
 
         foreach (OfficeFixtures::OFFICES as $officeLocation) {
             $departments = [
-                    'Ressources Humaines',
-                    'Informatique',
-                    'Comptabilité',
-                    'Marketing',
-                    'Communication',
-                    'Commercial',
+                'Ressources Humaines',
+                'Informatique',
+                'Comptabilité',
+                'Marketing',
+                'Communication',
+                'Commercial',
             ];
 
             for ($i = 1; $i <= 10; $i++) {
@@ -41,6 +41,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                 $contributor->setEmail($email);
                 $contributor->setFirstname($faker->firstName());
                 $contributor->setLastname($faker->lastName());
+                $contributor->setContactNumber($faker->phoneNumber());
 
                 $chosenDepartments = $faker->randomElements($departments, rand(1, 6));
                 foreach ($chosenDepartments as $perimeter) {
@@ -67,6 +68,8 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $dummyContributor->setEmail('contributor@sf.com');
         $dummyContributor->setFirstname('Bob');
         $dummyContributor->setLastname('Dylan');
+        $dummyContributor->setContactNumber($faker->phoneNumber());
+
         $dummyContributor->setDepartment('Comptabilité');
         $dummyContributor->setPictureFileName($faker->image(null, 640, 480));
         $dummyContributor->setWorkplace($this->getReference('office_' . $officeLocation));
@@ -88,6 +91,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $admin->setEmail('superadmin@sf.com');
         $admin->setFirstname('Quentin');
         $admin->setLastname('Tarantino');
+        $admin->setContactNumber($faker->phoneNumber());
         $admin->setDepartment('Informatique');
         $admin->setPictureFileName($faker->image());
         $admin->setWorkplace($this->getReference('office_' . $officeLocation));
@@ -102,13 +106,10 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-
-
-
     public function getDependencies()
     {
         return [
-          OfficeFixtures::class,
+            OfficeFixtures::class,
         ];
     }
 }

@@ -32,6 +32,13 @@ body {
     border-radius: 10px;
 }
 
+//-------- Button Primary --------//
+
+.btn-primary:hover {
+    background-color: $secondary;
+    border-color: $secondary;
+}
+
 //-------- Login page --------//
 
 #login-logo {
@@ -45,11 +52,17 @@ body {
     height: 200px;
 }
 
+.title {
+    background-image: linear-gradient(to top, $primary, $secondary);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+
 .profile-picture-idea {
     width: 40px;
     height: 40px;
 }
-
 
 .flash-message {
     position: fixed;
@@ -61,9 +74,9 @@ body {
     padding: 10px;
     border-radius: 5px;
     font-size: 16px;
-  }
+}
 
-  .slack-button a {
+.slack-button a {
     align-items: center;
     color: #fff;
     background-color: #4a154b;
@@ -77,10 +90,10 @@ body {
     justify-content: center;
     text-decoration: none;
     width: 100%;
-  
+
     .slacksvg {
-      height: 20px;
-      width: 20px;
-      margin-right: 12px;
+        height: 20px;
+        width: 20px;
+        margin-right: 12px;
     }
-  }
+}
