@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Idea;
+use App\Repository\MembershipRepository;
 use App\Service\SlackService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,8 +23,13 @@ class SlackController extends AbstractController
     }
 
     #[Route('{id}/createchannel', name: 'create_channel')]
-    public function createChannel(SlackService $slackService, Idea $title, SluggerInterface $slugger): Response
-    {
+    public function createChannel(
+        SlackService $slackService,
+        Idea $title,
+        SluggerInterface $slugger,
+        Idea $idea,
+        MembershipRepository $membershipRepository
+    ): Response {
         $channelName = $title->getTitle(); // Set the channel name based on idea name
 
         $slug = $slugger->slug($channelName, '_'); // Apply the slugger to the channel name
@@ -33,15 +39,17 @@ class SlackController extends AbstractController
 
         if ($channel['ok']) {
             $channelId = $channel['channel']['id']; // Extract the channel ID from the response
-            $message = "New channel created: {$channelName} (ID: {$channelId}).";
+            $this->addFlash('success', "Nouveau canal Slack créé : {$channelName} (ID: {$channelId}).");
             // Create a success message with the channel name and ID
         } else {
             $error = $channel['error']; // Extract the error message from the response
-            $message = "Failed to create channel: {$error}."; // Create an error message with the error details
+            $this->addFlash('error', "Echec de création du canal Slack : {$error}.");
+            // Create an error message with the error's name
         }
 
-        return $this->render('slack/create_channel.html.twig', [
-            'message' => $message, // Pass the message to the 'slack/create_channel.html.twig' template
-        ]);
+        return $this->render('idea/show.html.twig', [
+            'idea' => $idea,
+            'numberOfMembership' => $membershipRepository->getNumberOfMembership($idea->getId()),
+        ]);// Pass the flash message to the 'idea/show.html.twig' template
     }
 }
