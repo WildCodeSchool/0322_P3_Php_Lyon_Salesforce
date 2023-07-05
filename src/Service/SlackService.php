@@ -43,25 +43,25 @@ class SlackService
             throw new RuntimeException('Failed to create channel: ' . $content['error']);
             // If the status code is not 200 or the 'ok' property is false, throw an exception with the error message
         }
-
         return $content; // Return the response content as an array
     }
 
-    // public function inviteUsers(SlackInviteUsers $slackInviteUsers, Idea $idea): Response
-    // {
-    //     $channelId = 'channel_id';
-    //     //$slackIds = $idea->;
+    public function inviteUsers(string $channelId): Response
+    {
+        $slackId = 'U05F47PANKY, U05FAV754LT';
 
-    //     $response = $slackInviteUsers->inviteUsersToChannel($channelId, $slackIds);
-    //     // Call the inviteUsersToChannel method of SlackServiceInviteUsers
+        $slackInviteUsers = new SlackInviteUsers();
 
-    //     if ($response['ok']) {
-    //         $message = 'Les utilisateurs ont bien été invités sur le canal slack.'; // Success message created
-    //     } else {
-    //         $message = "Les utilisateurs n\'ont pas été invités sur le canal: {$response['error']}.";
-    //         // Create an error message with the error details
-    //     }
+        $response = $slackInviteUsers->inviteUsersToChannel($channelId, $slackId);
+        // Call the inviteUsersToChannel method of SlackServiceInviteUsers
 
-    //     return new Response($message);
-    // }
+        if ($response['ok']) {
+            $message = 'Les utilisateurs ont bien été invités sur le canal slack.'; // Success message created
+        } else {
+            $message = "Les utilisateurs n\'ont pas été invités sur le canal: {$response['error']}.";
+            // Create an error message with the error details
+        }
+
+        return new Response($message);
+    }
 }

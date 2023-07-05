@@ -39,6 +39,8 @@ class SlackController extends AbstractController
 
         if ($channel['ok']) {
             $channelId = $channel['channel']['id']; // Extract the channel ID from the response
+
+            $slackService->inviteUsers($channelId);
             $this->addFlash('success', "Nouveau canal Slack créé : {$channelName} (ID: {$channelId}).");
             // Create a success message with the channel name and ID
         } else {
@@ -47,9 +49,21 @@ class SlackController extends AbstractController
             // Create an error message with the error's name
         }
 
+        /** @var User $user */
+        $user = $this->getUser();
+
+        if (
+            !empty($membershipRepository->getIfUserIsIdeaMember($idea->getId(), $user->getId()))
+        ) {
+            $isMember = true;
+        } else {
+            $isMember = false;
+        }
+
         return $this->render('idea/show.html.twig', [
             'idea' => $idea,
             'numberOfMembership' => $membershipRepository->getNumberOfMembership($idea->getId()),
+            'isMember' => $isMember,
         ]);// Show the flash message to the 'idea/show.html.twig' template
     }
 }

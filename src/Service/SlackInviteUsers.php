@@ -12,7 +12,7 @@ class SlackInviteUsers
     public string $token;
     public HttpClientInterface $client;
 
-    public function inviteUsersToChannel(string $channelId, array $slackId): array
+    public function inviteUsersToChannel(string $channelId, string $slackId): array
     {
         $this->token = $_ENV['SLACK_OAUTH_TOKEN']; // Get the Slack OAuth token from the local environment variables
         $this->client = HttpClient::create([
@@ -24,8 +24,8 @@ class SlackInviteUsers
         ]);
         $response = $this->client->request('POST', 'conversations.invite', [
             'body' => json_encode([
-                'channelId' => $channelId, // Set the channel name in the request body
-                'slackId' => $slackId, // Get user slack ID
+                'channel' => $channelId, // Set the channel name in the request body
+                'users' => $slackId, // Get user slack ID
             ]),
         ]);
 
