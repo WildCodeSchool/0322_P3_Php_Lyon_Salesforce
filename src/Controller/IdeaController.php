@@ -16,9 +16,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Pagerfanta;
-use Pagerfanta\View\DefaultView;
-use Pagerfanta\View\Template\TwitterBootstrap5Template;
-use Pagerfanta\View\Template\TwitterBootstrapTemplate;
 use Pagerfanta\View\TwitterBootstrap5View;
 
 #[IsGranted('ROLE_USER')]
