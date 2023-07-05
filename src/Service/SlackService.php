@@ -2,11 +2,13 @@
 
 namespace App\Service;
 
+use App\Entity\Idea;
 use RuntimeException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
+use App\Service\SlackInviteUsers;
 
 class SlackService
 {
@@ -20,7 +22,7 @@ class SlackService
             'base_uri' => 'https://slack.com/api/conversations.create', // Set the base URI for the HTTP client
             'headers' => [
                 'Authorization' => 'Bearer ' . $this->token, // Set the authorization header with the OAuth token
-                'Content-type' => 'application/json', // Set the content type header to JSON
+                'Content-Type' => 'application/json', // Set the content type header to JSON
             ],
         ]);
         $response = $this->client->request('POST', 'conversations.create', [
@@ -45,22 +47,21 @@ class SlackService
         return $content; // Return the response content as an array
     }
 
-    // public function inviteUsers(SlackServiceInviteUsers $slackServiceInviteUsers): Response
+    // public function inviteUsers(SlackInviteUsers $slackInviteUsers, Idea $idea): Response
     // {
     //     $channelId = 'channel_id';
-    //     $slackId = ['slackId1', 'slackId2'];
+    //     //$slackIds = $idea->;
 
-    //     $response = $slackServiceInviteUsers->inviteUsersToChannel();
+    //     $response = $slackInviteUsers->inviteUsersToChannel($channelId, $slackIds);
     //     // Call the inviteUsersToChannel method of SlackServiceInviteUsers
 
     //     if ($response['ok']) {
     //         $message = 'Les utilisateurs ont bien été invités sur le canal slack.'; // Success message created
     //     } else {
-    //         $error = $response['error'];
-    //         $message = 'Les utilisateurs n\'ont pas été invités sur le canal: {$error}.';
+    //         $message = "Les utilisateurs n\'ont pas été invités sur le canal: {$response['error']}.";
     //         // Create an error message with the error details
     //     }
 
-    //     return Response;
+    //     return new Response($message);
     // }
 }

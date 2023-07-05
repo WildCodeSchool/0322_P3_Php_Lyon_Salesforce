@@ -25,7 +25,7 @@ class IdeaFixtures extends Fixture implements DependentFixtureInterface
 
         for ($j = 1; $j <= 10; $j++) {
             $dummyIdea = new Idea();
-            $dummyIdea->setTitle($faker->word());
+            $dummyIdea->setTitle($faker->sentence());
             $dummyIdea->setContent($faker->paragraphs(5, true));
 
             $chosenPerimeters = $faker->randomElements($perimeters, rand(1, 3));
@@ -44,7 +44,7 @@ class IdeaFixtures extends Fixture implements DependentFixtureInterface
         foreach (OfficeFixtures::OFFICES as $officeLocation) {
             for ($i = 1; $i <= 10; $i++) {
                 $idea = new Idea();
-                $idea->setTitle($faker->word());
+                $idea->setTitle($faker->sentence());
                 $idea->setContent($faker->paragraphs(5, true));
 
                 $chosenPerimeters = $faker->randomElements($perimeters, rand(1, 3));

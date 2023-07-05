@@ -50,6 +50,6 @@ class SlackController extends AbstractController
         return $this->render('idea/show.html.twig', [
             'idea' => $idea,
             'numberOfMembership' => $membershipRepository->getNumberOfMembership($idea->getId()),
-        ]);// Pass the flash message to the 'idea/show.html.twig' template
+        ]);// Show the flash message to the 'idea/show.html.twig' template
     }
 }
