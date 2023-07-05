@@ -10,7 +10,7 @@
         </h1>
     </div>
 
-    <div class="container my-5  ">
+    <div class="container my-5" {{ stimulus_controller('symfony/ux-swup/swup') }} id="swup" data-turbo="false">
         <h3>
             Les idées de mon agence de {{user.workplace.location}}
         </h3>
