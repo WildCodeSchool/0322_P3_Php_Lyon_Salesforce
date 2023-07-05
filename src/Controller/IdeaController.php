@@ -17,6 +17,9 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\View\DefaultView;
+use Pagerfanta\View\Template\TwitterBootstrap5Template;
+use Pagerfanta\View\Template\TwitterBootstrapTemplate;
+use Pagerfanta\View\TwitterBootstrap5View;
 
 #[IsGranted('ROLE_USER')]
 #[Route('/idea', name: 'idea')]
@@ -88,9 +91,12 @@ class IdeaController extends AbstractController
             6
         );
 
+        $pagerfanta = new TwitterBootstrap5View();
+
         return $this->render('idea/ideasByUserOffice.html.twig', [
             'user' => $user,
             'ideas' => $ideas,
+            'pagerfanta' => $pagerfanta,
         ]);
     }
 
@@ -109,9 +115,12 @@ class IdeaController extends AbstractController
             6
         );
 
+        $pagerfanta = new TwitterBootstrap5View();
+
         return $this->render('idea/ideasByUserDepartment.html.twig', [
             'user' => $user,
             'ideas' => $ideas,
+            'pagerfanta' => $pagerfanta,
         ]);
     }
 

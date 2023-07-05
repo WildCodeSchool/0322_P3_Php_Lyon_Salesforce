@@ -23,6 +23,9 @@
     "amphp/sync": {
         "version": "v1.4.2"
     },
+    "babdev/pagerfanta-bundle": {
+        "version": "v4.2.1"
+    },
     "composer/pcre": {
         "version": "3.0.0"
     },
