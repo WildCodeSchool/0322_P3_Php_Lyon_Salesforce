@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Idea;
-// use App\Repository\MembershipRepository;
 use App\Service\SlackService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,6 +37,8 @@ class SlackController extends AbstractController
         $authorSlack = $user->getSlackId();
         $supporters = $idea->getSupporters();
         $ideaId = $idea->getId();
+        $totalSupporters = $ideaRepository->countSupporters($ideaId);
+
         $slackArray = $ideaRepository->getSupportersSlackId($ideaId);
 
         $slackIds = $slackService->slackIdsHandler($slackArray, $authorSlack);
@@ -70,8 +71,8 @@ class SlackController extends AbstractController
 
         return $this->render('idea/show.html.twig', [
             'idea' => $idea,
-            'totalSupporters' => $ideaRepository->countSupporters($ideaId),
+            'totalSupporters' => $totalSupporters,
             'isMember' => $isMember,
-        ]);// Show the flash message to the 'idea/show.html.twig' template
+        ]);
     }
 }
