@@ -1,0 +1,11 @@
+
+<h1>Dear {{ newUser.firstName }} {{ newUser.lastName }}</h1>
+<h2>Soon you will be able to access your futur favorite ideation platform!</h2>         
+<p>Here are your login details, please note you will be required to pick a new password upon first login.</p>
+<ul>
+    <li>Email: {{ newUser.email }}</li>
+    <li>Password: {{ password }}</li>
+</ul>
+<p>Kind regards!</p>
+<p>Admin Team</p>
+<img src="{{ email.image('@images/logoEmail.png') }}" alt="Logo">
