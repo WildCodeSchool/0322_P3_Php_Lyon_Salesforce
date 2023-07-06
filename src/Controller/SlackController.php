@@ -27,7 +27,6 @@ class SlackController extends AbstractController
     public function createChannel(
         SlackService $slackService,
         IdeaRepository $ideaRepository,
-        Idea $title,
         SluggerInterface $slugger,
         Idea $idea,
     ): Response {
@@ -42,7 +41,7 @@ class SlackController extends AbstractController
         $slackArray = $ideaRepository->getSupportersSlackId($ideaId);
 
         $slackIds = $slackService->slackIdsHandler($slackArray, $authorSlack);
-        $channelName = $title->getTitle(); // Set the channel name based on idea name
+        $channelName = $idea->getTitle(); // Set the channel name based on idea name
 
         $slug = $slugger->slug($channelName, '_'); // Apply the slugger to the channel name
         $slug = strtolower($slug);
