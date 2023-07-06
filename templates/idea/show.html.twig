@@ -29,9 +29,9 @@ block javascripts %}
                             <h6>
                                 Publier le {{ idea.publicationDate|date("d/m/Y") }}
                             </h6>
-                            {# <h6>nombre d'adhésion : {{numberOfMembership}} </h6> #}
+                            <h6>nombre d'adhésion : {{totalSupporters}} </h6>
                             {% if isMember is same as true %}
-                            <h6 class="text-success"> Vous adhérer déja à cette idée</h6>
+                            <h6 class="text-success"> Vous adhérez déja à cette idée</h6>
                             {% endif %}
                         </div>
                     </div>
@@ -58,7 +58,7 @@ block javascripts %}
                                         <div class="mb-3 form-check">
                                             <label class="form-check-label" for="membership">Je souhaite adhérer à
                                                 cette
-                                                idée et rejoindre sont canal lorsqu'il sera crée</label>
+                                                idée et rejoindre son canal lorsqu'il sera créé</label>
                                             <input type="checkbox" class="form-check-input" id="membership"
                                                 name="membership">
                                             <input type="hidden" name="_csrf_token"
@@ -91,7 +91,7 @@ block javascripts %}
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <p>Êtes vous sur de vouloir supprimer cette idée ?</p>
+                                    <p>Êtes-vous sûr de vouloir supprimer cette idée ?</p>
                                 </div>
                                 <div class="modal-footer d-flex justify-content-between">
                                     <button type="button" class="btn btn-primary text-white"

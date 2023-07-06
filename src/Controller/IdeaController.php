@@ -5,9 +5,7 @@ namespace App\Controller;
 use App\Entity\Idea;
 use App\Entity\User;
 use App\Form\IdeaType;
-// use App\Repository\MembershipRepository;
 use App\Repository\IdeaRepository;
-use App\Service\BecomeIdeaMember;
 use App\Service\IdeaFormHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -113,33 +111,32 @@ class IdeaController extends AbstractController
         Idea $idea,
         Request $request,
         IdeaRepository $ideaRepository,
-        // MembershipRepository $membershipRepository,
-        // BecomeIdeaMember $becomeIdeaMember
     ): Response {
         /** @var User $user */
         $user = $this->getUser();
+        $supporters = $idea->getSupporters();
+        $ideaId = $idea->getId();
 
-
-           $isMember = $ideaRepository->isSupporter($idea->getId(), $user->getId());
-        if ($isMember = 0) {
-            $isMember = false;
-        } else {
+        if ($supporters->contains($user)) {
             $isMember = true;
+        } else {
+            $isMember = false;
         }
 
-        // if (
-        //     $request->get('membership')
-        //     && $isMember === false
-        //     && $user->getId() !== $idea->getAuthor()->getId()
-        // ) {
-        //     $becomeIdeaMember->becomeIdeaMember($user, $idea);
-        //     $this->addFlash('success', 'vous avez bien adhérer à cette idée');
-        //     return $this->redirectToRoute('idea_show', ['id' => $idea->getId()]);
-        // }
+        if (
+            $request->get('membership')
+            && $isMember === false
+            && $user->getId() !== $idea->getAuthor()->getId()
+        ) {
+            $idea->addSupporter($user);
+            $ideaRepository->save($idea, true);
+            $this->addFlash('success', 'Vous avez bien adhéré à cette idée');
+            return $this->redirectToRoute('idea_show', ['id' => $idea->getId()]);
+        }
 
         return $this->render('idea/show.html.twig', [
             'idea' => $idea,
-           // 'numberOfMembership' => $membershipRepository->getNumberOfMembership($idea->getId()),
+            'totalSupporters' => $ideaRepository->countSupporters($ideaId),
             'isMember' => $isMember,
         ]);
     }
