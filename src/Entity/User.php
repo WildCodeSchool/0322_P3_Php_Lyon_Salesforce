@@ -48,9 +48,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Idea::class)]
     private Collection $ideas;
 
-    #[ORM\OneToMany(mappedBy: 'member', targetEntity: Membership::class)]
-    private Collection $memberships;
-
     #[ORM\Column(length: 255)]
     private ?string $contactNumber = null;
 
@@ -60,10 +57,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $slackId = null;
 
+    #[ORM\ManyToMany(targetEntity: idea::class, inversedBy: 'supporters')]
+    private Collection $supportingIdeas;
+
     public function __construct()
     {
         $this->ideas = new ArrayCollection();
-        $this->memberships = new ArrayCollection();
+        $this->supportingIdeas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -225,36 +225,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Membership>
-     */
-    public function getMemberships(): Collection
-    {
-        return $this->memberships;
-    }
-
-    public function addMembership(Membership $membership): static
-    {
-        if (!$this->memberships->contains($membership)) {
-            $this->memberships->add($membership);
-            $membership->setMember($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMembership(Membership $membership): static
-    {
-        if ($this->memberships->removeElement($membership)) {
-            // set the owning side to null (unless already changed)
-            if ($membership->getMember() === $this) {
-                $membership->setMember(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getContactNumber(): ?string
     {
         return $this->contactNumber;
@@ -287,6 +257,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSlackId(?string $slackId): static
     {
         $this->slackId = $slackId;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, idea>
+     */
+    public function getSupportingIdeas(): Collection
+    {
+        return $this->supportingIdeas;
+    }
+
+    public function addSupportingIdea(idea $supportingIdea): static
+    {
+        if (!$this->supportingIdeas->contains($supportingIdea)) {
+            $this->supportingIdeas->add($supportingIdea);
+        }
+
+        return $this;
+    }
+
+    public function removeSupportingIdea(idea $supportingIdea): static
+    {
+        $this->supportingIdeas->removeElement($supportingIdea);
+
         return $this;
     }
 }

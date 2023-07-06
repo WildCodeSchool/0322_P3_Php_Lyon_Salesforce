@@ -29,7 +29,7 @@ block javascripts %}
                             <h6>
                                 Publier le {{ idea.publicationDate|date("d/m/Y") }}
                             </h6>
-                            <h6>nombre d'adhésion : {{numberOfMembership}} </h6>
+                            {# <h6>nombre d'adhésion : {{numberOfMembership}} </h6> #}
                             {% if isMember is same as true %}
                             <h6 class="text-success"> Vous adhérer déja à cette idée</h6>
                             {% endif %}

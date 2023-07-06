@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Idea;
 use App\Entity\User;
 use App\Form\IdeaType;
-use App\Repository\MembershipRepository;
+// use App\Repository\MembershipRepository;
 use App\Repository\IdeaRepository;
 use App\Service\BecomeIdeaMember;
 use App\Service\IdeaFormHandler;
@@ -112,33 +112,34 @@ class IdeaController extends AbstractController
     public function show(
         Idea $idea,
         Request $request,
-        MembershipRepository $membershipRepository,
-        BecomeIdeaMember $becomeIdeaMember
+        IdeaRepository $ideaRepository,
+        // MembershipRepository $membershipRepository,
+        // BecomeIdeaMember $becomeIdeaMember
     ): Response {
         /** @var User $user */
         $user = $this->getUser();
 
-        if (
-            !empty($membershipRepository->getIfUserIsIdeaMember($idea->getId(), $user->getId()))
-        ) {
-            $isMember = true;
-        } else {
+
+           $isMember = $ideaRepository->isSupporter($idea->getId(), $user->getId());
+        if ($isMember = 0) {
             $isMember = false;
+        } else {
+            $isMember = true;
         }
 
-        if (
-            $request->get('membership')
-            && $isMember === false
-            && $user->getId() !== $idea->getAuthor()->getId()
-        ) {
-            $becomeIdeaMember->becomeIdeaMember($user, $idea);
-            $this->addFlash('success', 'vous avez bien adhérer à cette idée');
-            return $this->redirectToRoute('idea_show', ['id' => $idea->getId()]);
-        }
+        // if (
+        //     $request->get('membership')
+        //     && $isMember === false
+        //     && $user->getId() !== $idea->getAuthor()->getId()
+        // ) {
+        //     $becomeIdeaMember->becomeIdeaMember($user, $idea);
+        //     $this->addFlash('success', 'vous avez bien adhérer à cette idée');
+        //     return $this->redirectToRoute('idea_show', ['id' => $idea->getId()]);
+        // }
 
         return $this->render('idea/show.html.twig', [
             'idea' => $idea,
-            'numberOfMembership' => $membershipRepository->getNumberOfMembership($idea->getId()),
+           // 'numberOfMembership' => $membershipRepository->getNumberOfMembership($idea->getId()),
             'isMember' => $isMember,
         ]);
     }

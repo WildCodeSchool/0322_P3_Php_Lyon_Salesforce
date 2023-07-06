@@ -48,7 +48,7 @@ class SlackService
 
     public function inviteUsers(string $channelId): Response
     {
-        $slackId = 'U05F47PANKY, U05FAV754LT, U05E6QELLJ2';
+        $slackId = 'U05F47PANKY, U05FAV754LT, U05E6QELLJ2, U05FC162V51';
 
         $slackInviteUsers = new SlackInviteUsers();
 

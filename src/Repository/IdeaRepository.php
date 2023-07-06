@@ -104,13 +104,26 @@ class IdeaRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function getUserIdeaMembership(int $userId): array
+    // public function getUserIdeaMembership(int $userId): array
+    // {
+    //     return $this->createQueryBuilder('i')
+    //         ->select('i')
+    //         ->innerJoin('i.memberships', 'a')
+    //         ->where('a.member = ' . $userId)
+    //         ->orderBy('i.publicationDate', 'DESC')
+    //         ->getQuery()
+    //         ->getResult();
+    // }
+
+    public function isSupporter(int $user, int $idea): int
     {
         return $this->createQueryBuilder('i')
-            ->select('i')
-            ->innerJoin('i.memberships', 'a')
-            ->where('a.member = ' . $userId)
-            ->orderBy('i.publicationDate', 'DESC')
+            ->select('COUNT(u.id')
+            ->join('u.supportingIdeas', 'i')
+            ->where('u.id = :user')
+            ->andWhere('i.id = :idea')
+            ->setParameter('user', $user)
+            ->setParameter('idea', $idea)
             ->getQuery()
             ->getResult();
     }
