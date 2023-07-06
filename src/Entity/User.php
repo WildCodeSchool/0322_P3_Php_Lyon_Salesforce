@@ -57,7 +57,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $slackId = null;
 
-    #[ORM\ManyToMany(targetEntity: idea::class, inversedBy: 'supporters')]
+    #[ORM\ManyToMany(targetEntity: Idea::class, inversedBy: 'supporters')]
     private Collection $supportingIdeas;
 
     public function __construct()
@@ -261,14 +261,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, idea>
+     * @return Collection<int, Idea>
      */
     public function getSupportingIdeas(): Collection
     {
         return $this->supportingIdeas;
     }
 
-    public function addSupportingIdea(idea $supportingIdea): static
+    public function addSupportingIdea(Idea $supportingIdea): static
     {
         if (!$this->supportingIdeas->contains($supportingIdea)) {
             $this->supportingIdeas->add($supportingIdea);
@@ -277,7 +277,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeSupportingIdea(idea $supportingIdea): static
+    public function removeSupportingIdea(Idea $supportingIdea): static
     {
         $this->supportingIdeas->removeElement($supportingIdea);
 
