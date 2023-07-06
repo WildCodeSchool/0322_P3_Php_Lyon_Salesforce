@@ -115,6 +115,24 @@ class IdeaRepository extends ServiceEntityRepository
             $result = $query->getQuery()->getSingleScalarResult();
             return $result;
     }
+
+    public function getSupportersSlackId(int $ideaId): array
+    {
+        return $this->createQueryBuilder('i')
+            ->select('u.slackId')
+            ->leftJoin('i.supporters', 'u')
+            ->where('i.id = :ideaId')
+            ->setParameter('ideaId', $ideaId)
+            ->getQuery()
+            ->getResult();
+
+            // $flatArray = array_map('current', $result);
+            // //$slackIds = array_column($result, 'slack_id');
+
+            // $slackIds = implode(', ', $flatArray);
+            // dd($result);
+            // return $slackIds;
+    }
 }
 
     //    /**

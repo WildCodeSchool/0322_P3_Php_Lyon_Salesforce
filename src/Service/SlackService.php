@@ -46,13 +46,13 @@ class SlackService
         return $content; // Return the response content as an array
     }
 
-    public function inviteUsers(string $channelId): Response
+    public function inviteUsers(string $channelId, string $slackIds): Response
     {
-        $slackId = 'U05F47PANKY, U05FAV754LT, U05E6QELLJ2, U05FC162V51';
+        //$slackId = 'U05F47PANKY, U05FAV754LT, U05E6QELLJ2, U05FC162V51';
 
         $slackInviteUsers = new SlackInviteUsers();
 
-        $response = $slackInviteUsers->inviteUsersToChannel($channelId, $slackId);
+        $response = $slackInviteUsers->inviteUsersToChannel($channelId, $slackIds);
         // Call the inviteUsersToChannel method of SlackServiceInviteUsers
 
         if ($response['ok']) {
@@ -63,5 +63,15 @@ class SlackService
         }
 
         return new Response($message);
+    }
+
+    public function slackIdsHandler(array $slackArray, string $authorSlack): string
+    {
+        $newArray = array_map('current', $slackArray);
+        $slackIds = implode(', ', $newArray);
+
+        $slackIds = $slackIds . ', ' . $authorSlack;
+        //dd($slackIds);
+        return $slackIds;
     }
 }

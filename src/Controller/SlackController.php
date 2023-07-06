@@ -31,8 +31,21 @@ class SlackController extends AbstractController
         Idea $title,
         SluggerInterface $slugger,
         Idea $idea,
-        // MembershipRepository $membershipRepository
     ): Response {
+
+                /** @var User $user */
+                $user = $this->getUser();
+                $authorSlack = $user->getSlackId();
+                $supporters = $idea->getSupporters();
+                $ideaId = $idea->getId();
+
+
+        $slackArray = $ideaRepository->getSupportersSlackId($ideaId);
+//dd($slackArray);
+
+        $slackIds = $slackService->slackIdsHandler($slackArray, $authorSlack);
+
+
         $channelName = $title->getTitle(); // Set the channel name based on idea name
 
         $slug = $slugger->slug($channelName, '_'); // Apply the slugger to the channel name
@@ -43,7 +56,7 @@ class SlackController extends AbstractController
         if ($channel['ok']) {
             $channelId = $channel['channel']['id']; // Extract the channel ID from the response
 
-            $slackService->inviteUsers($channelId);
+            $slackService->inviteUsers($channelId, $slackIds);
             $this->addFlash('success', "Nouveau canal Slack créé : {$channelName} (ID: {$channelId}).");
             // Create a success message with the channel name and ID
         } else {
@@ -52,10 +65,7 @@ class SlackController extends AbstractController
             // Create an error message with the error's name
         }
 
-        /** @var User $user */
-        $user = $this->getUser();
-        $supporters = $idea->getSupporters();
-        $ideaId = $idea->getId();
+
 
         if ($supporters->contains($user)) {
             $isMember = true;
