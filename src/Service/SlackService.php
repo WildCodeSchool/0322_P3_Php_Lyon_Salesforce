@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\Entity\Idea;
 use RuntimeException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,7 +47,6 @@ class SlackService
 
     public function inviteUsers(string $channelId, string $slackIds): Response
     {
-        //$slackId = 'U05F47PANKY, U05FAV754LT, U05E6QELLJ2, U05FC162V51';
 
         $slackInviteUsers = new SlackInviteUsers();
 
@@ -69,9 +67,8 @@ class SlackService
     {
         $newArray = array_map('current', $slackArray);
         $slackIds = implode(', ', $newArray);
-
         $slackIds = $slackIds . ', ' . $authorSlack;
-        //dd($slackIds);
+
         return $slackIds;
     }
 }

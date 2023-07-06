@@ -33,19 +33,14 @@ class SlackController extends AbstractController
         Idea $idea,
     ): Response {
 
-                /** @var User $user */
-                $user = $this->getUser();
-                $authorSlack = $user->getSlackId();
-                $supporters = $idea->getSupporters();
-                $ideaId = $idea->getId();
-
-
+        /** @var User $user */
+        $user = $this->getUser();
+        $authorSlack = $user->getSlackId();
+        $supporters = $idea->getSupporters();
+        $ideaId = $idea->getId();
         $slackArray = $ideaRepository->getSupportersSlackId($ideaId);
-//dd($slackArray);
 
         $slackIds = $slackService->slackIdsHandler($slackArray, $authorSlack);
-
-
         $channelName = $title->getTitle(); // Set the channel name based on idea name
 
         $slug = $slugger->slug($channelName, '_'); // Apply the slugger to the channel name
