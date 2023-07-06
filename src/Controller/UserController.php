@@ -42,7 +42,6 @@ class UserController extends AbstractController
         }
 
         $supportingIdeas = $user->getSupportingIdeas();
-        //$membershipIdea = $ideaRepository->getUserIdeaMembership($userId);
 
         return $this->render('user/profil.html.twig', [
             'user' => $user,
