@@ -23,6 +23,9 @@
     "amphp/sync": {
         "version": "v1.4.2"
     },
+    "babdev/pagerfanta-bundle": {
+        "version": "v4.2.1"
+    },
     "composer/pcre": {
         "version": "3.0.0"
     },
@@ -118,9 +121,6 @@
     },
     "doctrine/sql-formatter": {
         "version": "1.1.2"
-    },
-    "egulias/email-validator": {
-        "version": "3.1.2"
     },
     "friendsofsymfony/ckeditor-bundle": {
         "version": "2.4",
@@ -441,15 +441,15 @@
         "version": "v6.0.5"
     },
     "symfony/mailer": {
-        "version": "6.0",
+        "version": "6.2",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
+            "branch": "main",
             "version": "4.3",
-            "ref": "97a61eabb351d7f6cb7702039bcfe07fe9d7e03c"
+            "ref": "2bf89438209656b85b9a49238c4467bff1b1f939"
         },
         "files": [
-            "config/packages/mailer.yaml"
+            "./config/packages/mailer.yaml"
         ]
     },
     "symfony/maker-bundle": {
@@ -628,6 +628,9 @@
             "config/packages/twig.yaml",
             "templates/base.html.twig"
         ]
+    },
+    "symfony/ux-swup": {
+        "version": "v2.9.1"
     },
     "symfony/validator": {
         "version": "6.0",
