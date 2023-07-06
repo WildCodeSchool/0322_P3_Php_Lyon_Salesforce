@@ -4,8 +4,10 @@ namespace App\Service;
 
 use RuntimeException;
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
+use App\Service\SlackInviteUsers;
 
 class SlackService
 {
@@ -19,7 +21,7 @@ class SlackService
             'base_uri' => 'https://slack.com/api/conversations.create', // Set the base URI for the HTTP client
             'headers' => [
                 'Authorization' => 'Bearer ' . $this->token, // Set the authorization header with the OAuth token
-                'Content-type' => 'application/json', // Set the content type header to JSON
+                'Content-Type' => 'application/json', // Set the content type header to JSON
             ],
         ]);
         $response = $this->client->request('POST', 'conversations.create', [
@@ -40,7 +42,33 @@ class SlackService
             throw new RuntimeException('Failed to create channel: ' . $content['error']);
             // If the status code is not 200 or the 'ok' property is false, throw an exception with the error message
         }
-
         return $content; // Return the response content as an array
+    }
+
+    public function inviteUsers(string $channelId, string $slackIds): Response
+    {
+
+        $slackInviteUsers = new SlackInviteUsers();
+
+        $response = $slackInviteUsers->inviteUsersToChannel($channelId, $slackIds);
+        // Call the inviteUsersToChannel method of SlackServiceInviteUsers
+
+        if ($response['ok']) {
+            $message = 'Les utilisateurs ont bien été invités sur le canal slack.'; // Success message created
+        } else {
+            $message = "Les utilisateurs n\'ont pas été invités sur le canal: {$response['error']}.";
+            // Create an error message with the error details
+        }
+
+        return new Response($message);
+    }
+
+    public function slackIdsHandler(array $slackArray, string $authorSlack): string
+    {
+        $newArray = array_map('current', $slackArray);
+        $slackIds = implode(', ', $newArray);
+        $slackIds = $slackIds . ', ' . $authorSlack;
+
+        return $slackIds;
     }
 }

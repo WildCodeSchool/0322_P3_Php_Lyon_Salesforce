@@ -5,9 +5,7 @@ namespace App\Controller;
 use App\Entity\Idea;
 use App\Entity\User;
 use App\Form\IdeaType;
-use App\Repository\MembershipRepository;
 use App\Repository\IdeaRepository;
-use App\Service\BecomeIdeaMember;
 use App\Service\IdeaFormHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -125,15 +123,15 @@ class IdeaController extends AbstractController
     public function show(
         Idea $idea,
         Request $request,
-        MembershipRepository $membershipRepository,
-        BecomeIdeaMember $becomeIdeaMember
+        IdeaRepository $ideaRepository,
     ): Response {
         /** @var User $user */
         $user = $this->getUser();
+        $supporters = $idea->getSupporters();
+        $ideaId = $idea->getId();
+        $totalSupporters = $ideaRepository->countSupporters($ideaId);
 
-        if (
-            !empty($membershipRepository->getIfUserIsIdeaMember($idea->getId(), $user->getId()))
-        ) {
+        if ($supporters->contains($user)) {
             $isMember = true;
         } else {
             $isMember = false;
@@ -144,14 +142,15 @@ class IdeaController extends AbstractController
             && $isMember === false
             && $user->getId() !== $idea->getAuthor()->getId()
         ) {
-            $becomeIdeaMember->becomeIdeaMember($user, $idea);
-            $this->addFlash('success', 'vous avez bien adhérer à cette idée');
+            $idea->addSupporter($user);
+            $ideaRepository->save($idea, true);
+            $this->addFlash('success', 'Vous avez bien adhéré à cette idée');
             return $this->redirectToRoute('idea_show', ['id' => $idea->getId()]);
         }
 
         return $this->render('idea/show.html.twig', [
             'idea' => $idea,
-            'numberOfMembership' => $membershipRepository->getNumberOfMembership($idea->getId()),
+            'totalSupporters' => $totalSupporters,
             'isMember' => $isMember,
         ]);
     }

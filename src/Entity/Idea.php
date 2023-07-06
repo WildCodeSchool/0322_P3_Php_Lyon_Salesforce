@@ -51,21 +51,17 @@ class Idea
     private ?\DateTimeImmutable $publicationDate = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank(message: 'Pendez à développer votre idée!')]
+    #[Assert\NotBlank(message: 'Pensez à développer votre idée!')]
     private ?string $content = null;
 
     #[ORM\Column]
     private ?bool $archived = null;
-
-    #[ORM\OneToMany(mappedBy: 'concept', targetEntity: Membership::class)]
-    private Collection $memberships;
-
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'supportingIdeas')]
+    private Collection $supporters;
     public function __construct()
     {
-        $this->memberships = new ArrayCollection();
+        $this->supporters = new ArrayCollection();
     }
-
-
 
     public function getId(): ?int
     {
@@ -143,30 +139,27 @@ class Idea
     }
 
     /**
-     * @return Collection<int, Membership>
+     * @return Collection<int, User>
      */
-    public function getMemberships(): Collection
+    public function getSupporters(): Collection
     {
-        return $this->memberships;
+        return $this->supporters;
     }
 
-    public function addMembership(Membership $membership): static
+    public function addSupporter(User $supporter): static
     {
-        if (!$this->memberships->contains($membership)) {
-            $this->memberships->add($membership);
-            $membership->setConcept($this);
+        if (!$this->supporters->contains($supporter)) {
+            $this->supporters->add($supporter);
+            $supporter->addSupportingIdea($this);
         }
 
         return $this;
     }
 
-    public function removeMembership(Membership $membership): static
+    public function removeSupporter(User $supporter): static
     {
-        if ($this->memberships->removeElement($membership)) {
-            // set the owning side to null (unless already changed)
-            if ($membership->getConcept() === $this) {
-                $membership->setConcept(null);
-            }
+        if ($this->supporters->removeElement($supporter)) {
+            $supporter->removeSupportingIdea($this);
         }
 
         return $this;
