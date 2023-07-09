@@ -25,9 +25,9 @@ class IdeaFormHandler extends AbstractController
         $idea->setArchived(false);
         $idea->setAuthor($user);
 
-         return [
+        return [
         'form' => $form,
         'idea' => $idea
-         ];
+        ];
     }
 }
