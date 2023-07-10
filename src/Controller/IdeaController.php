@@ -131,7 +131,7 @@ class IdeaController extends AbstractController
         $ideaId = $idea->getId();
 
         $totalSupporters = $ideaRepository->countSupporters($ideaId);
-        $daysRemaining = $idea->getRemainingDays($idea);
+        $daysRemaining = $idea->getRemainingDays();
 
 
         if ($supporters->contains($user)) {

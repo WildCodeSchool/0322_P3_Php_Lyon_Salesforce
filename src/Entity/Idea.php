@@ -182,9 +182,9 @@ class Idea
         return $this;
     }
 
-    public function getRemainingDays(Idea $idea): int
+    public function getRemainingDays(): int
     {
-        $endDate = $idea->getEndDate();
+        $endDate = $this->getEndDate();
         $today = new DateTimeImmutable();
         $interval = $today->diff($endDate);
         $daysRemaining = $interval->days;
