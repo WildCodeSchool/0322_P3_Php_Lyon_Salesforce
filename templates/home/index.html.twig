@@ -10,9 +10,13 @@
         </h1>
     </div>
     <div class="container my-5">
+        <div>
+            <a href="{{ path('idea_sorting') }}" class="btn btn-primary mb-5">Ordre Chronologique</a>
+        </div>
         <h3>
             Nouvelles idées
         </h3>
+    
         <hr class="border-2 border-secondary opacity-50">
         <div class="row row-cols-1 row-cols-md-2 justify-content-center row-cols-xl-3 g-2 mx-2">
             {% for idea in ideas %}

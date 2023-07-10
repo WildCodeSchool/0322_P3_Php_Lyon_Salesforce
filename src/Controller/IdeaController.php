@@ -155,52 +155,18 @@ class IdeaController extends AbstractController
         ]);
     }
 
-    public function ideaSorting(IdeaRepository $ideaRepository, Request $request, int $page = 1): Response
+    #[Route('/show/sorted', name: '_sorting')]
+    public function sortIdea(IdeaRepository $ideaRepository): Response
     {
-        $sortBy = $request->query->get('sort');
+        $ideas = $ideaRepository->findAll();
 
-        if ($sortBy === 'Popularity') {
-            $ideas = Pagerfanta::createForCurrentPageWithMaxPerPage(
-                new ArrayAdapter($ideaRepository->findBy(
-                    ['archived' => true]
-                )),
-                $page,
-                6
-            );
-        } elseif ($sortBy === 'DateAscending') {
-            $ideas = Pagerfanta::createForCurrentPageWithMaxPerPage(
-                new ArrayAdapter($ideaRepository->findBy(
-                    ['archived' => false],
-                    ['publicationDate' => 'ASC']
-                )),
-                $page,
-                6
-            );
-        } else {
-            $ideas = Pagerfanta::createForCurrentPageWithMaxPerPage(
-                new ArrayAdapter($ideaRepository->findBy(
-                    ['archived' => false],
-                    ['publicationDate' => 'DESC']
-                )),
-                $page,
-                6
-            );
-        }
-
-        // Create a pagination view
-        $paginatorView = new TwitterBootstrap5View();
-        // Create pagination links
-        $paginationHtml = $paginatorView->render($ideas, function ($page) use ($request) {
-            $queryParams = $request->query->all();
-
-            $queryParams['page'] = $page;
-
-            return $this->generateUrl('route_name', $queryParams);
+    // Sort ideas DESC date
+        usort($ideas, function ($firstIdea, $secondIdea) {
+            return $secondIdea->getPublicationDate() <=> $firstIdea->getPublicationDate();
         });
 
-        return $this->render('user/profil.html.twig', [
-            'ideas' => $ideas,
-            'paginationHtml' => $paginationHtml,
+        return $this->render('home/sorted.html.twig', [
+        'ideas' => $ideas
         ]);
     }
 }
