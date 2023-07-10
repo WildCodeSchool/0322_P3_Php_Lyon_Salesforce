@@ -155,28 +155,6 @@ class IdeaController extends AbstractController
         ]);
     }
 
-    // #[Route('/show/sorted/desc', name: '_sorting_desc')]
-    // public function sortIdeaDesc(IdeaRepository $ideaRepository): Response
-    // {
-    //     // Sort ideas DESC date
-    //     $ideas = $ideaRepository->findBy([], ['publicationDate' => 'DESC']);
-
-    //     return $this->render('home/sorted.html.twig', [
-    //     'ideas' => $ideas
-    //     ]);
-    // }
-
-    // #[Route('/show/sorted/asc', name: '_sorting_asc')]
-    // public function sortIdeaAsc(IdeaRepository $ideaRepository): Response
-    // {
-    //     // Sort ideas ASC date
-    //     $ideas = $ideaRepository->findBy([], ['publicationDate' => 'ASC']);
-
-    //     return $this->render('home/sorted.html.twig', [
-    //     'ideas' => $ideas
-    //     ]);
-    // }
-
     #[Route('/show/sorted/{order}/{page<\d+>}', name: '_sorting')]
     public function sortIdea(IdeaRepository $ideaRepository, string $order, int $page = 1): Response
     {
