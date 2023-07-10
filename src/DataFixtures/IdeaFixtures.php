@@ -24,6 +24,9 @@ class IdeaFixtures extends Fixture implements DependentFixtureInterface
 
 
         for ($j = 1; $j <= 10; $j++) {
+            $publicationDate = new DateTimeImmutable($faker->date());
+            $endDate = $publicationDate->modify('+31 days');
+
             $dummyIdea = new Idea();
             $dummyIdea->setTitle($faker->sentence());
             $dummyIdea->setContent($faker->paragraphs(5, true));
@@ -34,7 +37,8 @@ class IdeaFixtures extends Fixture implements DependentFixtureInterface
             }
 
             $dummyIdea->setArchived(false);
-            $dummyIdea->setPublicationDate(new DateTimeImmutable($faker->date()));
+            $dummyIdea->setPublicationDate($publicationDate);
+            $dummyIdea->setEndDate($endDate);
             $dummyIdea->setAuthor($this->getReference('contributor@sf.com'));
 
 
@@ -43,6 +47,9 @@ class IdeaFixtures extends Fixture implements DependentFixtureInterface
 
         foreach (OfficeFixtures::OFFICES as $officeLocation) {
             for ($i = 1; $i <= 10; $i++) {
+                $publicationDate = new DateTimeImmutable($faker->date());
+                $endDate = $publicationDate->modify('+31 days');
+
                 $idea = new Idea();
                 $idea->setTitle($faker->sentence());
                 $idea->setContent($faker->paragraphs(5, true));
@@ -52,7 +59,8 @@ class IdeaFixtures extends Fixture implements DependentFixtureInterface
                     $idea->setPerimeter($perimeter);
                 }
                 $idea->setArchived(false);
-                $idea->setPublicationDate(new DateTimeImmutable($faker->date()));
+                $idea->setPublicationDate($publicationDate);
+                $idea->setEndDate($endDate);
                 $idea->setAuthor($this->getReference('user_' . $faker->numberBetween(1, 10) . '_' . $officeLocation));
 
 
