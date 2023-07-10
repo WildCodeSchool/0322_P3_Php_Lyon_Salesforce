@@ -35,9 +35,7 @@ class SlackController extends AbstractController
         $authorSlack = $user->getSlackId();
         $ideaId = $idea->getId();
         $totalSupporters = $ideaRepository->countSupporters($ideaId);
-
         if ($slackService->isChannelCreatable($totalSupporters, $idea)) {
-
             $slackArray = $ideaRepository->getSupportersSlackId($ideaId);
 
             $slackIds = $slackService->slackIdsHandler($slackArray, $authorSlack);

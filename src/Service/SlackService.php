@@ -20,14 +20,14 @@ class SlackService
         $perimeter = $idea->getPerimeter();
 
         if ($perimeter === 'Service') {
-            $numberOfSupporterNeeded = 3;
+            $supporterNeeded = 3;
         } elseif ($perimeter === 'Agence') {
-            $numberOfSupporterNeeded = 8;
+            $supporterNeeded = 8;
         } else {
-            $numberOfSupporterNeeded = 15;
+            $supporterNeeded = 15;
         }
 
-        if ($totalSupporter >= $numberOfSupporterNeeded) {
+        if ($totalSupporter >= $supporterNeeded) {
             return true;
         } else {
             return false;
