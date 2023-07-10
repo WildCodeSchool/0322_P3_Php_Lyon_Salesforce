@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Idea;
 use RuntimeException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,6 +14,25 @@ class SlackService
 {
     public string $token;
     public HttpClientInterface $client;
+
+    public function isChannelCreatable(int $totalSupporter, Idea $idea): bool
+    {
+        $perimeter = $idea->getPerimeter();
+
+        if ($perimeter === 'Service') {
+            $numberOfSupporterNeeded = 3;
+        } elseif ($perimeter === 'Agence') {
+            $numberOfSupporterNeeded = 8;
+        } else {
+            $numberOfSupporterNeeded = 15;
+        }
+
+        if ($totalSupporter >= $numberOfSupporterNeeded) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public function createChannel(string $channelName): array
     {

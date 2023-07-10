@@ -30,48 +30,36 @@ class SlackController extends AbstractController
         SluggerInterface $slugger,
         Idea $idea,
     ): Response {
-
         /** @var User $user */
         $user = $this->getUser();
         $authorSlack = $user->getSlackId();
-        $supporters = $idea->getSupporters();
         $ideaId = $idea->getId();
         $totalSupporters = $ideaRepository->countSupporters($ideaId);
 
-        $slackArray = $ideaRepository->getSupportersSlackId($ideaId);
+        if ($slackService->isChannelCreatable($totalSupporters, $idea)) {
 
-        $slackIds = $slackService->slackIdsHandler($slackArray, $authorSlack);
-        $channelName = $idea->getTitle(); // Set the channel name based on idea name
+            $slackArray = $ideaRepository->getSupportersSlackId($ideaId);
 
-        $slug = $slugger->slug($channelName, '_'); // Apply the slugger to the channel name
-        $slug = strtolower($slug);
-        $channel = $slackService->createChannel($slug);
-        // Call the createChannel method of SlackService with the specified channel name with slug
+            $slackIds = $slackService->slackIdsHandler($slackArray, $authorSlack);
+            $channelName = $idea->getTitle(); // Set the channel name based on idea name
 
-        if ($channel['ok']) {
-            $channelId = $channel['channel']['id']; // Extract the channel ID from the response
+            $slug = $slugger->slug($channelName, '_'); // Apply the slugger to the channel name
+            $slug = strtolower($slug);
+            $channel = $slackService->createChannel($slug);
+            // Call the createChannel method of SlackService with the specified channel name with slug
 
-            $slackService->inviteUsers($channelId, $slackIds);
-            $this->addFlash('success', "Nouveau canal Slack créé : {$channelName} (ID: {$channelId}).");
-            // Create a success message with the channel name and ID
-        } else {
-            $error = $channel['error']; // Extract the error message from the response
-            $this->addFlash('error', "Echec de création du canal Slack : {$error}.");
-            // Create an error message with the error's name
+            if ($channel['ok']) {
+                $channelId = $channel['channel']['id']; // Extract the channel ID from the response
+
+                $slackService->inviteUsers($channelId, $slackIds);
+                $this->addFlash('success', "Nouveau canal Slack créé : {$channelName} (ID: {$channelId}).");
+                // Create a success message with the channel name and ID
+            } else {
+                $error = $channel['error']; // Extract the error message from the response
+                $this->addFlash('error', "Echec de création du canal Slack : {$error}.");
+                // Create an error message with the error's name
+            }
         }
-
-
-
-        if ($supporters->contains($user)) {
-            $isMember = true;
-        } else {
-            $isMember = false;
-        }
-
-        return $this->render('idea/show.html.twig', [
-            'idea' => $idea,
-            'totalSupporters' => $totalSupporters,
-            'isMember' => $isMember,
-        ]);
+        return $this->redirectToRoute('idea_show', ['id' => $ideaId]);
     }
 }
