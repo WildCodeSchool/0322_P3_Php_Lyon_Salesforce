@@ -34,11 +34,11 @@ block javascripts %}
                             {% endif %}
                         </div>
                     </div>
-                    <div class="progress" role="progressbar" aria-label="Animated striped example"
-                        aria-valuenow="{{totalSupporters}}" aria-valuemin="0" aria-valuemax="{{supporterNeeded}}">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated fs-6 fw-bold"
-                            style="width: {{ (totalSupporters / supporterNeeded) * 100 }}%">{{totalSupporters}} /
-                            {{supporterNeeded}}
+                    <div class="progress bg-secondary" role="progressbar" aria-valuenow="{{totalSupporters}}"
+                        aria-valuemin="0" aria-valuemax="{{idea.supporterNeeded}}">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated overflow-visible fs-6 fw-bold"
+                            style="width: {{ (totalSupporters / idea.supporterNeeded) * 100 }}%">{{totalSupporters}} /
+                            {{idea.supporterNeeded}}
                         </div>
                     </div>
 
@@ -111,7 +111,7 @@ block javascripts %}
                             </div>
                         </div>
                     </div>
-                    {% if channelIsCreatable is same as true %}
+                    {% if idea.channelIsCreatable is same as true %}
                     <div class="slack-button p-0 mt-2">
                         <a href="{{ path('create_channel', {id:idea.id}) }}"><svg class="slacksvg"
                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.8 122.8">
