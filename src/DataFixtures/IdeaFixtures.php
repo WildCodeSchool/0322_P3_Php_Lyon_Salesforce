@@ -8,7 +8,6 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
-use PHPUnit\Framework\Constraint\IsFalse;
 
 class IdeaFixtures extends Fixture implements DependentFixtureInterface
 {

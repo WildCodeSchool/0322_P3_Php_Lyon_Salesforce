@@ -35,7 +35,7 @@ class SlackController extends AbstractController
         $authorSlack = $user->getSlackId();
         $ideaId = $idea->getId();
         $totalSupporters = $ideaRepository->countSupporters($ideaId);
-        if ($slackService->isChannelCreatable($totalSupporters, $idea)) {
+        if ($idea->isChannelCreatable($totalSupporters)) {
             $slackArray = $ideaRepository->getSupportersSlackId($ideaId);
 
             $slackIds = $slackService->slackIdsHandler($slackArray, $authorSlack);
@@ -50,11 +50,17 @@ class SlackController extends AbstractController
                 $channelId = $channel['channel']['id']; // Extract the channel ID from the response
 
                 $slackService->inviteUsers($channelId, $slackIds);
+
+                $idea->setArchived(true);
+                $ideaRepository->save($idea, true);
+
                 $this->addFlash('success', "Nouveau canal Slack créé : {$channelName} (ID: {$channelId}).");
                 // Create a success message with the channel name and ID
+                return $this->redirectToRoute('app_home');
             } else {
                 $error = $channel['error']; // Extract the error message from the response
                 $this->addFlash('error', "Echec de création du canal Slack : {$error}.");
+                return $this->redirectToRoute('idea_show', ['id' => $idea->getId()]);
                 // Create an error message with the error's name
             }
         }
