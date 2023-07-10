@@ -176,4 +176,15 @@ class IdeaController extends AbstractController
         'ideas' => $ideas
         ]);
     }
+
+    #[Route('/show/sorted', name: '_sorting')]
+    public function sortIdeaBySupporters(IdeaRepository $ideaRepository): Response
+    {
+        // sort idea from their Supporters' number DESC
+        $ideas = $ideaRepository->getSupportersSortIdea();
+
+        return $this->render('home/sorted.html.twig', [
+            'ideas' => $ideas
+        ]);
+    }
 }

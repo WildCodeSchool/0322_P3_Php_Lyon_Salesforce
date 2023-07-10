@@ -125,6 +125,17 @@ class IdeaRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function getSupportersSortIdea(): array
+    {
+        return $this->createQueryBuilder('i')
+        ->select('i', 'COUNT(s.userId) as supportersCount')
+        ->leftJoin('i.supporters', 's')
+        ->groupBy('i.id')
+        ->orderBy('supportersCount', 'DESC')
+        ->getQuery()
+        ->getResult();
+    }
 }
 
     //    /**
