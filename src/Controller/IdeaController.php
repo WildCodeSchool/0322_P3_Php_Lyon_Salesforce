@@ -154,4 +154,53 @@ class IdeaController extends AbstractController
             'isMember' => $isMember,
         ]);
     }
+
+    public function ideaSorting(IdeaRepository $ideaRepository, Request $request, int $page = 1): Response
+    {
+        $sortBy = $request->query->get('sort');
+
+        if ($sortBy === 'Popularity') {
+            $ideas = Pagerfanta::createForCurrentPageWithMaxPerPage(
+                new ArrayAdapter($ideaRepository->findBy(
+                    ['archived' => true]
+                )),
+                $page,
+                6
+            );
+        } elseif ($sortBy === 'DateAscending') {
+            $ideas = Pagerfanta::createForCurrentPageWithMaxPerPage(
+                new ArrayAdapter($ideaRepository->findBy(
+                    ['archived' => false],
+                    ['publicationDate' => 'ASC']
+                )),
+                $page,
+                6
+            );
+        } else {
+            $ideas = Pagerfanta::createForCurrentPageWithMaxPerPage(
+                new ArrayAdapter($ideaRepository->findBy(
+                    ['archived' => false],
+                    ['publicationDate' => 'DESC']
+                )),
+                $page,
+                6
+            );
+        }
+
+        // Create a pagination view
+        $paginatorView = new TwitterBootstrap5View();
+        // Create pagination links
+        $paginationHtml = $paginatorView->render($ideas, function ($page) use ($request) {
+            $queryParams = $request->query->all();
+
+            $queryParams['page'] = $page;
+
+            return $this->generateUrl('route_name', $queryParams);
+        });
+
+        return $this->render('user/profil.html.twig', [
+            'ideas' => $ideas,
+            'paginationHtml' => $paginationHtml,
+        ]);
+    }
 }

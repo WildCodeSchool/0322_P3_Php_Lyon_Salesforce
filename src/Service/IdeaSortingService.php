@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service;
+// namespace App\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
+// use Doctrine\ORM\EntityManagerInterface;
 
 // class IdeaSortingService
 // {
@@ -19,11 +19,11 @@ use Doctrine\ORM\EntityManagerInterface;
 //         $queryBuilder = $repository->createQueryBuilder('i');
 
 //         if ($sortBy === 'date') {
-//             $queryBuilder->orderBy('i.publicationDate', 'DESC');
+//             $queryBuilder->orderBy('i.publicationDate', 'ASC');
 //         } elseif ($sortBy === 'popularity') {
 //             $queryBuilder->orderBy('SIZE(i.adherents)', 'DESC');
 //         } else {
-//             $queryBuilder->orderBy('i.publicationDate', 'DESC');
+//             $queryBuilder->orderBy('i.publicationDate', 'ASC');
 //         }
 
 //         $ideas = $queryBuilder->getQuery()->getResult();
