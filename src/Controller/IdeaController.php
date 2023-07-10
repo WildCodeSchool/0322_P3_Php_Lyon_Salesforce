@@ -183,14 +183,14 @@ class IdeaController extends AbstractController
         ]);
     }
 
-    // #[Route('/show/sorted', name: '_sorting_supp')]
-    // public function sortIdeaBySupporters(IdeaRepository $ideaRepository): Response
-    // {
-    //     // sort idea from their Supporters' number DESC
-    //     $ideas = $ideaRepository->getSupportersSortIdea();
+    #[Route('/show/sorted/{order}', name: '_sorting')]
+    public function sortIdeaBySupporters(IdeaRepository $ideaRepository): Response
+    {
+        // sort idea from their Supporters' number DESC
+        $ideas = $ideaRepository->getSupportersSortIdea();
 
-    //     return $this->render('home/sorted.html.twig', [
-    //         'ideas' => $ideas
-    //     ]);
-    // }
+        return $this->render('home/sorted.html.twig', [
+            'ideas' => $ideas
+        ]);
+    }
 }

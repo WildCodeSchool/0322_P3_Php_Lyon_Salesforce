@@ -14,11 +14,17 @@
             <h3>
                 Nouvelles idées 
             </h3>
-            <div> 
-                <a href="{{ path('idea_sorting', {'order': 'desc'}) }}" class="btn btn-primary">Ordre Chronologique DESC</a>
-                <a href="{{ path('idea_sorting', {'order': 'asc'}) }}" class="btn btn-primary">Ordre Chronologique ASC</a>
-                {# <a href="{{ path('idea_sorting_supp') }}" class="btn btn-primary">Nb Supporter DESC</a> #}
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="sortingDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    Trier les idées par
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="sortingDropdown">
+                    <li><a class="dropdown-item" href="{{ path('idea_sorting', {'order': 'desc'}) }}">Date récente</a></li>
+                    <li><a class="dropdown-item" href="{{ path('idea_sorting', {'order': 'asc'}) }}">Date ancienne</a></li>
+                    <li><a class="dropdown-item" href="{{ path('idea_sorting', {'order': 'supp'}) }}">Popularité</a></li>
+                </ul>
             </div>
+            
         </div>
         <hr class="border-2 border-secondary opacity-50">
         <div class="row row-cols-1 row-cols-md-2 justify-content-center row-cols-xl-3 g-2 mx-2">
