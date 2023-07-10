@@ -34,9 +34,7 @@ class SlackController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
         $authorSlack = $user->getSlackId();
-        $supporters = $idea->getSupporters();
         $ideaId = $idea->getId();
-        $totalSupporters = $ideaRepository->countSupporters($ideaId);
 
         $slackArray = $ideaRepository->getSupportersSlackId($ideaId);
 
@@ -52,26 +50,18 @@ class SlackController extends AbstractController
             $channelId = $channel['channel']['id']; // Extract the channel ID from the response
 
             $slackService->inviteUsers($channelId, $slackIds);
+
+            $idea->setArchived(true);
+            $ideaRepository->save($idea, true);
+
             $this->addFlash('success', "Nouveau canal Slack créé : {$channelName} (ID: {$channelId}).");
             // Create a success message with the channel name and ID
+            return $this->redirectToRoute('app_home');
         } else {
             $error = $channel['error']; // Extract the error message from the response
             $this->addFlash('error', "Echec de création du canal Slack : {$error}.");
+            return $this->redirectToRoute('idea_show', ['id' => $idea->getId()]);
             // Create an error message with the error's name
         }
-
-
-
-        if ($supporters->contains($user)) {
-            $isMember = true;
-        } else {
-            $isMember = false;
-        }
-
-        return $this->render('idea/show.html.twig', [
-            'idea' => $idea,
-            'totalSupporters' => $totalSupporters,
-            'isMember' => $isMember,
-        ]);
     }
 }
