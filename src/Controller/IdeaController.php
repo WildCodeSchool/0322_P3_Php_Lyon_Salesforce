@@ -148,15 +148,10 @@ class IdeaController extends AbstractController
             return $this->redirectToRoute('idea_show', ['id' => $idea->getId()]);
         }
 
-        $channelIsCreatable = $idea->isChannelCreatable($totalSupporters);
-        $supporterNeeded = $idea->supporterNeeded();
-
         return $this->render('idea/show.html.twig', [
             'idea' => $idea,
             'totalSupporters' => $totalSupporters,
             'isMember' => $isMember,
-            'channelIsCreatable' => $channelIsCreatable,
-            'supporterNeeded' => $supporterNeeded,
         ]);
     }
 }
