@@ -8,7 +8,6 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
-use PHPUnit\Framework\Constraint\IsFalse;
 
 class IdeaFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -23,7 +22,7 @@ class IdeaFixtures extends Fixture implements DependentFixtureInterface
         ];
 
 
-        for ($j = 1; $j <= 10; $j++) {
+        for ($i = 1; $i <= 10; $i++) {
             $dummyIdea = new Idea();
             $dummyIdea->setTitle($faker->sentence());
             $dummyIdea->setContent($faker->paragraphs(5, true));
@@ -37,6 +36,11 @@ class IdeaFixtures extends Fixture implements DependentFixtureInterface
             $dummyIdea->setPublicationDate(new DateTimeImmutable($faker->date()));
             $dummyIdea->setAuthor($this->getReference('contributor@sf.com'));
 
+            for ($j = 0; $j < rand(3, 10); $j++) {
+                $dummyIdea->addSupporter(
+                    $this->getReference('user_' . $faker->numberBetween(1, 10) . '_Lyon')
+                );
+            }
 
             $manager->persist($dummyIdea);
         }
@@ -55,6 +59,11 @@ class IdeaFixtures extends Fixture implements DependentFixtureInterface
                 $idea->setPublicationDate(new DateTimeImmutable($faker->date()));
                 $idea->setAuthor($this->getReference('user_' . $faker->numberBetween(1, 10) . '_' . $officeLocation));
 
+                for ($j = 0; $j < rand(3, 10); $j++) {
+                    $idea->addSupporter(
+                        $this->getReference('user_' . $faker->numberBetween(1, 10) . '_' . $officeLocation)
+                    );
+                }
 
                 $manager->persist($idea);
             }
