@@ -4,9 +4,8 @@ namespace App\Service;
 
 use App\Entity\Idea;
 use DateTimeImmutable;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class GetIdeaRemainingDays extends AbstractController
+class GetIdeaRemainingDays
 {
     public function getRemainingDays(Idea $idea): int
     {
