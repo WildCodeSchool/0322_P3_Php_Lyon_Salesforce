@@ -58,6 +58,10 @@ class Idea
     private ?bool $archived = null;
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'supportingIdeas')]
     private Collection $supporters;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $endDate = null;
+
     public function __construct()
     {
         $this->supporters = new ArrayCollection();
@@ -161,6 +165,18 @@ class Idea
         if ($this->supporters->removeElement($supporter)) {
             $supporter->removeSupportingIdea($this);
         }
+
+        return $this;
+    }
+
+    public function getEndDate(): ?\DateTimeImmutable
+    {
+        return $this->endDate;
+    }
+
+    public function setEndDate(\DateTimeImmutable $endDate): static
+    {
+        $this->endDate = $endDate;
 
         return $this;
     }

@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\IdeaType;
 use App\Repository\IdeaRepository;
 use App\Service\IdeaFormHandler;
+use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -131,6 +132,14 @@ class IdeaController extends AbstractController
         $ideaId = $idea->getId();
         $totalSupporters = $ideaRepository->countSupporters($ideaId);
 
+
+        $endDate = $idea->getEndDate();
+        $today = new DateTimeImmutable();
+        $interval = $today->diff($endDate);
+        $daysRemaining = $interval->days;
+
+      //  dd($daysRemaining);
+
         if ($supporters->contains($user)) {
             $isMember = true;
         } else {
@@ -152,6 +161,7 @@ class IdeaController extends AbstractController
             'idea' => $idea,
             'totalSupporters' => $totalSupporters,
             'isMember' => $isMember,
+            'daysRemaining' => $daysRemaining,
         ]);
     }
 }
