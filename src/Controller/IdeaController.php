@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\IdeaType;
 use App\Repository\IdeaRepository;
 use App\Service\IdeaFormHandler;
+use App\Service\IdeaSupporter;
 use App\Service\SlackService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -125,7 +126,7 @@ class IdeaController extends AbstractController
         Idea $idea,
         Request $request,
         IdeaRepository $ideaRepository,
-        SlackService $slackService
+        IdeaSupporter $ideaSupporter
     ): Response {
         /** @var User $user */
         $user = $this->getUser();
@@ -150,13 +151,15 @@ class IdeaController extends AbstractController
             return $this->redirectToRoute('idea_show', ['id' => $idea->getId()]);
         }
 
-        $channelIsCreatable = $slackService->isChannelCreatable($totalSupporters, $idea);
+        $channelIsCreatable = $ideaSupporter->isChannelCreatable($totalSupporters, $idea);
+        $supporterNeeded = $ideaSupporter->supporterNeeded($idea);
 
         return $this->render('idea/show.html.twig', [
             'idea' => $idea,
             'totalSupporters' => $totalSupporters,
             'isMember' => $isMember,
             'channelIsCreatable' => $channelIsCreatable,
+            'supporterNeeded' => $supporterNeeded,
         ]);
     }
 }
