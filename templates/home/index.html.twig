@@ -11,9 +11,9 @@
     </div>
     <div class="container my-5">
         <div>
-            <a href="{{ path('idea_sorting') }}" class="btn btn-primary mb-5">Ordre Chronologique DESC</a>
-            <a href="{{ path('idea_sorting') }}" class="btn btn-primary mb-5">Ordre Chronologique ASC</a>
-            <a href="{{ path('idea_sorting') }}" class="btn btn-primary mb-5">Nb Supporter DESC</a>
+            <a href="{{ path('idea_sorting', {'order': 'desc'}) }}" class="btn btn-primary mb-5">Ordre Chronologique DESC</a>
+            <a href="{{ path('idea_sorting', {'order': 'asc'}) }}" class="btn btn-primary mb-5">Ordre Chronologique ASC</a>
+            {# <a href="{{ path('idea_sorting_supp') }}" class="btn btn-primary mb-5">Nb Supporter DESC</a> #}
         </div>
         <h3>
             Nouvelles idées

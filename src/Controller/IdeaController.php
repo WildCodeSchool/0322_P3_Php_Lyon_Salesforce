@@ -155,36 +155,64 @@ class IdeaController extends AbstractController
         ]);
     }
 
-    #[Route('/show/sorted', name: '_sorting')]
-    public function sortIdeaDesc(IdeaRepository $ideaRepository): Response
-    {
-        // Sort ideas DESC date
-        $ideas = $ideaRepository->findBy([], ['publicationDate' => 'DESC']);
+    // #[Route('/show/sorted/desc', name: '_sorting_desc')]
+    // public function sortIdeaDesc(IdeaRepository $ideaRepository): Response
+    // {
+    //     // Sort ideas DESC date
+    //     $ideas = $ideaRepository->findBy([], ['publicationDate' => 'DESC']);
 
-        return $this->render('home/sorted.html.twig', [
-        'ideas' => $ideas
+    //     return $this->render('home/sorted.html.twig', [
+    //     'ideas' => $ideas
+    //     ]);
+    // }
+
+    // #[Route('/show/sorted/asc', name: '_sorting_asc')]
+    // public function sortIdeaAsc(IdeaRepository $ideaRepository): Response
+    // {
+    //     // Sort ideas ASC date
+    //     $ideas = $ideaRepository->findBy([], ['publicationDate' => 'ASC']);
+
+    //     return $this->render('home/sorted.html.twig', [
+    //     'ideas' => $ideas
+    //     ]);
+    // }
+
+    #[Route('/show/sorted/{order}/{page<\d+>}', name: '_sorting')]
+    public function sortIdea(IdeaRepository $ideaRepository, string $order, int $page = 1): Response
+    {
+        // Check if type of order is valid
+        if ($order !== 'asc' && $order !== 'desc') {
+            throw $this->createNotFoundException('Ordre de tri invalide.');
+        }
+
+        // Determine the sort order for the query
+        $sortOrder = ($order === 'asc') ? 'ASC' : 'DESC';
+
+        // Sort ideas by publicationDate
+        $ideas = $ideaRepository->findBy([], ['publicationDate' => $sortOrder]);
+
+        $ideas = Pagerfanta::createForCurrentPageWithMaxPerPage(
+            new ArrayAdapter($ideaRepository->findBy([], ['publicationDate' => $sortOrder])),
+            $page,
+            6
+        );
+
+        $pagerfanta = new TwitterBootstrap5View();
+
+        return $this->render('home/index.html.twig', [
+        'ideas' => $ideas,
+        'pagerfanta' => $pagerfanta,
         ]);
     }
 
-    #[Route('/show/sorted', name: '_sorting')]
-    public function sortIdeaAsc(IdeaRepository $ideaRepository): Response
-    {
-        // Sort ideas DESC date
-        $ideas = $ideaRepository->findBy([], ['publicationDate' => 'ASC']);
+    // #[Route('/show/sorted', name: '_sorting_supp')]
+    // public function sortIdeaBySupporters(IdeaRepository $ideaRepository): Response
+    // {
+    //     // sort idea from their Supporters' number DESC
+    //     $ideas = $ideaRepository->getSupportersSortIdea();
 
-        return $this->render('home/sorted.html.twig', [
-        'ideas' => $ideas
-        ]);
-    }
-
-    #[Route('/show/sorted', name: '_sorting')]
-    public function sortIdeaBySupporters(IdeaRepository $ideaRepository): Response
-    {
-        // sort idea from their Supporters' number DESC
-        $ideas = $ideaRepository->getSupportersSortIdea();
-
-        return $this->render('home/sorted.html.twig', [
-            'ideas' => $ideas
-        ]);
-    }
+    //     return $this->render('home/sorted.html.twig', [
+    //         'ideas' => $ideas
+    //     ]);
+    // }
 }
