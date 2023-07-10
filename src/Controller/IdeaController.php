@@ -6,7 +6,6 @@ use App\Entity\Idea;
 use App\Entity\User;
 use App\Form\IdeaType;
 use App\Repository\IdeaRepository;
-use App\Service\GetIdeaRemainingDays;
 use App\Service\IdeaFormHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -125,7 +124,6 @@ class IdeaController extends AbstractController
         Idea $idea,
         Request $request,
         IdeaRepository $ideaRepository,
-        GetIdeaRemainingDays $getIdeaRemaingDays,
     ): Response {
         /** @var User $user */
         $user = $this->getUser();
@@ -133,7 +131,7 @@ class IdeaController extends AbstractController
         $ideaId = $idea->getId();
 
         $totalSupporters = $ideaRepository->countSupporters($ideaId);
-        $daysRemaining = $getIdeaRemaingDays->getRemainingDays($idea);
+        $daysRemaining = $idea->getRemainingDays($idea);
 
 
         if ($supporters->contains($user)) {
