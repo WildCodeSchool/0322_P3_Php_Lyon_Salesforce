@@ -11,6 +11,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Entity\User;
 use App\Repository\IdeaRepository;
+use App\Service\IdeaSupporter;
 
 #[IsGranted('ROLE_USER')]
 class SlackController extends AbstractController
@@ -26,6 +27,7 @@ class SlackController extends AbstractController
     #[Route('{id}/createchannel', name: 'create_channel')]
     public function createChannel(
         SlackService $slackService,
+        IdeaSupporter $ideaSupporter,
         IdeaRepository $ideaRepository,
         SluggerInterface $slugger,
         Idea $idea,
@@ -35,7 +37,8 @@ class SlackController extends AbstractController
         $authorSlack = $user->getSlackId();
         $ideaId = $idea->getId();
         $totalSupporters = $ideaRepository->countSupporters($ideaId);
-        if ($slackService->isChannelCreatable($totalSupporters, $idea)) {
+
+        if ($ideaSupporter->isChannelCreatable($totalSupporters, $idea)) {
             $slackArray = $ideaRepository->getSupportersSlackId($ideaId);
 
             $slackIds = $slackService->slackIdsHandler($slackArray, $authorSlack);
@@ -50,8 +53,13 @@ class SlackController extends AbstractController
                 $channelId = $channel['channel']['id']; // Extract the channel ID from the response
 
                 $slackService->inviteUsers($channelId, $slackIds);
+
+                $idea->setArchived(true);
+                $ideaRepository->save($idea, true);
+
                 $this->addFlash('success', "Nouveau canal Slack créé : {$channelName} (ID: {$channelId}).");
                 // Create a success message with the channel name and ID
+                return $this->redirectToRoute('app_home');
             } else {
                 $error = $channel['error']; // Extract the error message from the response
                 $this->addFlash('error', "Echec de création du canal Slack : {$error}.");
