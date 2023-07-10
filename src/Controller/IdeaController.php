@@ -156,14 +156,21 @@ class IdeaController extends AbstractController
     }
 
     #[Route('/show/sorted', name: '_sorting')]
-    public function sortIdea(IdeaRepository $ideaRepository): Response
+    public function sortIdeaDesc(IdeaRepository $ideaRepository): Response
     {
-        $ideas = $ideaRepository->findAll();
+        // Sort ideas DESC date
+        $ideas = $ideaRepository->findBy([], ['publicationDate' => 'DESC']);
 
-    // Sort ideas DESC date
-        usort($ideas, function ($firstIdea, $secondIdea) {
-            return $secondIdea->getPublicationDate() <=> $firstIdea->getPublicationDate();
-        });
+        return $this->render('home/sorted.html.twig', [
+        'ideas' => $ideas
+        ]);
+    }
+
+    #[Route('/show/sorted', name: '_sorting')]
+    public function sortIdeaAsc(IdeaRepository $ideaRepository): Response
+    {
+        // Sort ideas DESC date
+        $ideas = $ideaRepository->findBy([], ['publicationDate' => 'ASC']);
 
         return $this->render('home/sorted.html.twig', [
         'ideas' => $ideas
