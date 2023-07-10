@@ -11,7 +11,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Entity\User;
 use App\Repository\IdeaRepository;
-use App\Service\IdeaSupporter;
 
 #[IsGranted('ROLE_USER')]
 class SlackController extends AbstractController
@@ -27,7 +26,6 @@ class SlackController extends AbstractController
     #[Route('{id}/createchannel', name: 'create_channel')]
     public function createChannel(
         SlackService $slackService,
-        IdeaSupporter $ideaSupporter,
         IdeaRepository $ideaRepository,
         SluggerInterface $slugger,
         Idea $idea,
@@ -38,7 +36,7 @@ class SlackController extends AbstractController
         $ideaId = $idea->getId();
         $totalSupporters = $ideaRepository->countSupporters($ideaId);
 
-        if ($ideaSupporter->isChannelCreatable($totalSupporters, $idea)) {
+        if ($idea->isChannelCreatable($totalSupporters)) {
             $slackArray = $ideaRepository->getSupportersSlackId($ideaId);
 
             $slackIds = $slackService->slackIdsHandler($slackArray, $authorSlack);
