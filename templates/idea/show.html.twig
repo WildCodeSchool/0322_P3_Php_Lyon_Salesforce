@@ -26,12 +26,8 @@ block javascripts %}
                             <h6>Agence de {{ idea.author.workplace.location }}</h6>
                         </div>
                         <div class="col-6 col-md-12">
-                            <h6>
-                                Publiée le {{ idea.publicationDate|date("d/m/Y") }}
-                            </h6>
-                            <h6>
-                                Jours restants {{daysRemaining}}
-                            </h6>
+                            <h6>Publiée le {{ idea.publicationDate|date("d/m/Y") }}</h6>
+                            <h6>Jours restants {{daysRemaining}}</h6>
                             <h6>Nombre d'adhésion : {{totalSupporters}} </h6>
                             {% if isMember is same as true %}
                             <h6 class="text-success"> Vous adhérez déja à cette idée</h6>
