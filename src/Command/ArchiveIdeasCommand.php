@@ -31,7 +31,7 @@ class ArchiveIdeasCommand extends Command
         foreach ($ideas as $idea) {
             $endDate = $idea->getEndDate();
 
-            if ($endDate->format('Y-m-d') <= $currentDate->format('Y-m-d')) {
+            if ($endDate <= $currentDate) {
                 $idea->setArchived(true);
             }
         }
