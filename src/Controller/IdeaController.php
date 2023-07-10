@@ -155,14 +155,9 @@ class IdeaController extends AbstractController
         ]);
     }
 
-    #[Route('/show/sorted/{order}/{page<\d+>}', name: '_sorting')]
+    #[Route('/show/sorted/{order}/{page<\d+>}', name: '_sorting', requirements: ['order' => 'asc|desc'])]
     public function sortIdea(IdeaRepository $ideaRepository, string $order, int $page = 1): Response
     {
-        // Check if type of order is valid
-        if ($order !== 'asc' && $order !== 'desc') {
-            throw $this->createNotFoundException('Ordre de tri invalide.');
-        }
-
         // Determine the sort order for the query
         $sortOrder = ($order === 'asc') ? 'ASC' : 'DESC';
 
@@ -178,19 +173,30 @@ class IdeaController extends AbstractController
         $pagerfanta = new TwitterBootstrap5View();
 
         return $this->render('home/index.html.twig', [
-        'ideas' => $ideas,
-        'pagerfanta' => $pagerfanta,
+            'ideas' => $ideas,
+            'pagerfanta' => $pagerfanta,
+            'currentOrder' => $order,
         ]);
     }
 
-    #[Route('/show/sorted/{order}', name: '_sorting')]
-    public function sortIdeaBySupporters(IdeaRepository $ideaRepository): Response
+    #[Route('/show/sorted/supp/{page<\d+>}', name: '_sorting_supp')]
+    public function sortIdeaBySupporters(IdeaRepository $ideaRepository, int $page = 1): Response
     {
-        // sort idea from their Supporters' number DESC
+        // sort ideas by their Supporters' number DESC
         $ideas = $ideaRepository->getSupportersSortIdea();
 
-        return $this->render('home/sorted.html.twig', [
-            'ideas' => $ideas
+        $ideas = Pagerfanta::createForCurrentPageWithMaxPerPage(
+            new ArrayAdapter($ideaRepository->getSupportersSortIdea()),
+            $page,
+            6
+        );
+
+        $pagerfanta = new TwitterBootstrap5View();
+
+        return $this->render('home/index.html.twig', [
+            'ideas' => $ideas,
+            'pagerfanta' => $pagerfanta,
+            'currentOrder' => 'supp',
         ]);
     }
 }

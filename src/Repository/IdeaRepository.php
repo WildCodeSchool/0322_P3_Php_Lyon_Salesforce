@@ -128,13 +128,23 @@ class IdeaRepository extends ServiceEntityRepository
 
     public function getSupportersSortIdea(): array
     {
-        return $this->createQueryBuilder('i')
-        ->select('i', 'COUNT(s.userId) as supportersCount')
-        ->leftJoin('i.supporters', 's')
-        ->groupBy('i.id')
-        ->orderBy('supportersCount', 'DESC')
-        ->getQuery()
-        ->getResult();
+        $results = $this->createQueryBuilder('i')
+            ->select('i', 'COUNT(s) as supportersCount')
+            ->leftJoin('i.supporters', 's')
+            ->groupBy('i.id')
+            ->orderBy('supportersCount', 'DESC')
+            ->getQuery()
+            ->getResult();
+
+        $ideas = [];
+        foreach ($results as $result) {
+            $idea = $result[0];
+            $supportersCount = $result['supportersCount'];
+            $idea->supportersCount = $supportersCount;
+            $ideas[] = $idea;
+        }
+
+        return $ideas;
     }
 }
 
