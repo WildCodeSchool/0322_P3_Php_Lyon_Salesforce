@@ -29,10 +29,6 @@ block javascripts %}
                             <h6>
                                 Publier le {{ idea.publicationDate|date("d/m/Y") }}
                             </h6>
-                            <h6>nombre d'adhésion actuel : {{totalSupporters}} </h6>
-                            <h6>nombre d'adhésion nécessaire : {{supporterNeeded}} </h6>
-
-
                             {% if isMember is same as true %}
                             <h6 class="text-success"> Vous adhérez déja à cette idée</h6>
                             {% endif %}
@@ -40,8 +36,9 @@ block javascripts %}
                     </div>
                     <div class="progress" role="progressbar" aria-label="Animated striped example"
                         aria-valuenow="{{totalSupporters}}" aria-valuemin="0" aria-valuemax="{{supporterNeeded}}">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated"
-                            style="width: {{ (totalSupporters / supporterNeeded) * 100 }}%">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated fs-6 fw-bold"
+                            style="width: {{ (totalSupporters / supporterNeeded) * 100 }}%">{{totalSupporters}} /
+                            {{supporterNeeded}}
                         </div>
                     </div>
 
