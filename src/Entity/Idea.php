@@ -164,4 +164,29 @@ class Idea
 
         return $this;
     }
+
+    public function supporterNeeded(): int
+    {
+        $perimeter = $this->getPerimeter();
+
+        if ($perimeter === 'Service') {
+            $supporterNeeded = 3;
+        } elseif ($perimeter === 'Agence') {
+            $supporterNeeded = 8;
+        } else {
+            $supporterNeeded = 15;
+        }
+
+        return $supporterNeeded;
+    }
+
+    public function isChannelCreatable(int $totalSupporter): bool
+    {
+        $supporterNeeded = $this->supporterNeeded();
+        if ($totalSupporter >= $supporterNeeded) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
