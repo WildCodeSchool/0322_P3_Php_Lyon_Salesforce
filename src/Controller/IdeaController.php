@@ -183,10 +183,10 @@ class IdeaController extends AbstractController
     public function sortIdeaBySupporters(IdeaRepository $ideaRepository, int $page = 1): Response
     {
         // sort ideas by their Supporters' number DESC
-        $ideas = $ideaRepository->getSupportersSortIdea(['archived' => false]);
+        $ideas = $ideaRepository->getSupportersSortIdea(false);
 
         $ideas = Pagerfanta::createForCurrentPageWithMaxPerPage(
-            new ArrayAdapter($ideaRepository->getSupportersSortIdea(['archived' => false])),
+            new ArrayAdapter($ideaRepository->getSupportersSortIdea(false)),
             $page,
             6
         );

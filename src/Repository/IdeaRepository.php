@@ -126,7 +126,7 @@ class IdeaRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function getSupportersSortIdea(array $criteria = []): array
+    public function getSupportersSortIdea(bool $archived = false): array
     {
         $query = $this->createQueryBuilder('i')
             ->select('i', 'COUNT(s) as supportersCount')
@@ -134,9 +134,9 @@ class IdeaRepository extends ServiceEntityRepository
             ->groupBy('i.id')
             ->orderBy('supportersCount', 'DESC');
 
-        if (!empty($criteria)) {
+        if (!empty($archived)) {
             $query->andWhere('i.archived = :archived')
-                ->setParameter('archived', $criteria['archived']);
+                ->setParameter('archived', $archived);
         }
 
             $results = $query->getQuery()->getResult();
