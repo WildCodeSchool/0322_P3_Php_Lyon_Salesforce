@@ -129,7 +129,9 @@ class IdeaController extends AbstractController
         $user = $this->getUser();
         $supporters = $idea->getSupporters();
         $ideaId = $idea->getId();
+
         $totalSupporters = $ideaRepository->countSupporters($ideaId);
+
 
         if ($supporters->contains($user)) {
             $isMember = true;

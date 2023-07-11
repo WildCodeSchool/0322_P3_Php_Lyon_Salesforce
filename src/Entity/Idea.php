@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use DateTimeImmutable;
 
 #[ORM\Entity(repositoryClass: IdeaRepository::class)]
 class Idea
@@ -58,6 +59,10 @@ class Idea
     private ?bool $archived = null;
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'supportingIdeas')]
     private Collection $supporters;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $endDate = null;
+
     public function __construct()
     {
         $this->supporters = new ArrayCollection();
@@ -163,5 +168,52 @@ class Idea
         }
 
         return $this;
+    }
+
+    public function getEndDate(): ?\DateTimeImmutable
+    {
+        return $this->endDate;
+    }
+
+    public function setEndDate(\DateTimeImmutable $endDate): static
+    {
+        $this->endDate = $endDate;
+
+        return $this;
+    }
+
+    public function getRemainingDays(): int
+    {
+        $endDate = $this->getEndDate();
+        $today = new DateTimeImmutable();
+        $interval = $today->diff($endDate);
+        $daysRemaining = $interval->days;
+
+        return $daysRemaining;
+    }
+
+    public function supporterNeeded(): int
+    {
+        $perimeter = $this->getPerimeter();
+
+        if ($perimeter === 'Service') {
+            $supporterNeeded = 3;
+        } elseif ($perimeter === 'Agence') {
+            $supporterNeeded = 8;
+        } else {
+            $supporterNeeded = 15;
+        }
+
+        return $supporterNeeded;
+    }
+
+    public function isChannelCreatable(int $totalSupporter): bool
+    {
+        $supporterNeeded = $this->supporterNeeded();
+        if ($totalSupporter >= $supporterNeeded) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
