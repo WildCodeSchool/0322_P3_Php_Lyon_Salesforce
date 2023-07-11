@@ -1,34 +1,33 @@
 <!DOCTYPE html>
 <html lang="fr">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link rel="icon" type="image/png" href="{{ asset('build/images/logo.png') }}" />
     <title>
-        {% block title %}Projet 3 Name{% endblock %}
+      {% block title %}
+        Projet 3 Name
+      {% endblock %}
     </title>
     {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
     {% block stylesheets %}
-    {{ encore_entry_link_tags('app') }}
+      {{ encore_entry_link_tags('app') }}
     {% endblock %}
 
     {% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
+      {{ encore_entry_script_tags('app') }}
     {% endblock %}
-</head>
+  </head>
 
-<body>
+  <body>
     {% for category, messages in app.flashes %}
-    {% for message in messages %}
-    <div class="alert alert-{{ category }}">
-        {{ message }}
-    </div>
-    {% endfor %}
+      {% for message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %}
     {% endfor %}
 
     {% block body %}
-    {% endblock %}
-</body>
 
+    {% endblock %}
+  </body>
 </html>
