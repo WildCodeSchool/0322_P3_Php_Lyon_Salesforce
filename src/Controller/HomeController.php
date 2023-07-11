@@ -18,10 +18,7 @@ class HomeController extends AbstractController
     public function index(IdeaRepository $ideaRepository, int $page = 1): Response
     {
         $ideas = Pagerfanta::createForCurrentPageWithMaxPerPage(
-            new ArrayAdapter($ideaRepository->findBy(
-                ['archived' => false],
-                ['publicationDate' => 'DESC']
-            )),
+            new ArrayAdapter($ideaRepository->getIdeasGlobal()),
             $page,
             6
         );
