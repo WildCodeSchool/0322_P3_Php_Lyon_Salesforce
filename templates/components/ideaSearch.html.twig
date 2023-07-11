@@ -19,10 +19,9 @@
                         <h6 class="card-title ms-2 text-info">{{ idea.publicationDate|date("d/m/Y") }} </h6>
                     </div>
                     <div class="d-flex justify-content-between mt-auto">
+                        {% if app.user.email is same as idea.author.email %}
                         <a href="{{ path('idea_show', {id:idea.id}) }}" class="mx-2 btn btn-primary text-white">
                             Voir l'idée</a>
-
-                        {% if app.user.email is same as idea.author.email %}
                         <button type="button" class="btn btn-danger m-0 shadow-lg text-white" data-bs-toggle="modal"
                             data-bs-target="#deleteIdeaModal">
                             Supprimer
@@ -53,6 +52,21 @@
                                 </div>
                             </div>
                         </div>
+                        {% else %}
+                        <div class="d-flex align-items-center">
+                            {% if idea.author.pictureFileName %}
+                            <img src="{{ asset('/uploads/profiles_pictures/' ~ idea.author.pictureFileName)}}"
+                                alt="profile picture" class="profile-picture-idea img-fluid rounded-circle">
+                            {% else %}
+                            <img src="{{ asset('build/images/blank-profil-picture.png' )}}" alt="profile picture"
+                                class="profile-picture-idea img-fluid rounded-circle">
+                            {% endif %}
+                            <h6 class="m-0 ms-1">
+                                {{ idea.author.firstname }} {{ idea.author.lastname}}
+                            </h6>
+                        </div>
+                        <a href="{{ path('idea_show', {id:idea.id}) }}" class="mx-3 btn btn-primary text-white">
+                            Voir l'idée</a>
                         {% endif %}
                     </div>
                 </div>
