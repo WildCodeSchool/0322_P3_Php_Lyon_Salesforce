@@ -268,6 +268,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->supportingIdeas;
     }
 
+    /**
+     * @return Collection<int, Idea>
+     */
+    public function getOnlineSupportingIdeas(): Collection
+    {
+        $olSupportingIdeas = $this->supportingIdeas->filter(function (Idea $idea) {
+            return !$idea->isArchived();
+        });
+        return $olSupportingIdeas;
+    }
+
+
+
     public function addSupportingIdea(Idea $supportingIdea): static
     {
         if (!$this->supportingIdeas->contains($supportingIdea)) {

@@ -155,6 +155,23 @@ class IdeaRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findBySearch(string $search, int $userId): array
+    {
+        return $this->createQueryBuilder('i')
+            ->where('i.title LIKE :search')
+            ->andWhere('i.author = :userId')
+            ->andWhere('i.archived = :archived')
+            ->orWhere(':userId MEMBER OF i.supporters')
+            ->andWhere('i.archived = :archived')
+            ->setParameter('search', '%' . $search . '%')
+            ->setParameter('userId', $userId)
+            ->setParameter('archived', false)
+            ->orderBy('i.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     public function getSupportersSortIdea(): array
     {
         $results = $this->createQueryBuilder('i')
