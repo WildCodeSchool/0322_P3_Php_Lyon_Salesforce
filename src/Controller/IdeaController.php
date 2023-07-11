@@ -129,7 +129,9 @@ class IdeaController extends AbstractController
         $user = $this->getUser();
         $supporters = $idea->getSupporters();
         $ideaId = $idea->getId();
+
         $totalSupporters = $ideaRepository->countSupporters($ideaId);
+
 
         if ($supporters->contains($user)) {
             $isMember = true;
@@ -152,6 +154,51 @@ class IdeaController extends AbstractController
             'idea' => $idea,
             'totalSupporters' => $totalSupporters,
             'isMember' => $isMember,
+        ]);
+    }
+
+    #[Route('/show/sorted/{order}/{page<\d+>}', name: '_sorting', requirements: ['order' => 'asc|desc'])]
+    public function sortIdea(IdeaRepository $ideaRepository, string $order, int $page = 1): Response
+    {
+        // Determine the sort order for the query
+        $sortOrder = ($order === 'asc') ? 'ASC' : 'DESC';
+
+        // Sort ideas by publicationDate
+        $ideas = $ideaRepository->findBy([], ['publicationDate' => $sortOrder]);
+
+        $ideas = Pagerfanta::createForCurrentPageWithMaxPerPage(
+            new ArrayAdapter($ideaRepository->findBy([], ['publicationDate' => $sortOrder])),
+            $page,
+            6
+        );
+
+        $pagerfanta = new TwitterBootstrap5View();
+
+        return $this->render('home/index.html.twig', [
+            'ideas' => $ideas,
+            'pagerfanta' => $pagerfanta,
+            'currentOrder' => $order,
+        ]);
+    }
+
+    #[Route('/show/sorted/supp/{page<\d+>}', name: '_sorting_supp')]
+    public function sortIdeaBySupporters(IdeaRepository $ideaRepository, int $page = 1): Response
+    {
+        // sort ideas by their Supporters' number DESC
+        $ideas = $ideaRepository->getSupportersSortIdea();
+
+        $ideas = Pagerfanta::createForCurrentPageWithMaxPerPage(
+            new ArrayAdapter($ideaRepository->getSupportersSortIdea()),
+            $page,
+            6
+        );
+
+        $pagerfanta = new TwitterBootstrap5View();
+
+        return $this->render('home/index.html.twig', [
+            'ideas' => $ideas,
+            'pagerfanta' => $pagerfanta,
+            'currentOrder' => 'supp',
         ]);
     }
 }

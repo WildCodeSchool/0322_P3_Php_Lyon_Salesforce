@@ -60,7 +60,6 @@ class SlackController extends AbstractController
             } else {
                 $error = $channel['error']; // Extract the error message from the response
                 $this->addFlash('error', "Echec de création du canal Slack : {$error}.");
-                return $this->redirectToRoute('idea_show', ['id' => $idea->getId()]);
                 // Create an error message with the error's name
             }
         }
