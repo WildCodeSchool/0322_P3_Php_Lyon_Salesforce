@@ -17,17 +17,19 @@ class IdeaFormHandler extends AbstractController
         $user = $this->getUser();
         $date = new DateTimeImmutable();
         $publicationDate = $date->setDate(intval(date('Y')), intval(date('m')), intval(date('d')));
+        $endDate = $publicationDate->modify('+31 days');
 
         $idea = new Idea();
         $form = $this->createForm(IdeaType::class, $idea);
 
         $idea->setPublicationDate($publicationDate);
+        $idea->setEndDate($endDate);
         $idea->setArchived(false);
         $idea->setAuthor($user);
 
-         return [
+        return [
         'form' => $form,
         'idea' => $idea
-         ];
+        ];
     }
 }

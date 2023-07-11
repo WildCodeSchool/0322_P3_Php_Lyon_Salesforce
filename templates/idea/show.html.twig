@@ -4,6 +4,7 @@ block javascripts %}
 {{ encore_entry_script_tags("deleteIdea") }}
 {% endblock %}
 {% block body %}
+
 <main class="container">
     <div class="row d-flex flex-wrap-reverse flex-md">
         <div class="col-12 col-md-9 col-xl-10">
@@ -26,9 +27,8 @@ block javascripts %}
                             <h6>Agence de {{ idea.author.workplace.location }}</h6>
                         </div>
                         <div class="col-6 col-md-12">
-                            <h6>
-                                Publier le {{ idea.publicationDate|date("d/m/Y") }}
-                            </h6>
+                            <h6>Publiée le {{ idea.publicationDate|date("d/m/Y") }}</h6>
+                            <h6>Jours restants {{idea.getRemainingDays}}</h6>
                             <h6>nombre d'adhésion actuel : {{totalSupporters}} </h6>
                             <h6>nombre d'adhésion nécessaire : {{idea.supporterNeeded}} </h6>
                             {% if isMember is same as true %}
