@@ -133,6 +133,7 @@ class IdeaRepository extends ServiceEntityRepository
             ->andWhere('i.author = :userId')
             ->andWhere('i.archived = :archived')
             ->orWhere(':userId MEMBER OF i.supporters')
+            ->andWhere('i.archived = :archived')
             ->setParameter('search', '%' . $search . '%')
             ->setParameter('userId', $userId)
             ->setParameter('archived', false)
