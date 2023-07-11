@@ -58,9 +58,6 @@ class UserType extends AbstractType
                 'class' => Office::class,
                 'label' => 'Agence',
                 'choice_label' => 'location',
-            ])
-            ->add('position', TextType::class, [
-                'label' => 'Poste'
             ]);
     }
 
