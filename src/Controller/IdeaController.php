@@ -162,10 +162,10 @@ class IdeaController extends AbstractController
         $sortOrder = ($order === 'asc') ? 'ASC' : 'DESC';
 
         // Sort ideas by publicationDate
-        $ideas = $ideaRepository->findBy([], ['publicationDate' => $sortOrder]);
+        $ideas = $ideaRepository->findBy(['archived' => false], ['publicationDate' => $sortOrder]);
 
         $ideas = Pagerfanta::createForCurrentPageWithMaxPerPage(
-            new ArrayAdapter($ideaRepository->findBy([], ['publicationDate' => $sortOrder])),
+            new ArrayAdapter($ideaRepository->findBy(['archived' => false], ['publicationDate' => $sortOrder])),
             $page,
             6
         );
@@ -183,10 +183,10 @@ class IdeaController extends AbstractController
     public function sortIdeaBySupporters(IdeaRepository $ideaRepository, int $page = 1): Response
     {
         // sort ideas by their Supporters' number DESC
-        $ideas = $ideaRepository->getSupportersSortIdea();
+        $ideas = $ideaRepository->getSupportersSortIdea(['archived' => false]);
 
         $ideas = Pagerfanta::createForCurrentPageWithMaxPerPage(
-            new ArrayAdapter($ideaRepository->getSupportersSortIdea()),
+            new ArrayAdapter($ideaRepository->getSupportersSortIdea(['archived' => false])),
             $page,
             6
         );

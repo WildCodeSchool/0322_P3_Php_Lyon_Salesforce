@@ -126,15 +126,20 @@ class IdeaRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function getSupportersSortIdea(): array
+    public function getSupportersSortIdea(array $criteria = []): array
     {
-        $results = $this->createQueryBuilder('i')
+        $query = $this->createQueryBuilder('i')
             ->select('i', 'COUNT(s) as supportersCount')
             ->leftJoin('i.supporters', 's')
             ->groupBy('i.id')
-            ->orderBy('supportersCount', 'DESC')
-            ->getQuery()
-            ->getResult();
+            ->orderBy('supportersCount', 'DESC');
+
+        if (!empty($criteria)) {
+            $query->andWhere('i.archived = :archived')
+                ->setParameter('archived', $criteria['archived']);
+        }
+
+            $results = $query->getQuery()->getResult();
 
         $ideas = [];
         foreach ($results as $result) {
