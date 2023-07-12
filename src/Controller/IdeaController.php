@@ -150,28 +150,34 @@ class IdeaController extends AbstractController
             return $this->redirectToRoute('idea_show', ['id' => $idea->getId()]);
         }
 
+        $isCreatable = $idea->isChannelCreatable($totalSupporters);
+
         return $this->render('idea/show.html.twig', [
             'idea' => $idea,
             'totalSupporters' => $totalSupporters,
             'isMember' => $isMember,
+            'isCreatable' => $isCreatable
         ]);
     }
 
-    #[Route('/show/sorted/{order}/{page<\d+>}', name: '_sorting', requirements: ['order' => 'asc|desc'])]
+    #[Route('/show/sorted/{order}/{page<\d+>}', name: '_sorting')]
     public function sortIdea(IdeaRepository $ideaRepository, string $order, int $page = 1): Response
     {
-        // Determine the sort order for the query
-        $sortOrder = ($order === 'asc') ? 'ASC' : 'DESC';
+        
 
-        // Sort ideas by publicationDate
-        $ideas = $ideaRepository->findBy([], ['publicationDate' => $sortOrder]);
+        $sortOrder = ($order === 'desc') ? 'desc' : 'asc';
 
+        if ($sortOrder === 'desc') {
+            $ideas = $ideaRepository->getIdeasGlobal();
+        } else {
+            $ideas = $ideaRepository->getAscIdeasGlobal();
+        }
         $ideas = Pagerfanta::createForCurrentPageWithMaxPerPage(
-            new ArrayAdapter($ideaRepository->findBy([], ['publicationDate' => $sortOrder])),
+            new ArrayAdapter($ideas),
             $page,
             6
         );
-
+        
         $pagerfanta = new TwitterBootstrap5View();
 
         return $this->render('home/index.html.twig', [

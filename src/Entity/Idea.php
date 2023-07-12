@@ -207,8 +207,9 @@ class Idea
         return $supporterNeeded;
     }
 
-    public function isChannelCreatable(int $totalSupporter): bool
-    {
+    public function isChannelCreatable(): bool
+    {   $supporters = $this->getSupporters();
+        $totalSupporter = $supporters->count();
         $supporterNeeded = $this->supporterNeeded();
         if ($totalSupporter >= $supporterNeeded) {
             return true;

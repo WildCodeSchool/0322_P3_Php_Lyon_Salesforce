@@ -66,6 +66,31 @@ class IdeaRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getAscIdeasGlobal(): array
+    {
+        return $this->createQueryBuilder('i')
+            ->select(
+                'i.id',
+                'i.title',
+                'i.content',
+                'o.location',
+                'i.publicationDate',
+                'u.lastname',
+                'u.firstname',
+                'u.pictureFileName',
+                'o.location',
+            )
+            ->innerJoin('i.author', 'u')
+            ->innerJoin('u.workplace', 'o')
+            ->where('i.perimeter = :global')
+            ->andWhere('i.archived = :archived')
+            ->setParameter('archived', false)
+            ->setParameter('global', 'Global')
+            ->orderBy('i.publicationDate', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function getIdeasByUserOffice(int $officeId): array
     {
         return $this->createQueryBuilder('i')
