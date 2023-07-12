@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\IdeaRepository;
+use App\Repository\ReportingRepository;
 use App\Repository\UserRepository;
 use App\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,11 +28,13 @@ class AdminController extends AbstractController
     }
 
     #[Route('/ideas', name: 'ideas')]
-    public function ideas(IdeaRepository $ideaRepository): Response
+    public function ideas(IdeaRepository $ideaRepository, ReportingRepository $reportingRepository): Response
     {
         $ideas = $ideaRepository->findBy([], ['publicationDate' => 'DESC']);
+        $reportedIdeas = $reportingRepository->findBy([], ['reportedIdea' => 'DESC']);
         return $this->render('admin/ideas.html.twig', [
             'ideas' => $ideas,
+            'reportedIdeas' => $reportedIdeas
         ]);
     }
 

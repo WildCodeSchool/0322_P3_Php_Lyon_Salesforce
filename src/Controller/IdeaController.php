@@ -135,20 +135,24 @@ class IdeaController extends AbstractController
         $ideaId = $idea->getId();
 
         $totalSupporters = $ideaRepository->countSupporters($ideaId);
-        if ($request->get('motive')
-        && $user->getId() !== $idea->getAuthor()->getId()
-        ){
+        if ($request->get('motive')) {
             $motive = $request->get('motive');
-            $date = new DateTimeImmutable();
-            $publicationDate = $date->setDate(intval(date('Y')), intval(date('m')), intval(date('d')));
-            $reporting = new Reporting();
-            $reporting->setReportedIdea($idea);
-            $reporting->setReportingUser($user);
-            $reporting->setReportDate($publicationDate);
-            $reporting->setMotive($motive);
-            $reportingRepository->save($reporting, true);
+            $user = $this->getUser(); // Assuming you have a way to retrieve the current user
+            $idea = $ideaRepository->find($ideaId); // Assuming you have the idea entity or repository
+            if ($user && $idea && $user->getId() !== $idea->getAuthor()->getId()) {
+                $date = new DateTimeImmutable();
+                $publicationDate = $date->setDate(intval(date('Y')), intval(date('m')), intval(date('d')));
+                $reporting = new Reporting();
+                $reporting->setReportedIdea($idea);
+                $reporting->setReportingUser($user);
+                $reporting->setReportDate($publicationDate);
+                $reporting->setMotive($motive);
+                $reportingRepository->save($reporting, true);
 
-            $this->addFlash('success', 'L\idée a bien été signalée');
+                $this->addFlash('success', "L'idée a bien été signalée");
+            } else {
+                $this->addFlash('danger', "Une erreur s'est produite lors du signalement de l'idée.");
+            }
         }
 
         if ($supporters->contains($user)) {
@@ -168,7 +172,7 @@ class IdeaController extends AbstractController
             return $this->redirectToRoute('idea_show', ['id' => $idea->getId()]);
         }
 
-        $isCreatable = $idea->isChannelCreatable($totalSupporters);
+        $isCreatable = $idea->isChannelCreatable();
 
         return $this->render('idea/show.html.twig', [
             'idea' => $idea,
@@ -181,7 +185,7 @@ class IdeaController extends AbstractController
     #[Route('/show/sorted/{order}/{page<\d+>}', name: '_sorting')]
     public function sortIdea(IdeaRepository $ideaRepository, string $order, int $page = 1): Response
     {
-        
+
 
         $sortOrder = ($order === 'desc') ? 'desc' : 'asc';
 
@@ -195,7 +199,7 @@ class IdeaController extends AbstractController
             $page,
             6
         );
-        
+
         $pagerfanta = new TwitterBootstrap5View();
 
         return $this->render('home/index.html.twig', [

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ReportingRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ReportingRepository::class)]
 class Reporting
@@ -24,7 +25,21 @@ class Reporting
     #[ORM\Column]
     private ?\DateTimeImmutable $reportDate = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: 'Vous avez oublié d\'écrire votre idée !')]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'Le nom de votre idée doit avoir maximum {{ limit }} caractères'
+    )]
+    #[Assert\Choice(
+        choices: [
+            "Inapproprié",
+            "Spam",
+            "Violence",
+            "Informations privées",
+        ],
+        message: "Le motif spécifié n'est pas valide"
+    )]
     private ?string $motive = null;
 
     public function getId(): ?int
