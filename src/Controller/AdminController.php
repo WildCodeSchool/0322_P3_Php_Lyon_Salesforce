@@ -31,10 +31,13 @@ class AdminController extends AbstractController
     public function ideas(IdeaRepository $ideaRepository, ReportingRepository $reportingRepository): Response
     {
         $ideas = $ideaRepository->findBy([], ['publicationDate' => 'DESC']);
-        $reportedIdeas = $reportingRepository->findBy([], ['reportedIdea' => 'DESC']);
+
+        $reportedIdeas = $reportingRepository->findOnlineIdeas();
+
         return $this->render('admin/ideas.html.twig', [
             'ideas' => $ideas,
-            'reportedIdeas' => $reportedIdeas
+            'reportedIdeas' => $reportedIdeas,
+
         ]);
     }
 

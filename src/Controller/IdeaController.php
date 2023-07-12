@@ -137,8 +137,8 @@ class IdeaController extends AbstractController
         $totalSupporters = $ideaRepository->countSupporters($ideaId);
         if ($request->get('motive')) {
             $motive = $request->get('motive');
-            $user = $this->getUser(); // Assuming you have a way to retrieve the current user
-            $idea = $ideaRepository->find($ideaId); // Assuming you have the idea entity or repository
+            $user = $this->getUser();
+            $idea = $ideaRepository->find($ideaId);
             if ($user && $idea && $user->getId() !== $idea->getAuthor()->getId()) {
                 $date = new DateTimeImmutable();
                 $publicationDate = $date->setDate(intval(date('Y')), intval(date('m')), intval(date('d')));

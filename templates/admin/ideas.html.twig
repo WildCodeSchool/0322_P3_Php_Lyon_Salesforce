@@ -19,7 +19,7 @@
         <tbody>
             {% for idea in reportedIdeas %}
             <tr>
-                <td><a href="{{ path('idea_show', {id:idea.reportedIdea.id}) }}">{{idea.reportedIdea.title}}</a></td>
+                <td><a href="{{ path('idea_show', {id:idea.reportedIdea.id}) }}">{{idea.reportedIdea.id}}</a></td>
                 <td>{{idea.reportingUser.firstname}} {{idea.reportingUser.lastname}}</td>
                 <td>{{idea.motive}}</td>
                 <td>{{idea.reportDate|date("d/m/Y")}}</td>
