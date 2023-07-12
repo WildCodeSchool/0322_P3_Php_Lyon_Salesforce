@@ -4,13 +4,7 @@
 
 {% block body %}
 <main class="container" {{ stimulus_controller('symfony/ux-swup/swup') }} id="swup" data-turbo="false">
-    <div>
-        <h1 class="mt-3 text-center">
-            SalesForce Idéation
-        </h1>
-    </div>
-
-    <div class="container my-5">
+    <div class="container mt-2">
         <h3>
             Les idées de mon service {{ user.department }}
         </h3>
@@ -21,7 +15,7 @@
                 <div class="card h-100 shadow-lg p-2">
                     <div class="card-body  d-flex flex-column">
                         <h3 class="card-title fs-2">{{ idea.title|u.truncate(13, '...', false) }}</h3>
-                        <p>{{ idea.content|striptags|u.truncate(100, '...', false) |raw }}</p>
+                        <p class="m-0">{{ idea.content|striptags|u.truncate(100, '...', false) |raw }}</p>
                         <div class="d-flex justify-content-end mt-auto p-2">
                             <h6 class="card-title ms-2 text-info">{{ idea.publicationDate|date("d/m/Y") }} </h6>
                         </div>
