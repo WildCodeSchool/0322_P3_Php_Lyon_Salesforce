@@ -152,17 +152,20 @@ class IdeaController extends AbstractController
         ]);
     }
 
-    #[Route('/show/sorted/{order}/{page<\d+>}', name: '_sorting', requirements: ['order' => 'asc|desc'])]
+    #[Route('/show/publicationDate/{order}/{page<\d+>}', name: '_sorting')]
     public function sortIdea(IdeaRepository $ideaRepository, string $order, int $page = 1): Response
     {
-        // Determine the sort order for the query
-        $sortOrder = ($order === 'asc') ? 'ASC' : 'DESC';
 
-        // Sort ideas by publicationDate
-        $ideas = $ideaRepository->findBy(['archived' => false], ['publicationDate' => $sortOrder]);
 
+        $sortOrder = ($order === 'desc') ? 'desc' : 'asc';
+
+        if ($sortOrder === 'desc') {
+            $ideas = $ideaRepository->getIdeasGlobal();
+        } else {
+            $ideas = $ideaRepository->getIdeasGlobal([], ['publicationDate' => 'ASC']);
+        }
         $ideas = Pagerfanta::createForCurrentPageWithMaxPerPage(
-            new ArrayAdapter($ideaRepository->findBy(['archived' => false], ['publicationDate' => $sortOrder])),
+            new ArrayAdapter($ideas),
             $page,
             6
         );
@@ -176,7 +179,7 @@ class IdeaController extends AbstractController
         ]);
     }
 
-    #[Route('/show/sorted/supp/{page<\d+>}', name: '_sorting_supp')]
+    #[Route('/show/sortedByPopularity/supp/{page<\d+>}', name: '_sorting_supp')]
     public function sortIdeaBySupporters(IdeaRepository $ideaRepository, int $page = 1): Response
     {
         // sort ideas by their Supporters' number DESC
