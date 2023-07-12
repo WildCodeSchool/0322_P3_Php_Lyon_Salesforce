@@ -128,10 +128,6 @@ class IdeaController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
         $supporters = $idea->getSupporters();
-        $ideaId = $idea->getId();
-
-        $totalSupporters = $ideaRepository->countSupporters($ideaId);
-
 
         if ($supporters->contains($user)) {
             $isMember = true;
@@ -152,7 +148,6 @@ class IdeaController extends AbstractController
 
         return $this->render('idea/show.html.twig', [
             'idea' => $idea,
-            'totalSupporters' => $totalSupporters,
             'isMember' => $isMember,
         ]);
     }
