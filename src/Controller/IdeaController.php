@@ -152,17 +152,15 @@ class IdeaController extends AbstractController
         ]);
     }
 
-    #[Route('/show/publicationDate/{order}/{page<\d+>}', name: '_sorting')]
+    #[Route('/show/sorted/{order}/{page<\d+>}', name: '_sorting')]
     public function sortIdea(IdeaRepository $ideaRepository, string $order, int $page = 1): Response
     {
-
-
         $sortOrder = ($order === 'desc') ? 'desc' : 'asc';
 
         if ($sortOrder === 'desc') {
             $ideas = $ideaRepository->getIdeasGlobal();
         } else {
-            $ideas = $ideaRepository->getIdeasGlobal([], ['publicationDate' => 'ASC']);
+            $ideas = $ideaRepository->getAscIdeasGlobal();
         }
         $ideas = Pagerfanta::createForCurrentPageWithMaxPerPage(
             new ArrayAdapter($ideas),

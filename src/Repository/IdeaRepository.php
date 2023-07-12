@@ -39,8 +39,6 @@ class IdeaRepository extends ServiceEntityRepository
         }
     }
 
-
-
     public function getIdeasGlobal(): array
     {
         return $this->createQueryBuilder('i')
@@ -62,6 +60,31 @@ class IdeaRepository extends ServiceEntityRepository
             ->setParameter('archived', false)
             ->setParameter('global', 'Global')
             ->orderBy('i.publicationDate', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getAscIdeasGlobal(): array
+    {
+        return $this->createQueryBuilder('i')
+            ->select(
+                'i.id',
+                'i.title',
+                'i.content',
+                'o.location',
+                'i.publicationDate',
+                'u.lastname',
+                'u.firstname',
+                'u.pictureFileName',
+                'o.location',
+            )
+            ->innerJoin('i.author', 'u')
+            ->innerJoin('u.workplace', 'o')
+            ->where('i.perimeter = :global')
+            ->andWhere('i.archived = :archived')
+            ->setParameter('archived', false)
+            ->setParameter('global', 'Global')
+            ->orderBy('i.publicationDate', 'ASC')
             ->getQuery()
             ->getResult();
     }
