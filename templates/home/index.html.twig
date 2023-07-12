@@ -64,7 +64,9 @@
         </div>
     </div>
     <div class="d-flex justify-content-center my-2">
-        {{ pagerfanta(ideas, 'twitter_bootstrap5') }}
+        {{ pagerfanta(ideas, 'twitter_bootstrap5')
+        | replace({'Previous': 'Précédent', 'Next': 'Suivant'})|raw
+        }}
     </div>
 </main>
 {% endblock %}
