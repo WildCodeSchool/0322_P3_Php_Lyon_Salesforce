@@ -7,9 +7,9 @@
                 </button>
             </div>
 
-            <hr class="d-md-none">
+            <hr class="d-md-none my-2">
 
-            <div class="d-flex justify-content-center my-2">
+            <div class="d-flex justify-content-center my-3">
                 {% if app.user.pictureFileName %}
                 <img src="{{ asset('/uploads/profiles_pictures/' ~ app.user.pictureFileName)}}" alt="profile picture"
                     class="side-bar-profile-picture img-fluid rounded-circle">
@@ -19,64 +19,65 @@
                 {% endif %}
             </div>
 
-            <hr>
+            <hr class="my-2">
 
             <a href="{{ path('user_show', {id:app.user.id}) }}" class="nav-link px-3 w-100 fs-5">
-                <li class="fs-5">
+                <li class="my-2 py-1 fs-5">
                     <i class="bi bi-person-fill"></i> Mon Profil
                 </li>
             </a>
 
-            <hr>
+            <hr class="my-2">
 
             <a href="{{ path('app_home') }}" class="nav-link px-3 w-100 fs-5">
-                <li>
+                <li class="my-2 py-1 fs-5">
                     <i class="bi bi-house-fill"></i> Accueil
                 </li>
             </a>
 
-            <hr>
+            <hr class="my-2">
 
             <a href="{{ path('app_home') }}" class="nav-link px-3 w-100 fs-5">
-                <li class="my-3 fs-5">
+                <li class="my-2 py-1 fs-5">
                     <i class="bi bi-globe"></i> Global
                 </li>
             </a>
 
             <a href="{{ path('ideas_by_user_office') }}" class="nav-link px-3 w-100 fs-5">
-                <li class="my-3 fs-5">
+                <li class="my-2 py-1 fs-5">
                     <i class="bi bi-building-fill"></i> Mon agence
                 </li>
             </a>
 
             <a href="{{ path('ideas_by_user_department') }}" class="nav-link px-3 w-100 fs-5">
-                <li class="my-3 fs-5">
+                <li class="my-2 py-1 fs-5">
                     <i class="bi bi-people-fill"></i> Mon service
                 </li>
             </a>
 
-            <hr>
+            <hr class="my-2">
 
             {% if is_granted('ROLE_ADMIN') %}
             <a href="{{ path('admin_users')}}" class="nav-link px-3 w-100 fs-5">
-                <li class="my-3 fs-5">
+                <li class="my-2 py-1 fs-5">
                     <i class="bi bi-people-fill"></i> Utilisateurs
                 </li>
             </a>
 
             <a href="{{ path('admin_ideas')}}" class="nav-link px-3 w-100 fs-5">
-                <li class="my-3 fs-5">
+                <li class="my-2 py-1 fs-5">
                     <i class="bi bi-archive-fill"></i> Idées
                 </li>
             </a>
+            <hr class="my-2">
             {% endif %}
-            <div class="d-flex align-self-end">
-                <a class="nav-link px-3 w-100 fs-5" href="{{ path('app_logout') }}">
-                    <li class="my-3 fs-5">
-                        <i class="bi bi-box-arrow-left"></i> Déconnexion
-                    </li>
-                </a>
-            </div>
         </ul>
+
+        <hr class="my-0 text-white">
+        <div class="d-flex align-items-end justify-content-center text-center text-md-start text-white mt-2">
+            <a class="nav-link px-3 w-100 fs-5 py-2" href="{{ path('app_logout') }}">
+                <i class="bi bi-box-arrow-left"></i> Déconnexion
+            </a>
+        </div>
     </div>
 </div>
