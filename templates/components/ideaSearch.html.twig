@@ -1,14 +1,10 @@
 <div{{ attributes }}>
-    
+
     <div class="mb-3 row">
         <h3 class="row row-cols-1 mx-4 col-sm-3">Recherche d'idées :</h3>
         <div class="col-sm-5 d-flex align-items-center">
-            <input
-                type="text"
-                data-model="searchBar"
-                placeholder="Recherchez vos idées et celles que vous supportez"
-                class="form-control"
-            >
+            <input type="text" data-model="searchBar" placeholder="Recherchez vos idées et celles que vous supportez"
+                class="form-control">
         </div>
     </div>
 
@@ -34,9 +30,8 @@
                             Supprimer
                         </button>
 
-                        <div class="modal fade" id="deleteIdeaModal" data-bs-backdrop="static"
-                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
-                            aria-hidden="true">
+                        <div class="modal fade" id="deleteIdeaModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -81,5 +76,7 @@
         </div>
         {% endfor %}
     </div>
+    {% else %}
+    <h5 class="text-center text-secondary m-0">Aucune idée Trouvé</h5>
     {% endif %}
-</div>
+    </div>
