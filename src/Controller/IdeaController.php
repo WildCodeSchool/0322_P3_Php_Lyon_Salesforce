@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Idea;
+use App\Entity\Reporting;
 use App\Entity\User;
+use DateTimeImmutable;
 use App\Form\IdeaType;
 use App\Repository\IdeaRepository;
+use App\Repository\ReportingRepository;
 use App\Service\IdeaFormHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -124,6 +127,7 @@ class IdeaController extends AbstractController
         Idea $idea,
         Request $request,
         IdeaRepository $ideaRepository,
+        ReportingRepository $reportingRepository,
     ): Response {
         /** @var User $user */
         $user = $this->getUser();
@@ -131,7 +135,21 @@ class IdeaController extends AbstractController
         $ideaId = $idea->getId();
 
         $totalSupporters = $ideaRepository->countSupporters($ideaId);
+        if ($request->get('motive')
+        && $user->getId() !== $idea->getAuthor()->getId()
+        ){
+            $motive = $request->get('motive');
+            $date = new DateTimeImmutable();
+            $publicationDate = $date->setDate(intval(date('Y')), intval(date('m')), intval(date('d')));
+            $reporting = new Reporting();
+            $reporting->setReportedIdea($idea);
+            $reporting->setReportingUser($user);
+            $reporting->setReportDate($publicationDate);
+            $reporting->setMotive($motive);
+            $reportingRepository->save($reporting, true);
 
+            $this->addFlash('success', 'L\idée a bien été signalée');
+        }
 
         if ($supporters->contains($user)) {
             $isMember = true;

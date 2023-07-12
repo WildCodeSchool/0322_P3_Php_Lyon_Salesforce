@@ -37,6 +37,7 @@ block javascripts %}
                         </div>
                     </div>
                     {% if app.user.id is not same as idea.author.id %}
+                    
                     {% if isMember is same as false %}
                     <button type="button" class="btn btn-primary shadow-lg text-white my-1" data-bs-toggle="modal"
                         data-bs-target="#staticBackdrop">
@@ -71,6 +72,7 @@ block javascripts %}
                             </div>
                         </div>
                     </div>
+                    
                     {% endif %}
                     {% else %}
                     <a href="{{ path('idea_edit', {id:idea.id}) }}" class="btn btn-primary shadow-lg text-white my-1">
@@ -126,6 +128,12 @@ block javascripts %}
                     {% else %}
                     <h6>Vous n'avez pas encore assez d'adhérents</h6>
                     {% endif %}
+                    
+                    {% endif %}
+                    {% if app.user.id is not same as idea.author.id %}
+                        {% block reporting %}
+                        {% include "components/reportingForm.html.twig" %}
+                        {% endblock %}
                     {% endif %}
                 </div>
             </div>
