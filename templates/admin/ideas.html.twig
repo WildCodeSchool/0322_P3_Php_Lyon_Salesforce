@@ -15,6 +15,7 @@
                 <th scope="col">Date de publication</th>
                 <th scope="col">Jour restant</th>
                 <th scope="col">Adhésion</th>
+                <th scope="col">Archiver</th>
             </tr>
         </thead>
         <tbody>
@@ -37,6 +38,42 @@
                             {{idea.supporterNeeded}}
                         </div>
                     </div>
+                </td>
+                <td>
+                    {% if idea.isArchived is same as false %}
+                    <button type="button" class="btn btn-danger shadow-lg text-white my-1" data-bs-toggle="modal"
+                        data-bs-target="#archiveIdeaModal">
+                        Archiver
+                    </button>
+
+                    <div class="modal fade" id="archiveIdeaModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Archiver cette idée
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Êtes-vous sûr de vouloir Archiver cette idée ? (vous pourrez toujours la
+                                        retrouver sur le tableau d'idée de la page admin )</p>
+                                </div>
+                                <div class="modal-footer d-flex justify-content-between">
+                                    <button type="button" class="btn btn-primary text-white"
+                                        data-bs-dismiss="modal">Annuler</button>
+
+                                    <a class="btn btn-danger m-0 shadow-lg text-white" id="deleteBtnShow"
+                                        href="{{path('archives_idea', {'idIdea': idea.id})}}"
+                                        data-bs-dismiss="modal">Confirmer</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <h6>Déjà Archivé</h6>
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}

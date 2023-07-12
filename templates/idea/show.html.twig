@@ -34,6 +34,17 @@ block javascripts %}
                             {% endif %}
                         </div>
                     </div>
+                    {% if idea.getTotalSupporters >= idea.supporterNeeded %}
+                    <div class="progress bg-secondary" role="progressbar" aria-valuenow="{{idea.getTotalSupporters}}"
+                        aria-valuemin="0" aria-valuemax="{{idea.supporterNeeded}}">
+                        <div class="progress-bar bg-success progress-bar-striped progress-bar-animated overflow-visible fs-6 fw-bold"
+                            style="width: {{ (idea.getTotalSupporters / idea.supporterNeeded) * 100 }}%">
+                            {{idea.getTotalSupporters}} /
+                            {{idea.supporterNeeded}}
+                        </div>
+                    </div>
+                    <h6 class="text-success">Cette idée a atteint son objectif d'adhésion</h6>
+                    {% else %}
                     <div class="progress bg-secondary" role="progressbar" aria-valuenow="{{idea.getTotalSupporters}}"
                         aria-valuemin="0" aria-valuemax="{{idea.supporterNeeded}}">
                         <div class="progress-bar progress-bar-striped progress-bar-animated overflow-visible fs-6 fw-bold"
@@ -42,6 +53,8 @@ block javascripts %}
                             {{idea.supporterNeeded}}
                         </div>
                     </div>
+                    {% endif %}
+
 
                     {% if isMember is same as false
                     and app.user.id is not same as idea.author.id %}
@@ -81,11 +94,11 @@ block javascripts %}
 
                     {% if is_granted ("ROLE_ADMIN") %}
                     <button type="button" class="btn btn-danger shadow-lg text-white my-1" data-bs-toggle="modal"
-                        data-bs-target="#deleteIdeaModal">
+                        data-bs-target="#archiveIdeaModal">
                         Archiver
                     </button>
 
-                    <div class="modal fade" id="deleteIdeaModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                    <div class="modal fade" id="archiveIdeaModal" data-bs-backdrop="static" data-bs-keyboard="false"
                         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
