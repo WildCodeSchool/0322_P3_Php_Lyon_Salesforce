@@ -16,6 +16,9 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\Command\ImportDataCommand:
         tags: ['console.command']
+    
+    App\Command\ArchiveIdeasCommand:
+        tags: ['console.command']
         
     App\:
         resource: "../src/"

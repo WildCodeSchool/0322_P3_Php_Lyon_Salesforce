@@ -21,7 +21,7 @@
                     Trier les idées par
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="sortingDropdown">
-                    <li><a class="dropdown-item" href="{{ path('idea_sorting', {'order': 'desc', 'page': 1}) }}">Dates récentes</a></li>
+                    <li><a class="dropdown-item" href="{{ path('ideas_by_user_office') }}">Dates récentes</a></li>
                     <li><a class="dropdown-item" href="{{ path('idea_sorting', {'order': 'asc', 'page': 1}) }}">Dates anciennes</a></li>
                     <li><a class="dropdown-item" href="{{ path('idea_sorting_supp', {'page': 1}) }}">Popularité</a></li>
                 </ul>
