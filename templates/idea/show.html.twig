@@ -29,8 +29,6 @@ block javascripts %}
                         <div class="col-6 col-md-12">
                             <h6>Publiée le {{ idea.publicationDate|date("d/m/Y") }}</h6>
                             <h6>Jours restants {{idea.getRemainingDays}}</h6>
-                            <h6>nombre d'adhésion actuel : {{idea.getTotalSupporters}} </h6>
-                            <h6>nombre d'adhésion nécessaire : {{idea.supporterNeeded}} </h6>
                             {% if isMember is same as true %}
                             <h6 class="text-success"> Vous adhérez déja à cette idée</h6>
                             {% endif %}
@@ -39,13 +37,14 @@ block javascripts %}
                     <div class="progress bg-secondary" role="progressbar" aria-valuenow="{{idea.getTotalSupporters}}"
                         aria-valuemin="0" aria-valuemax="{{idea.supporterNeeded}}">
                         <div class="progress-bar progress-bar-striped progress-bar-animated overflow-visible fs-6 fw-bold"
-                            style="width: {{ (idea.getTotalSupporters / idea.supporterNeeded) * 100 }}%">{{idea.getTotalSupporters}} /
+                            style="width: {{ (idea.getTotalSupporters / idea.supporterNeeded) * 100 }}%">
+                            {{idea.getTotalSupporters}} /
                             {{idea.supporterNeeded}}
                         </div>
                     </div>
 
-                    {% if app.user.id is not same as idea.author.id %}
-                    {% if isMember is same as false %}
+                    {% if isMember is same as false
+                    and app.user.id is not same as idea.author.id %}
                     <button type="button" class="btn btn-primary shadow-lg text-white my-1" data-bs-toggle="modal"
                         data-bs-target="#staticBackdrop">
                         Adhérer à l'idée
@@ -79,8 +78,42 @@ block javascripts %}
                             </div>
                         </div>
                     </div>
+
+                    {% if is_granted ("ROLE_ADMIN") %}
+                    <button type="button" class="btn btn-danger shadow-lg text-white my-1" data-bs-toggle="modal"
+                        data-bs-target="#deleteIdeaModal">
+                        Archiver
+                    </button>
+
+                    <div class="modal fade" id="deleteIdeaModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Archiver cette idée
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Êtes-vous sûr de vouloir Archiver cette idée ? (vous pourrez toujours la
+                                        retrouver sur le tableau admin d'idée)</p>
+                                </div>
+                                <div class="modal-footer d-flex justify-content-between">
+                                    <button type="button" class="btn btn-primary text-white"
+                                        data-bs-dismiss="modal">Annuler</button>
+
+                                    <a class="btn btn-danger m-0 shadow-lg text-white" id="deleteBtnShow"
+                                        href="{{path('archives_idea', {'idIdea': idea.id})}}"
+                                        data-bs-dismiss="modal">Confirmer</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     {% endif %}
-                    {% else %}
+
+                    {% elseif app.user.id is same as idea.author.id %}
                     <a href="{{ path('idea_edit', {id:idea.id}) }}" class="btn btn-primary shadow-lg text-white my-1">
                         Modifier l'idée</a>
 

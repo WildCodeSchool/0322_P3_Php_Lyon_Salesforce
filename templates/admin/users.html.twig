@@ -10,9 +10,11 @@
             <tr>
                 <th scope="col">Action</th>
                 <th scope="col">ID</th>
+                <th scope="col">ID Slack</th>
                 <th scope="col">Prénom</th>
                 <th scope="col">Nom</th>
                 <th scope="col">Email</th>
+                <th scope="col">Numéro de téléphone</th>
                 <th scope="col">Agence</th>
                 <th scope="col">Service</th>
             </tr>
@@ -22,9 +24,11 @@
             <tr>
                 <td><a href="{{ path('admin_user_edit', {id:user.id}) }}">Modifier</a></td>
                 <td scope="row"><a href="{{ path('user_show', {id:user.id}) }}">{{user.id}}</a></td>
+                <td>{{user.slackId}}</td>
                 <td>{{user.firstname}}</td>
                 <td>{{user.lastname}}</td>
                 <td>{{user.email}}</td>
+                <td>{{user.contactNumber}}</td>
                 <td>{{user.workplace.location}}</td>
                 <td>{{user.department}}</td>
             </tr>
