@@ -40,7 +40,7 @@ class IdeaFixtures extends Fixture implements DependentFixtureInterface
             $dummyIdea->setEndDate($endDate);
             $dummyIdea->setAuthor($this->getReference('contributor@sf.com'));
 
-            for ($j = 0; $j < rand(3, 10); $j++) {
+            for ($j = 0; $j < rand(4, 20); $j++) {
                 $dummyIdea->addSupporter(
                     $this->getReference('user_' . $faker->numberBetween(1, 10) . '_Lyon')
                 );
@@ -67,7 +67,7 @@ class IdeaFixtures extends Fixture implements DependentFixtureInterface
                 $idea->setEndDate($endDate);
                 $idea->setAuthor($this->getReference('user_' . $faker->numberBetween(1, 10) . '_' . $officeLocation));
 
-                for ($j = 0; $j < rand(3, 10); $j++) {
+                for ($j = 0; $j < rand(4, 20); $j++) {
                     $idea->addSupporter(
                         $this->getReference('user_' . $faker->numberBetween(1, 10) . '_' . $officeLocation)
                     );

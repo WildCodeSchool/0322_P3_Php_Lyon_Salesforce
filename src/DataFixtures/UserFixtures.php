@@ -32,7 +32,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                 'Commercial',
             ];
 
-            for ($i = 1; $i <= 10; $i++) {
+            for ($i = 1; $i <= 25; $i++) {
                 $email = $faker->unique()->safeEmail;
 
                 $contributor = new User();
@@ -46,7 +46,6 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                     $contributor->setDepartment($perimeter);
                 }
 
-                $contributor->setPictureFileName($faker->image());
                 $contributor->setWorkplace($this->getReference('office_' . $officeLocation));
                 $contributor->setRoles(['ROLE_CONTRIBUTOR']);
                 $hashedPassword = $this->passwordHasher->hashPassword(
