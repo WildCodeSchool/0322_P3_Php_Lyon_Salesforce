@@ -39,8 +39,6 @@ class IdeaRepository extends ServiceEntityRepository
         }
     }
 
-
-
     public function getIdeasGlobal(): array
     {
         return $this->createQueryBuilder('i')
@@ -62,6 +60,31 @@ class IdeaRepository extends ServiceEntityRepository
             ->setParameter('archived', false)
             ->setParameter('global', 'Global')
             ->orderBy('i.publicationDate', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getAscIdeasGlobal(): array
+    {
+        return $this->createQueryBuilder('i')
+            ->select(
+                'i.id',
+                'i.title',
+                'i.content',
+                'o.location',
+                'i.publicationDate',
+                'u.lastname',
+                'u.firstname',
+                'u.pictureFileName',
+                'o.location',
+            )
+            ->innerJoin('i.author', 'u')
+            ->innerJoin('u.workplace', 'o')
+            ->where('i.perimeter = :global')
+            ->andWhere('i.archived = :archived')
+            ->setParameter('archived', false)
+            ->setParameter('global', 'Global')
+            ->orderBy('i.publicationDate', 'ASC')
             ->getQuery()
             ->getResult();
     }
@@ -92,6 +115,32 @@ class IdeaRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getAscIdeasByUserOffice(int $officeId): array
+    {
+        return $this->createQueryBuilder('i')
+            ->select(
+                'i.id',
+                'i.title',
+                'i.content',
+                'o.location',
+                'i.publicationDate',
+                'u.lastname',
+                'u.firstname',
+                'u.pictureFileName'
+            )
+            ->innerJoin('i.author', 'u')
+            ->innerJoin('u.workplace', 'o')
+            ->where('o.id = :officeId')
+            ->andWhere('i.perimeter = :agence')
+            ->andWhere('i.archived = :archived')
+            ->setParameter('archived', false)
+            ->setParameter('officeId', $officeId)
+            ->setParameter('agence', 'Agence')
+            ->orderBy('i.publicationDate', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function getIdeasByUserDepartment(int $officeId, string $departmentName): array
     {
         return $this->createQueryBuilder('i')
@@ -116,6 +165,34 @@ class IdeaRepository extends ServiceEntityRepository
             ->setParameter('service', 'Service')
             ->setParameter('departmentName', $departmentName)
             ->orderBy('i.publicationDate', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getAscIdeasByUserDepartment(int $officeId, string $departmentName): array
+    {
+        return $this->createQueryBuilder('i')
+            ->select(
+                'i.id',
+                'i.title',
+                'i.content',
+                'o.location',
+                'i.publicationDate',
+                'u.lastname',
+                'u.firstname',
+                'u.pictureFileName'
+            )
+            ->innerJoin('i.author', 'u')
+            ->innerJoin('u.workplace', 'o')
+            ->where('o.id = :officeId')
+            ->andWhere('u.department = :departmentName')
+            ->andWhere('i.perimeter = :service')
+            ->andWhere('i.archived = :archived')
+            ->setParameter('archived', false)
+            ->setParameter('officeId', $officeId)
+            ->setParameter('service', 'Service')
+            ->setParameter('departmentName', $departmentName)
+            ->orderBy('i.publicationDate', 'ASC')
             ->getQuery()
             ->getResult();
     }
@@ -157,25 +234,128 @@ class IdeaRepository extends ServiceEntityRepository
             ->setParameter('archived', false)
             ->orderBy('i.id', 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
-    public function getSupportersSortIdea(): array
+    public function getSupportersSortIdea(bool $archived = false): array
     {
-        $results = $this->createQueryBuilder('i')
-            ->select('i', 'COUNT(s) as supportersCount')
+        $query = $this->createQueryBuilder('i')
+            ->select(
+                'i',
+                'COUNT(s) as supportersCount',
+                'o.location',
+                'u.lastname',
+                'u.firstname',
+                'u.pictureFileName'
+            )
+            ->innerJoin('i.author', 'u')
+            ->innerJoin('u.workplace', 'o')
             ->leftJoin('i.supporters', 's')
+            ->where('i.archived = :archived')
+            ->andWhere('i.perimeter = :global')
+            ->setParameter('archived', $archived)
+            ->setParameter('global', 'Global')
             ->groupBy('i.id')
             ->orderBy('supportersCount', 'DESC')
-            ->getQuery()
-            ->getResult();
+            ->getQuery();
+
+        $results = $query->getResult();
 
         $ideas = [];
         foreach ($results as $result) {
             $idea = $result[0];
             $supportersCount = $result['supportersCount'];
             $idea->supportersCount = $supportersCount;
+            $idea->location = $result['location'];
+            $idea->lastname = $result['lastname'];
+            $idea->firstname = $result['firstname'];
+            $idea->pictureFileName = $result['pictureFileName'];
+            $ideas[] = $idea;
+        }
+        return $ideas;
+    }
+
+    public function getSupportersSortIdeaForOffice(int $officeId, bool $archived = false): array
+    {
+        $query = $this->createQueryBuilder('i')
+            ->select(
+                'i',
+                'COUNT(s) as supportersCount',
+                'o.location',
+                'u.lastname',
+                'u.firstname',
+                'u.pictureFileName'
+            )
+            ->innerJoin('i.author', 'u')
+            ->innerJoin('u.workplace', 'o')
+            ->leftJoin('i.supporters', 's')
+            ->where('i.archived = :archived')
+            ->andWhere('o.id = :officeId')
+            ->andWhere('i.perimeter = :officePerimeter')
+            ->setParameter('archived', $archived)
+            ->setParameter('officeId', $officeId)
+            ->setParameter('officePerimeter', 'Agence')
+            ->groupBy('i.id')
+            ->orderBy('supportersCount', 'DESC')
+            ->getQuery();
+
+        $results = $query->getResult();
+
+        $ideas = [];
+        foreach ($results as $result) {
+            $idea = $result[0];
+            $supportersCount = $result['supportersCount'];
+            $idea->supportersCount = $supportersCount;
+            $idea->location = $result['location'];
+            $idea->lastname = $result['lastname'];
+            $idea->firstname = $result['firstname'];
+            $idea->pictureFileName = $result['pictureFileName'];
+            $ideas[] = $idea;
+        }
+
+        return $ideas;
+    }
+
+    public function getSupportersSortIdeaForDepartment(
+        int $officeId,
+        string $departmentName,
+        bool $archived = false
+    ): array {
+        $query = $this->createQueryBuilder('i')
+            ->select(
+                'i',
+                'COUNT(s) as supportersCount',
+                'o.location',
+                'u.lastname',
+                'u.firstname',
+                'u.pictureFileName'
+            )
+            ->innerJoin('i.author', 'u')
+            ->innerJoin('u.workplace', 'o')
+            ->leftJoin('i.supporters', 's')
+            ->where('i.archived = :archived')
+            ->andWhere('o.id = :officeId')
+            ->andWhere('u.department = :departmentName')
+            ->andWhere('i.perimeter = :service')
+            ->setParameter('archived', $archived)
+            ->setParameter('officeId', $officeId)
+            ->setParameter('departmentName', $departmentName)
+            ->setParameter('service', 'Service')
+            ->groupBy('i.id')
+            ->orderBy('supportersCount', 'DESC')
+            ->getQuery();
+
+        $results = $query->getResult();
+
+        $ideas = [];
+        foreach ($results as $result) {
+            $idea = $result[0];
+            $supportersCount = $result['supportersCount'];
+            $idea->supportersCount = $supportersCount;
+            $idea->location = $result['location'];
+            $idea->lastname = $result['lastname'];
+            $idea->firstname = $result['firstname'];
+            $idea->pictureFileName = $result['pictureFileName'];
             $ideas[] = $idea;
         }
 

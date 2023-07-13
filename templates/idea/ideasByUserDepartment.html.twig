@@ -4,11 +4,25 @@
 
 {% block body %}
 <main class="container" {{ stimulus_controller('symfony/ux-swup/swup') }} id="swup" data-turbo="false">
+
     <div class="container mt-3">
-        <h3>
-            Les idées de mon service {{ user.department }}
-        </h3>
-        <hr class="border-2 border-secondary opacity-50 my-2">
+        <div class="d-flex justify-content-between">
+            <h3>
+                Les idées de mon service {{ user.department }}
+            </h3>
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle text-white" type="button" id="sortingDropdown"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Trier les idées par
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="sortingDropdown">
+                    <li><a class="dropdown-item" href="{{ path('ideas_by_user_department') }}">Dates récentes</a></li>
+                    <li><a class="dropdown-item" href="{{ path('filter_sorting_dep', {'order': 'asc', 'page': 1}) }}">Dates anciennes</a></li>
+                    <li><a class="dropdown-item" href="{{ path('filter_sorting_supp_dep', {'page': 1}) }}">Popularité</a></li>
+                </ul>
+            </div>
+        </div>
+        <hr class="border-2 border-secondary opacity-50">
         <div class="row row-cols-1 row-cols-md-2 justify-content-center row-cols-xl-3 g-2 mx-2">
             {% for idea in ideas %}
             <div class="col">
