@@ -269,17 +269,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Idea>
+     * @return ArrayCollection<int, Idea>
      */
-    public function getOnlineSupportingIdeas(): Collection
+    public function getOnlineSupportingIdeas(): ArrayCollection
     {
-        $olSupportingIdeas = $this->supportingIdeas->filter(function (Idea $idea) {
-            return !$idea->isArchived();
-        });
+        $olSupportingIdeas = new ArrayCollection();
+
+        foreach ($this->supportingIdeas as $idea) {
+            if (!$idea->isArchived()) {
+                $olSupportingIdeas->add($idea);
+            }
+        }
         return $olSupportingIdeas;
     }
-
-
 
     public function addSupportingIdea(Idea $supportingIdea): static
     {
