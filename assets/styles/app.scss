@@ -26,6 +26,11 @@ h3 {
 
 //-------- Side Navbar --------//
 
+.side-bar-profile-picture {
+    width: 130px;
+    height: 130px;
+}
+
 #sidebar a,
 #sidebar .btn {
     transition: all 0.2s ease-in-out;
@@ -33,9 +38,7 @@ h3 {
 
 #sidebar a:hover,
 #sidebar .btn:hover {
-    transform: scale(1.1);
     background-color: $secondary;
-    border-radius: 10px;
 }
 
 //-------- Button Primary --------//
