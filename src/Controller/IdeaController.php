@@ -6,6 +6,7 @@ use App\Entity\Idea;
 use App\Entity\User;
 use App\Form\IdeaType;
 use App\Repository\IdeaRepository;
+use App\Repository\ReportingRepository;
 use App\Service\IdeaFormHandler;
 use App\Service\ReportingHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -124,11 +125,12 @@ class IdeaController extends AbstractController
         Idea $idea,
         Request $request,
         IdeaRepository $ideaRepository,
-        ReportingHandler $reportingHandler
+        ReportingHandler $reportingHandler,
     ): Response {
         /** @var User $user */
         $user = $this->getUser();
         $supporters = $idea->getSupporters();
+
 
         if ($request->get('motive')) {
             $reportingHandler->handleReport($request, $idea, $user);

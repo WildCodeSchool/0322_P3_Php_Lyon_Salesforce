@@ -20,8 +20,11 @@ class ReportingHandler extends AbstractController
     }
     public function handleReport(Request $request, Idea $idea, User $user): void
     {
-
-        if ($user->getId() !== $idea->getAuthor()->getId()) {
+        $existingReport = $this->reportingRepository->findIfAlreadyReported($idea->getId(), $user->getId());
+        if (!empty($existingReport)) {
+            $this->addFlash('danger', "Vous avez déjà signalé cette idée auparavant.");
+            return;
+        } elseif ($user->getId() !== $idea->getAuthor()->getId()) {
             $motive = $request->get('motive');
             $date = new DateTimeImmutable();
             $publicationDate = $date->setDate(intval(date('Y')), intval(date('m')), intval(date('d')));

@@ -49,6 +49,17 @@ class ReportingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findIfAlreadyReported(int $ideaId, int $userId): array
+    {
+        return $this->createQueryBuilder('r')
+
+            ->where('r.reportedIdea = :ideaId')
+            ->andWhere('r.reportingUser = :userId')
+            ->setParameter('ideaId', $ideaId)
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getResult();
+    }
 
 //    /**
 //     * @return Reporting[] Returns an array of Reporting objects
