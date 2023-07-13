@@ -19,8 +19,8 @@
         <tbody>
             {% for idea in reportedIdeas %}
             <tr>
-                <td><a href="{{ path('idea_show', {id:idea.reportedIdea.id}) }}">{{idea.reportedIdea.id}}</a></td>
-                <td>{{idea.reportingUser.firstname}} {{idea.reportingUser.lastname}}</td>
+                <td><a href="{{ path('idea_show', {id:idea.reportedIdea}) }}">{{idea.reportedIdea}}</a></td>
+                <td>{{idea.firstname}} {{idea.lastname}}</td>
                 <td>{{idea.motive}}</td>
                 <td>{{idea.reportDate|date("d/m/Y")}}</td>
                 <td><button type="button" class="btn btn-danger shadow-lg text-white my-1" data-bs-toggle="modal"
@@ -46,8 +46,8 @@
                                 <button type="button" class="btn btn-primary text-white"
                                     data-bs-dismiss="modal">Annuler</button>
 
-                                <a class="btn btn-danger m-0 shadow-lg text-white" id="deleteBtnShow"
-                                    href="{{path('archives_idea', {'idIdea': idea.reportedIdea.id})}}"
+                                <a class="btn btn-danger m-0 shadow-lg text-white" id="deleteReportedIdea"
+                                    href="{{path('archives_idea', {'idIdea': idea.reportedIdea})}}"
                                     data-bs-dismiss="modal">Confirmer</a>
                             </div>
                         </div>

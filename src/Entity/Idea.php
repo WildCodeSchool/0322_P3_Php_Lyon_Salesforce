@@ -63,14 +63,30 @@ class Idea
     #[ORM\Column]
     private ?\DateTimeImmutable $endDate = null;
 
+    #[ORM\OneToMany(mappedBy: 'reportedIdea', targetEntity: Reporting::class)]
+    private Collection $reportings;
+
+    // #[ORM\OneToMany(mappedBy: 'uneIdea', targetEntity: Reporting::class)]
+    // private Collection $reportings;
+
     public function __construct()
     {
         $this->supporters = new ArrayCollection();
+        // $this->reportedIdeas = new ArrayCollection();
+        $this->reportings = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return Collection<int, Reporting>
+     */
+    public function getReportings(): Collection
+    {
+        return $this->reportings;
     }
 
     public function getTitle(): ?string
@@ -208,7 +224,8 @@ class Idea
     }
 
     public function isChannelCreatable(): bool
-    {   $supporters = $this->getSupporters();
+    {
+        $supporters = $this->getSupporters();
         $totalSupporter = $supporters->count();
         $supporterNeeded = $this->supporterNeeded();
         if ($totalSupporter >= $supporterNeeded) {

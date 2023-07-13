@@ -14,7 +14,7 @@ class Reporting
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(inversedBy: 'ideas')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Idea $reportedIdea = null;
 
