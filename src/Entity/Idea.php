@@ -66,13 +66,9 @@ class Idea
     #[ORM\OneToMany(mappedBy: 'reportedIdea', targetEntity: Reporting::class)]
     private Collection $reportings;
 
-    // #[ORM\OneToMany(mappedBy: 'uneIdea', targetEntity: Reporting::class)]
-    // private Collection $reportings;
-
     public function __construct()
     {
         $this->supporters = new ArrayCollection();
-        // $this->reportedIdeas = new ArrayCollection();
         $this->reportings = new ArrayCollection();
     }
 
