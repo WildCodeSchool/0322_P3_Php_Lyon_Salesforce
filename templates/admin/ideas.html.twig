@@ -24,11 +24,10 @@
                 <td>{{idea.motive}}</td>
                 <td>{{idea.reportDate|date("d/m/Y")}}</td>
                 <td><button type="button" class="btn btn-danger shadow-lg text-white my-1" data-bs-toggle="modal"
-                    data-bs-target="#archiveIdeaModal">
+                    data-bs-target="#archiveIdeaModal-{{idea.reportedIdea}}">
                     Archiver
                 </button>
-
-                <div class="modal fade" id="archiveIdeaModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                <div class="modal fade" id="archiveIdeaModal-{{idea.reportedIdea}}" data-bs-backdrop="static" data-bs-keyboard="false"
                     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -40,15 +39,14 @@
                             </div>
                             <div class="modal-body">
                                 <p>Êtes-vous sûr de vouloir Archiver cette idée ? (vous pourrez toujours la
-                                    retrouver sur le tableau d'idée de la page admin )</p>
+                                    retrouver sur le tableau d'idée de la page admin)</p>
                             </div>
                             <div class="modal-footer d-flex justify-content-between">
                                 <button type="button" class="btn btn-primary text-white"
                                     data-bs-dismiss="modal">Annuler</button>
 
-                                <a class="btn btn-danger m-0 shadow-lg text-white" id="deleteReportedIdea"
-                                    href="{{path('archives_idea', {'idIdea': idea.reportedIdea})}}"
-                                    data-bs-dismiss="modal">Confirmer</a>
+                                <a class="btn btn-danger m-0 shadow-lg text-white"
+                                    href="{{path('admin_archives_idea', {'idIdea': idea.reportedIdea})}}">Confirmer</a>
                             </div>
                         </div>
                     </div>

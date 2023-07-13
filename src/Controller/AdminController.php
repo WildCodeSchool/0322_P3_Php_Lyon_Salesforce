@@ -71,4 +71,18 @@ class AdminController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('users/ArchivesIdea/{idIdea}', name: 'archives_idea')]
+    public function archivesIdea(int $idIdea, IdeaRepository $ideaRepository): Response
+    {
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $idea = $ideaRepository->find($idIdea);
+            $idea->setArchived(true);
+            $ideaRepository->save($idea, true);
+
+            $this->addFlash("success", "Cette idée a bien été archivée");
+            return $this->redirectToRoute('admin_ideas');
+        }
+        return $this->redirectToRoute('app_home');
+    }
 }
