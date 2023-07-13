@@ -3,13 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Idea;
-use App\Entity\Reporting;
 use App\Entity\User;
-use DateTimeImmutable;
 use App\Form\IdeaType;
 use App\Repository\IdeaRepository;
-use App\Repository\ReportingRepository;
 use App\Service\IdeaFormHandler;
+use App\Service\ReportingHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -74,7 +72,6 @@ class IdeaController extends AbstractController
         ]);
     }
 
-
     #[Route('/MyOffice/{page<\d+>}', name: 's_by_user_office')]
     public function showOffice(IdeaRepository $ideaRepository, int $page = 1): Response
     {
@@ -127,31 +124,16 @@ class IdeaController extends AbstractController
         Idea $idea,
         Request $request,
         IdeaRepository $ideaRepository,
-        ReportingRepository $reportingRepository,
+        ReportingHandler $reportingHandler
     ): Response {
         /** @var User $user */
         $user = $this->getUser();
         $supporters = $idea->getSupporters();
 
         if ($request->get('motive')) {
-            $motive = $request->get('motive');
-            $user = $this->getUser();
-
-            if ($user && $idea && $user->getId() !== $idea->getAuthor()->getId()) {
-                $date = new DateTimeImmutable();
-                $publicationDate = $date->setDate(intval(date('Y')), intval(date('m')), intval(date('d')));
-                $reporting = new Reporting();
-                $reporting->setReportedIdea($idea);
-                $reporting->setReportingUser($user);
-                $reporting->setReportDate($publicationDate);
-                $reporting->setMotive($motive);
-                $reportingRepository->save($reporting, true);
-
-                $this->addFlash('success', "L'idée a bien été signalée");
-            } else {
-                $this->addFlash('danger', "Une erreur s'est produite lors du signalement de l'idée.");
-            }
+            $reportingHandler->handleReport($request, $idea, $user);
         }
+
         if ($idea->isArchived() === true && $user->getRoles() !== ["ROLE_ADMIN"]) {
             $this->addFlash('danger', 'Cette idée est archivé vous ne pouvez plus la visualiser');
             return $this->redirectToRoute('app_home');
@@ -177,55 +159,6 @@ class IdeaController extends AbstractController
         return $this->render('idea/show.html.twig', [
             'idea' => $idea,
             'isMember' => $isMember,
-        ]);
-    }
-
-
-    #[Route('/show/sorted/{order}/{page<\d+>}', name: '_sorting')]
-    public function sortIdea(IdeaRepository $ideaRepository, string $order, int $page = 1): Response
-    {
-
-
-        $sortOrder = ($order === 'desc') ? 'desc' : 'asc';
-
-        if ($sortOrder === 'desc') {
-            $ideas = $ideaRepository->getIdeasGlobal();
-        } else {
-            $ideas = $ideaRepository->getAscIdeasGlobal();
-        }
-        $ideas = Pagerfanta::createForCurrentPageWithMaxPerPage(
-            new ArrayAdapter($ideas),
-            $page,
-            6
-        );
-
-        $pagerfanta = new TwitterBootstrap5View();
-
-        return $this->render('home/index.html.twig', [
-            'ideas' => $ideas,
-            'pagerfanta' => $pagerfanta,
-            'currentOrder' => $order,
-        ]);
-    }
-
-    #[Route('/show/sorted/supp/{page<\d+>}', name: '_sorting_supp')]
-    public function sortIdeaBySupporters(IdeaRepository $ideaRepository, int $page = 1): Response
-    {
-        // sort ideas by their Supporters' number DESC
-        $ideas = $ideaRepository->getSupportersSortIdea();
-
-        $ideas = Pagerfanta::createForCurrentPageWithMaxPerPage(
-            new ArrayAdapter($ideaRepository->getSupportersSortIdea()),
-            $page,
-            6
-        );
-
-        $pagerfanta = new TwitterBootstrap5View();
-
-        return $this->render('home/index.html.twig', [
-            'ideas' => $ideas,
-            'pagerfanta' => $pagerfanta,
-            'currentOrder' => 'supp',
         ]);
     }
 }

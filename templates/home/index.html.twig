@@ -4,7 +4,7 @@
 
 {% block body %}
 <main class="container" {{ stimulus_controller('symfony/ux-swup/swup') }} id="swup" data-turbo="false">
-    <div class="container mt-2">
+    <div class="container mt-3">
         <div class="d-flex justify-content-between">
             <h3 class="m-0">
                 Nouvelles idées
@@ -15,11 +15,9 @@
                     Trier les idées par
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="sortingDropdown">
-                    <li><a class="dropdown-item" href="{{ path('idea_sorting', {'order': 'desc', 'page': 1}) }}">Dates
-                            récentes</a></li>
-                    <li><a class="dropdown-item" href="{{ path('idea_sorting', {'order': 'asc', 'page': 1}) }}">Dates
-                            anciennes</a></li>
-                    <li><a class="dropdown-item" href="{{ path('idea_sorting_supp', {'page': 1}) }}">Popularité</a></li>
+                    <li><a class="dropdown-item" href="{{ path('filter_sorting', {'order': 'desc', 'page': 1}) }}">Dates récentes</a></li>
+                    <li><a class="dropdown-item" href="{{ path('filter_sorting', {'order': 'asc', 'page': 1}) }}">Dates anciennes</a></li>
+                    <li><a class="dropdown-item" href="{{ path('filter_sorting_supp', {'page': 1}) }}">Popularité</a></li>
                 </ul>
             </div>
         </div>

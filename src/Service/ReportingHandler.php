@@ -1,33 +1,40 @@
 <?php
 
-// namespace App\Service;
+namespace App\Service;
 
-// use App\Entity\Reporting;
-// use App\Entity\Idea;
-// use App\Entity\User;
-// use App\Form\ReportingType;
-// use DateTimeImmutable;
-// use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Idea;
+use App\Entity\Reporting;
+use App\Entity\User;
+use App\Repository\ReportingRepository;
+use DateTimeImmutable;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-// class ReportingHandler extends AbstractController
-// {
-//     public function formHandler(): array
-//     {
+class ReportingHandler extends AbstractController
+{
+    private ReportingRepository $reportingRepository;
 
-//         /** @var User $user */
-//         $user = $this->getUser();
-//         $date = new DateTimeImmutable();
-//         $publicationDate = $date->setDate(intval(date('Y')), intval(date('m')), intval(date('d')));
+    public function __construct(ReportingRepository $reportingRepository)
+    {
+        $this->reportingRepository = $reportingRepository;
+    }
+    public function handleReport(Request $request, Idea $idea, User $user): void
+    {
 
-//         $reporting = new Reporting();
+        if ($user->getId() !== $idea->getAuthor()->getId()) {
+            $motive = $request->get('motive');
+            $date = new DateTimeImmutable();
+            $publicationDate = $date->setDate(intval(date('Y')), intval(date('m')), intval(date('d')));
+            $reporting = new Reporting();
+            $reporting->setReportedIdea($idea);
+            $reporting->setReportingUser($user);
+            $reporting->setReportDate($publicationDate);
+            $reporting->setMotive($motive);
+            $this->reportingRepository->save($reporting, true);
 
-//         // $idea->setPublicationDate($publicationDate);
-//         // $idea->setEndDate($endDate);
-//         // $idea->setArchived(false);
-//         // $idea->setAuthor($user);
-
-//         return [
-//         'form' => $form,
-//         ];
-//     }
-// }
+            $this->addFlash('success', "L'idée a bien été signalée");
+        } else {
+            $this->addFlash('danger', "Une erreur s'est produite lors du signalement de l'idée.");
+        }
+    }
+}
