@@ -28,7 +28,7 @@ class AdminController extends AbstractController
     }
 
     #[Route('/ideas', name: 'ideas')]
-    public function ideas(IdeaRepository $ideaRepository, ReportingRepository $reportingRepository): Response
+    public function ideas(IdeaRepository $ideaRepository): Response
     {
         $ideas = $ideaRepository->findBy([], ['publicationDate' => 'DESC']);
 

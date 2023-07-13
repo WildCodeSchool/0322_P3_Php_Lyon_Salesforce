@@ -283,8 +283,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $olSupportingIdeas;
     }
 
-
-
     public function addSupportingIdea(Idea $supportingIdea): static
     {
         if (!$this->supportingIdeas->contains($supportingIdea)) {

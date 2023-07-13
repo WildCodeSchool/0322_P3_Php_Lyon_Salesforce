@@ -38,16 +38,6 @@ class ReportingRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    public function findOnlineIdeas(): array
-    {
-        return $this->createQueryBuilder('r')
-            ->join('r.reportedIdea', 'i')
-            ->where(('i.archived = :archived'))
-            ->setParameter('archived', false)
-            ->orderBy('i.title', 'DESC')
-            ->getQuery()
-            ->getResult();
-    }
 
     public function findIfAlreadyReported(int $ideaId, int $userId): array
     {
