@@ -67,20 +67,70 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Titre</th>
+                <th scope="col">Auteur</th>
                 <th scope="col">Périmetre</th>
                 <th scope="col">Date de publication</th>
-                <th scope="col">Auteur</th>
+                <th scope="col">Jour restant</th>
+                <th scope="col">Adhésion</th>
+                <th scope="col">Archiver</th>
             </tr>
         </thead>
         <tbody>
             {% for idea in ideas %}
-            <tr>
+            <tr {% if idea.isArchived is same as true %} class="table-danger border-dark" {% endif %}>
                 <td><a href="{{ path('idea_show', {id:idea.id}) }}">{{idea.id}}</a></td>
                 <td>{{idea.title}}</td>
-                <td>{{idea.perimeter}}</td>
-                <td>{{idea.publicationDate|date("d/m/Y")}}</td>
                 <td><a href="{{ path('user_show', {id:idea.author.id}) }}">
                         {{idea.author.firstname}} {{idea.author.lastname}}</a>
+                </td>
+                <td>{{idea.perimeter}}</td>
+                <td>{{idea.publicationDate|date("d/m/Y")}}</td>
+                <td>{{idea.getRemainingDays}}</td>
+                <td>
+                    <div class="progress bg-secondary" role="progressbar" aria-valuenow="{{idea.getTotalSupporters}}"
+                        aria-valuemin="0" aria-valuemax="{{idea.supporterNeeded}}">
+                        <div class="progress-bar progress-bar-striped overflow-visible fs-6 fw-bold"
+                            style="width: {{ (idea.getTotalSupporters / idea.supporterNeeded) * 100 }}%">
+                            {{idea.getTotalSupporters}} /
+                            {{idea.supporterNeeded}}
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    {% if idea.isArchived is same as false %}
+                    <button type="button" class="btn btn-danger shadow-lg text-white my-1" data-bs-toggle="modal"
+                        data-bs-target="#archiveIdeaModal">
+                        Archiver
+                    </button>
+
+                    <div class="modal fade" id="archiveIdeaModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Archiver cette idée
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Êtes-vous sûr de vouloir Archiver cette idée ? (vous pourrez toujours la
+                                        retrouver sur le tableau d'idée de la page admin )</p>
+                                </div>
+                                <div class="modal-footer d-flex justify-content-between">
+                                    <button type="button" class="btn btn-primary text-white"
+                                        data-bs-dismiss="modal">Annuler</button>
+
+                                    <a class="btn btn-danger m-0 shadow-lg text-white" id="deleteBtnShow"
+                                        href="{{path('archives_idea', {'idIdea': idea.id})}}"
+                                        data-bs-dismiss="modal">Confirmer</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <h6>Déjà Archivé</h6>
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}

@@ -132,13 +132,11 @@ class IdeaController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
         $supporters = $idea->getSupporters();
-        $ideaId = $idea->getId();
 
-        $totalSupporters = $ideaRepository->countSupporters($ideaId);
         if ($request->get('motive')) {
             $motive = $request->get('motive');
             $user = $this->getUser();
-            $idea = $ideaRepository->find($ideaId);
+
             if ($user && $idea && $user->getId() !== $idea->getAuthor()->getId()) {
                 $date = new DateTimeImmutable();
                 $publicationDate = $date->setDate(intval(date('Y')), intval(date('m')), intval(date('d')));
@@ -153,6 +151,10 @@ class IdeaController extends AbstractController
             } else {
                 $this->addFlash('danger', "Une erreur s'est produite lors du signalement de l'idée.");
             }
+        }
+        if ($idea->isArchived() === true && $user->getRoles() !== ["ROLE_ADMIN"]) {
+            $this->addFlash('danger', 'Cette idée est archivé vous ne pouvez plus la visualiser');
+            return $this->redirectToRoute('app_home');
         }
 
         if ($supporters->contains($user)) {
@@ -172,15 +174,12 @@ class IdeaController extends AbstractController
             return $this->redirectToRoute('idea_show', ['id' => $idea->getId()]);
         }
 
-        $isCreatable = $idea->isChannelCreatable();
-
         return $this->render('idea/show.html.twig', [
             'idea' => $idea,
-            'totalSupporters' => $totalSupporters,
             'isMember' => $isMember,
-            'isCreatable' => $isCreatable
         ]);
     }
+
 
     #[Route('/show/sorted/{order}/{page<\d+>}', name: '_sorting')]
     public function sortIdea(IdeaRepository $ideaRepository, string $order, int $page = 1): Response

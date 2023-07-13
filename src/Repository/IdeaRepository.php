@@ -158,17 +158,6 @@ class IdeaRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function countSupporters(int $ideaId): int
-    {
-        return $this->createQueryBuilder('i')
-            ->select('COUNT(u.id)')
-            ->leftJoin('i.supporters', 'u')
-            ->where('i.id = :idea')
-            ->setParameter('idea', $ideaId)
-            ->getQuery()
-            ->getSingleScalarResult();
-    }
-
     public function getSupportersSlackId(int $ideaId): array
     {
         return $this->createQueryBuilder('i')

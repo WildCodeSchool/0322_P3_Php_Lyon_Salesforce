@@ -223,12 +223,17 @@ class Idea
         return $supporterNeeded;
     }
 
-    public function isChannelCreatable(): bool
+    public function getTotalSupporters(): int
     {
         $supporters = $this->getSupporters();
         $totalSupporter = $supporters->count();
+        return $totalSupporter;
+    }
+
+    public function isChannelCreatable(): bool
+    {
         $supporterNeeded = $this->supporterNeeded();
-        if ($totalSupporter >= $supporterNeeded) {
+        if ($this->getTotalSupporters() >= $supporterNeeded) {
             return true;
         } else {
             return false;
