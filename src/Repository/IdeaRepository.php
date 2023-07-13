@@ -368,6 +368,7 @@ class IdeaRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('i')
             ->select(
                 'i.id as reportedIdea',
+                'i.title',
                 'r.motive',
                 'r.reportDate',
                 'u.id as reportingUser',
@@ -378,6 +379,7 @@ class IdeaRepository extends ServiceEntityRepository
             ->join('i.reportings', 'r')
             ->join('r.reportingUser', 'u')
             ->setParameter('archived', false)
+            ->orderBy('r.reportDate', 'DESC')
             ->getQuery()
             ->getResult();
     }
