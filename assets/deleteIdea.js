@@ -64,32 +64,3 @@ deleteBtnShow.addEventListener('click', function (event) {
 });
 
 
-const deleteReportedIdea = document.getElementById('deleteReportedIdea');
-
-deleteReportedIdea.addEventListener('click', function (event) {
-    event.preventDefault();
-
-    fetch(deleteReportedIdea.getAttribute('href'))
-        .then(response => {
-            if (response.status === 200) {
-
-                location.href = '/';
-                const flashMessage = document.createElement('div');
-                flashMessage.classList.add('alert', 'alert-success', 'flash-message');
-                flashMessage.textContent = "L'idée a bien été signalée.";
-                flashMessage.setAttribute('role', 'alert');
-                document.querySelector('.container').appendChild(flashMessage);
-
-
-                setTimeout(() => {
-                    flashMessage.remove();
-                }, 2500);
-
-
-            } else {
-                alert("Erreur");
-            }
-        })
-    ;
-});
-
