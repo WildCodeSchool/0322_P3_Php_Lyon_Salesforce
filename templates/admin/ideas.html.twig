@@ -42,11 +42,10 @@
                 <td>
                     {% if idea.isArchived is same as false %}
                     <button type="button" class="btn btn-danger shadow-lg text-white my-1" data-bs-toggle="modal"
-                        data-bs-target="#archiveIdeaModal">
+                        data-bs-target="#archiveIdeaModal-{{idea.id}}">
                         Archiver
                     </button>
-
-                    <div class="modal fade" id="archiveIdeaModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                    <div class="modal fade" id="archiveIdeaModal-{{idea.id}}" data-bs-backdrop="static" data-bs-keyboard="false"
                         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -57,16 +56,15 @@
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <p>Êtes-vous sûr de vouloir Archiver cette idée ? (vous pourrez toujours la
-                                        retrouver sur le tableau d'idée de la page admin )</p>
+                                    <p>Êtes vous sur de vouloir Archiver cette idée ? (vous pourrez toujours la
+                                        retrouver sur le tableau admin d'idée)</p>
                                 </div>
                                 <div class="modal-footer d-flex justify-content-between">
                                     <button type="button" class="btn btn-primary text-white"
                                         data-bs-dismiss="modal">Annuler</button>
 
-                                    <a class="btn btn-danger m-0 shadow-lg text-white" id="deleteBtnShow"
-                                        href="{{path('archives_idea', {'idIdea': idea.id})}}"
-                                        data-bs-dismiss="modal">Confirmer</a>
+                                    <a class="btn btn-danger m-0 shadow-lg text-white"
+                                        href="{{path('admin_archives_idea', {'idIdea': idea.id})}}">Confirmer</a>
                                 </div>
                             </div>
                         </div>

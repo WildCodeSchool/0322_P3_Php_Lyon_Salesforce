@@ -15,8 +15,6 @@ class AjaxController extends AbstractController
     #[Route('/ArchivesIdea/{idIdea}', name: 'archives_idea')]
     public function archivesIdea(int $idIdea, IdeaRepository $ideaRepository): Response
     {
-
-
         if ($this->isGranted('ROLE_ADMIN')) {
             $idea = $ideaRepository->find($idIdea);
             $idea->setArchived(true);
