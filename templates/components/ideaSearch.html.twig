@@ -1,13 +1,13 @@
 <div{{ attributes }}>
-    
+
     <div class="mb-3 row">
         <h3 class="row row-cols-1 mx-4 col-sm-3">Recherche d'idées :</h3>
         <div class="col-sm-5 d-flex align-items-center">
             <input
-                type="text"
-                data-model="searchBar"
-                placeholder="Recherchez vos idées et celles que vous supportez"
-                class="form-control"
+            type="text"
+            data-model="searchBar"
+            placeholder="Recherchez vos idées et celles que vous supportez"
+            class="form-control"
             >
         </div>
     </div>
@@ -81,5 +81,7 @@
         </div>
         {% endfor %}
     </div>
+    {% else %}
+    <h5 class="text-center text-secondary m-0">Aucune idée Trouvé</h5>
     {% endif %}
-</div>
+    </div>

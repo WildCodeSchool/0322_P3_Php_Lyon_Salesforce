@@ -7,7 +7,7 @@
                 </button>
             </div>
 
-            <hr class="d-md-none my-2">
+            <hr class="d-md-none my-3">
 
             <div class="d-flex justify-content-center my-3">
                 {% if app.user.pictureFileName %}
@@ -19,57 +19,57 @@
                 {% endif %}
             </div>
 
-            <hr class="my-2">
+            <hr class="my-3">
 
             <a href="{{ path('user_show', {id:app.user.id}) }}" class="nav-link px-3 w-100 fs-5">
-                <li class="my-2 py-1 fs-5">
+                <li class="my-3 py-1 fs-5">
                     <i class="bi bi-person-fill"></i> Mon Profil
                 </li>
             </a>
 
-            <hr class="my-2">
+            <hr class="my-3">
 
             <a href="{{ path('app_home') }}" class="nav-link px-3 w-100 fs-5">
-                <li class="my-2 py-1 fs-5">
+                <li class="my-3 py-1 fs-5">
                     <i class="bi bi-house-fill"></i> Accueil
                 </li>
             </a>
 
-            <hr class="my-2">
+            <hr class="my-3">
 
             <a href="{{ path('app_home') }}" class="nav-link px-3 w-100 fs-5">
-                <li class="my-2 py-1 fs-5">
+                <li class="my-3 py-1 fs-5">
                     <i class="bi bi-globe"></i> Global
                 </li>
             </a>
 
             <a href="{{ path('ideas_by_user_office') }}" class="nav-link px-3 w-100 fs-5">
-                <li class="my-2 py-1 fs-5">
+                <li class="my-3 py-1 fs-5">
                     <i class="bi bi-building-fill"></i> Mon agence
                 </li>
             </a>
 
             <a href="{{ path('ideas_by_user_department') }}" class="nav-link px-3 w-100 fs-5">
-                <li class="my-2 py-1 fs-5">
+                <li class="my-3 py-1 fs-5">
                     <i class="bi bi-people-fill"></i> Mon service
                 </li>
             </a>
 
-            <hr class="my-2">
+            <hr class="my-3">
 
             {% if is_granted('ROLE_ADMIN') %}
             <a href="{{ path('admin_users')}}" class="nav-link px-3 w-100 fs-5">
-                <li class="my-2 py-1 fs-5">
+                <li class="my-3 py-1 fs-5">
                     <i class="bi bi-people-fill"></i> Utilisateurs
                 </li>
             </a>
 
             <a href="{{ path('admin_ideas')}}" class="nav-link px-3 w-100 fs-5">
-                <li class="my-2 py-1 fs-5">
+                <li class="my-3 py-1 fs-5">
                     <i class="bi bi-archive-fill"></i> Idées
                 </li>
             </a>
-            <hr class="my-2">
+            <hr class="my-3">
             {% endif %}
         </ul>
 
