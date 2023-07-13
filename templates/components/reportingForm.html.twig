@@ -1,0 +1,33 @@
+<button type="button" class="btn btn-danger shadow-lg text-white my-1" data-bs-toggle="modal"
+data-bs-target="#reporting">Signaler l'idée</button>
+
+<div class="modal fade" id="reporting" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Signaler l'idée</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action=""  method="post" enctype="multipart/form-data" class="m-2">
+                    <div class="mb-3 form-check">
+
+                        <select class="form-select" name="motive" aria-label="Default select example">
+                            <option disabled selected>Motif du signalement</option>
+                            <option value="Inapproprié">Inapproprié</option>
+                            <option value="Spam">Spam</option>
+                            <option value="Violence">Violence</option>
+                            <option value="Informations privées">Informations privées</option>
+                        </select>
+                        <input type="hidden" class="form-control" name="new-password" id="new-password">
+
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    </div>
+                    <button type="submit" class="btn btn-primary text-white">Confirmer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

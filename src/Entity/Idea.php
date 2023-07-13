@@ -63,14 +63,26 @@ class Idea
     #[ORM\Column]
     private ?\DateTimeImmutable $endDate = null;
 
+    #[ORM\OneToMany(mappedBy: 'reportedIdea', targetEntity: Reporting::class)]
+    private Collection $reportings;
+
     public function __construct()
     {
         $this->supporters = new ArrayCollection();
+        $this->reportings = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return Collection<int, Reporting>
+     */
+    public function getReportings(): Collection
+    {
+        return $this->reportings;
     }
 
     public function getTitle(): ?string

@@ -12,9 +12,13 @@ for(const deleteIdeaBtn of deleteIdeaBtns) {
 
                     deleteIdeaBtn.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.remove();
                     const flashMessage = document.createElement('div');
-                    flashMessage.classList.add('flash-message');
-                    flashMessage.textContent = 'Votre idée a été supprimé.';
-                    document.body.appendChild(flashMessage);
+                    flashMessage.classList.add('alert', 'alert-success', 'flash-message');
+                    flashMessage.textContent = "L'idée a bien été signalée.";
+                    
+                    flashMessage.setAttribute('role', 'alert');
+                    
+                    document.querySelector('.container').appendChild(flashMessage);
+                    
 
 
                     setTimeout(() => {
@@ -41,9 +45,10 @@ deleteBtnShow.addEventListener('click', function (event) {
 
                 location.href = '/';
                 const flashMessage = document.createElement('div');
-                flashMessage.classList.add('flash-message');
-                flashMessage.textContent = 'Votre idée a été supprimé.';
-                document.body.appendChild(flashMessage);
+                flashMessage.classList.add('alert', 'alert-success', 'flash-message');
+                flashMessage.textContent = "L'idée a bien été signalée.";
+                flashMessage.setAttribute('role', 'alert');
+                document.querySelector('.container').appendChild(flashMessage);
 
 
                 setTimeout(() => {
@@ -57,3 +62,5 @@ deleteBtnShow.addEventListener('click', function (event) {
         })
     ;
 });
+
+

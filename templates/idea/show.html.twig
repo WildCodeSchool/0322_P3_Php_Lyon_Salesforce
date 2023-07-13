@@ -180,6 +180,12 @@ block javascripts %}
                     {% else %}
                     <h6>Vous n'avez pas encore assez d'adhérents</h6>
                     {% endif %}
+                    
+                    {% endif %}
+                    {% if app.user.id is not same as idea.author.id %}
+                        {% block reporting %}
+                        {% include "components/reportingForm.html.twig" %}
+                        {% endblock %}
                     {% endif %}
                 </div>
             </div>

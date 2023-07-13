@@ -6,7 +6,9 @@ use App\Entity\Idea;
 use App\Entity\User;
 use App\Form\IdeaType;
 use App\Repository\IdeaRepository;
+use App\Repository\ReportingRepository;
 use App\Service\IdeaFormHandler;
+use App\Service\ReportingHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -123,10 +125,16 @@ class IdeaController extends AbstractController
         Idea $idea,
         Request $request,
         IdeaRepository $ideaRepository,
+        ReportingHandler $reportingHandler,
     ): Response {
         /** @var User $user */
         $user = $this->getUser();
         $supporters = $idea->getSupporters();
+
+
+        if ($request->get('motive')) {
+            $reportingHandler->handleReport($request, $idea, $user);
+        }
 
         if ($idea->isArchived() === true && $user->getRoles() !== ["ROLE_ADMIN"]) {
             $this->addFlash('danger', 'Cette idée est archivé vous ne pouvez plus la visualiser');
