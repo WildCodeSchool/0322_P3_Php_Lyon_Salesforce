@@ -31,7 +31,7 @@ class PasswordController extends AbstractController
 
         $newPassword = $request->get('new-password');
 
-        if (strlen($newPassword) < 6) {
+        if (strlen($newPassword) <= 6) {
             $this->addFlash('danger', 'La taille du mot de passe doit etre supérieur à 6 caractères');
         }
 
