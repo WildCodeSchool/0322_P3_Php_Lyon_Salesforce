@@ -19,20 +19,23 @@ class Idea
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank(message: 'Vous avez oublié d\'écrire votre idée !')]
+    #[Assert\NotBlank(message: 'Le titre est obligatoire')]
     #[Assert\Length(
+        min: 6,
+        minMessage: 'Le titre de votre idée doit avoir {{ limit }} caractères minimum',
         max: 255,
-        maxMessage: 'Le nom de votre idée doit avoir maximum {{ limit }} caractères'
+        maxMessage: 'Le titre de votre idée doit avoir {{ limit }} caractères maximum'
     )]
     private ?string $title = null;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(message: 'Vous devez préciser votre service')]
     #[Assert\Length(
+        min: 6,
+        minMessage: 'Le nom de votre service doit avoir {{ limit }} caractères minimum',
         max: 255,
-        maxMessage: 'Le nom de votre service doit avoir maximum {{ limit }} caractères'
+        maxMessage: 'Le nom de votre service doit avoir {{ limit }} caractères maximum'
     )]
-
     #[Assert\Choice(
         choices: [
             "Global",
@@ -41,7 +44,6 @@ class Idea
         ],
         message: "Le service spécifié n'est pas valide"
     )]
-
     private ?string $perimeter = null;
 
     #[ORM\ManyToOne(inversedBy: 'ideas')]

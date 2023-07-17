@@ -19,12 +19,12 @@ class IdeaType extends AbstractType
             ->add('title', TextType::class, [
                 'label' => 'Mon idée en quelques mots',
                 'constraints' => [
-                    new Assert\NotBlank(['message' => 'Le titre est requis.']),
+                    new Assert\NotBlank(['message' => 'Le titre est obligatoire.']),
                     new Assert\Length([
                         'min' => 5,
                         'max' => 255,
-                        'minMessage' => 'Le titre est trop court!',
-                        'maxMessage' => 'Le titre est trop long!',
+                        'minMessage' => 'Le titre est trop court.',
+                        'maxMessage' => 'Le titre est trop long.',
                     ]),
                 ],
             ])
@@ -35,14 +35,23 @@ class IdeaType extends AbstractType
                     'A mon agence' => 'Agence',
                     'A mon service' => 'Service',
                 ],
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Le périmetre est obligatoire.']),
+                    new Assert\Length([
+                        'min' => 5,
+                        'max' => 255,
+                        'minMessage' => 'Le périmetre est trop court.',
+                        'maxMessage' => 'Le périmetre est trop long.',
+                    ]),
+                ],
             ])
             ->add('content', CKEditorType::class, [
                 'label' => 'Expliquer mon idée',
                 'constraints' => [
-                    new Assert\NotBlank(['message' => 'Pensez à développer votre idée!']),
+                    new Assert\NotBlank(['message' => 'Le contenu de l\'idée est obligatoire.']),
                     new Assert\Length([
                         'min' => 10,
-                        'minMessage' => 'Expliquez d\'avantage votre idée!.',
+                        'minMessage' => 'Développez d\'avantage votre idée.',
                     ]),
                 ],
             ]);

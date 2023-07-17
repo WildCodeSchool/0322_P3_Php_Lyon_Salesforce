@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -26,7 +27,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
+    #[ORM\Column(type: 'string', length: 100, nullable: false)]
+    #[Assert\NotBlank(message: 'Nouveau mot de passe obligtoire')]
+    #[Assert\Length(
+        min: 6,
+        minMessage: 'Le mot de passe doit avoir {{ limit }} caractères minimum',
+        max: 100,
+        maxMessage: 'Le mot de passe doit avoir {{ limit }} caractères maximum'
+    )]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
@@ -35,7 +43,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $lastname = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    #[Assert\NotBlank(message: 'Champ obligatoire')]
     private ?string $department = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -49,6 +58,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $ideas;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Champ obligatoire')]
     private ?string $contactNumber = null;
 
     #[ORM\Column(type: 'boolean')]
