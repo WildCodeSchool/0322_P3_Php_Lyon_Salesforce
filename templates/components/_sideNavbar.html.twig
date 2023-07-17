@@ -11,10 +11,10 @@
 
             <div class="d-flex justify-content-center my-3">
                 {% if app.user.pictureFileName %}
-                <img src="{{ asset('/uploads/profiles_pictures/' ~ app.user.pictureFileName)}}" alt="profile picture"
+                <img src="{{ asset('/uploads/profiles_pictures/' ~ app.user.pictureFileName)}}" alt="photo de profil"
                     class="side-bar-profile-picture img-fluid rounded-circle">
                 {% else %}
-                <img src="{{ asset('build/images/blank-profil-picture.png' )}}" alt="profile picture"
+                <img src="{{ asset('build/images/blank-profil-picture.png' )}}" alt="photo de profil"
                     class="side-bar-profile-picture img-fluid rounded-circle">
                 {% endif %}
             </div>
