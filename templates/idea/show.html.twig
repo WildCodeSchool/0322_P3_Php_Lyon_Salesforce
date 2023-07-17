@@ -109,7 +109,7 @@ block javascripts %}
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <p>Êtes-vous sûr de vouloir Archiver cette idée ? (vous pourrez toujours la
+                                    <p>Êtes-vous sûr de vouloir Archiver l'idée : <br><b>{{idea.id}} - {{idea.title}}</b><br> (vous pourrez toujours la
                                         retrouver sur le tableau admin d'idée)</p>
                                 </div>
                                 <div class="modal-footer d-flex justify-content-between">
@@ -180,7 +180,7 @@ block javascripts %}
                     {% else %}
                     <h6>Vous n'avez pas encore assez d'adhérents</h6>
                     {% endif %}
-                    
+
                     {% endif %}
                     {% if app.user.id is not same as idea.author.id %}
                         {% block reporting %}
