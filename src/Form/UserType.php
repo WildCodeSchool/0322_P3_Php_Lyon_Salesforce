@@ -32,7 +32,7 @@ class UserType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('slackId', NumberType::class, [
+            ->add('slackId', TextType::class, [
                 'label' => 'ID Slack'
             ])
             ->add('firstname', TextType::class, [

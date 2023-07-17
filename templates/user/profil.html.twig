@@ -16,7 +16,7 @@
                     <div class="col-6 col-md-auto">
                         {% if user.pictureFileName %}
                         <img src="{{ asset('/uploads/profiles_pictures/' ~ user.pictureFileName)}}"
-                            alt="profile picture" class="profile-picture img-fluid rounded-circle">
+                            alt="photo de profil" class="profile-picture img-fluid rounded-circle">
                         {% else %}
                         <img src="{{ asset('build/images/blank-profil-picture.png' )}}" alt="profile picture"
                             class="profile-picture img-fluid rounded-circle">
@@ -26,7 +26,7 @@
                             {% if app.user.email is same as user.email %}
                             <button type="button" class="btn btn-primary text-white mt-2" data-bs-toggle="modal"
                                 data-bs-target="#userProfilPictureModal">
-                                Changer de photo de profil
+                                Changer photo de profil
                             </button>
 
                             <div class="modal fade" id="userProfilPictureModal" data-bs-backdrop="static"
@@ -36,7 +36,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h1 class="modal-title fs-5" id="staticBackdropLabel">
-                                                Changer de photo de profil
+                                                Changer photo de profil
                                             </h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
@@ -85,7 +85,11 @@ or is_granted("ROLE_ADMIN")%}
 <div class="row m-4">
     <div class="container my-5">
         <h3 class="row row-cols-1 g-4 mx-4">
-            Listes des idées de {{user.firstname}} {{user.lastname}} :
+            {% if app.user.id is same as user.id %}
+            Mes idées
+            {% else %}
+            Idées de {{user.firstname}} {{user.lastname}}
+            {% endif %}
         </h3>
         <hr class="border-2 border-secondary opacity-50">
         <div id="userIdeas" class="row row-cols-1 row-cols-md-2 justify-content-center row-cols-xl-3 g-2 mx-2">
@@ -147,7 +151,11 @@ or is_granted("ROLE_ADMIN")%}
 <div class="row m-4">
     <div class="container my-5">
         <h3 class="row row-cols-1 g-4 mx-4">
-            Listes des idées auxquels adhère {{user.firstname}} {{user.lastname}} :
+            {% if app.user.id is same as user.id %}
+            Idées auxquelles j'adhère
+            {% else %}
+            Idées auxquelles adhère {{user.firstname}} {{user.lastname}}
+            {% endif %}
         </h3>
         <hr class="border-2 border-secondary opacity-50">
         <div id="userIdeas" class="row row-cols-1 row-cols-md-2 justify-content-center row-cols-xl-3 g-2 mx-2">

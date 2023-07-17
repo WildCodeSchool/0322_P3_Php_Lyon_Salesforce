@@ -1,6 +1,6 @@
 {% extends 'loginBase.html.twig' %}
 
-{% block title %}Connection{% endblock %}
+{% block title %}Connexion{% endblock %}
 
 {% block body %}
 
@@ -30,7 +30,7 @@
                         name="_password">
                 </p>
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                <button type="submit" class="btn btn-primary mb-3 text-white">Connection</button>
+                <button type="submit" class="btn btn-primary mb-3 text-white">Connexion</button>
             </form>
         </div>
 
