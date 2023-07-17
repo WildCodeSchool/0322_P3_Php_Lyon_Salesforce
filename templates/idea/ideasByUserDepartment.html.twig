@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Idées du service de l'utilisateur{% endblock %}
+{% block title %}Idées du service{% endblock %}
 
 {% block body %}
 <main class="container" {{ stimulus_controller('symfony/ux-swup/swup') }} id="swup" data-turbo="false">
@@ -8,7 +8,7 @@
     <div class="container mt-3">
         <div class="d-flex justify-content-between">
             <h3>
-                Les idées de mon service {{ user.department }}
+                Les idées de mon service
             </h3>
             <div class="dropdown">
                 <button class="btn btn-primary dropdown-toggle text-white" type="button" id="sortingDropdown"
