@@ -22,8 +22,8 @@ class IdeaFixtures extends Fixture implements DependentFixtureInterface
         ];
 
 
-        for ($i = 1; $i <= 10; $i++) {
-            $date = $faker->dateTimeBetween('-6 month');
+        for ($i = 1; $i <= 20; $i++) {
+            $date = $faker->dateTimeBetween('-45 days');
             $publicationDate = DateTimeImmutable::createFromMutable($date);
             $endDate = $publicationDate->modify('+31 days');
 
@@ -51,8 +51,8 @@ class IdeaFixtures extends Fixture implements DependentFixtureInterface
         }
 
         foreach (OfficeFixtures::OFFICES as $officeLocation) {
-            for ($i = 1; $i <= 10; $i++) {
-                $date = $faker->dateTimeBetween('-6 month');
+            for ($i = 1; $i <= 20; $i++) {
+                $date = $faker->dateTimeBetween('-45 days');
                 $publicationDate = DateTimeImmutable::createFromMutable($date);
                 $endDate = $publicationDate->modify('+31 days');
 

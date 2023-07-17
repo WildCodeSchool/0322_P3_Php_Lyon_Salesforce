@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Idées de l'agence de l'utilisateur{% endblock %}
+{% block title %}Idées de l'agence{% endblock %}
 
 {% block body %}
 <main class="container" {{ stimulus_controller('symfony/ux-swup/swup') }} id="swup" data-turbo="false">
@@ -8,7 +8,7 @@
     <div class="container mt-3">
         <div class="d-flex justify-content-between">
             <h3>
-                Les idées de mon agence de {{user.workplace.location}}
+                Les idées de mon agence
             </h3>
             <div class="dropdown">
                 <button class="btn btn-primary dropdown-toggle text-white" type="button" id="sortingDropdown"
@@ -56,7 +56,9 @@
         </div>
     </div>
     <div class="d-flex justify-content-center my-2">
-        {{ pagerfanta(ideas, 'twitter_bootstrap5') }}
+        {{ pagerfanta(ideas, 'twitter_bootstrap5') 
+        | replace({'Previous': 'Précédent', 'Next': 'Suivant'})|raw
+        }}
     </div>
 </main>
 {% endblock %}
