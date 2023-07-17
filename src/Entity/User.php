@@ -37,10 +37,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private ?string $password = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: 'Prénom obligatoire')]
     private ?string $firstname = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: 'Nom obligatoire')]
     private ?string $lastname = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: false)]

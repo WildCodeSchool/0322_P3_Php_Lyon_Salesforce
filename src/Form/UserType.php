@@ -36,10 +36,24 @@ class UserType extends AbstractType
                 'label' => 'ID Slack'
             ])
             ->add('firstname', TextType::class, [
-                'label' => 'Prénom'
+                'label' => 'Prénom',
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Prénom obligatoire']),
+                    new Assert\Length([
+                        'max' => 100,
+                        'maxMessage' => 'Prénom trop long',
+                    ]),
+                ],
             ])
             ->add('lastname', TextType::class, [
-                'label' => 'Nom'
+                'label' => 'Nom',
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Nom obligatoire']),
+                    new Assert\Length([
+                        'max' => 100,
+                        'maxMessage' => 'Nom trop long',
+                    ]),
+                ],
             ])
             ->add('picture', FileType::class, [
                 'label' => 'Photo de profil',
