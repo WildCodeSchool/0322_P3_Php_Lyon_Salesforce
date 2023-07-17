@@ -369,17 +369,17 @@ class IdeaRepository extends ServiceEntityRepository
             ->select(
                 'i.id as reportedIdea',
                 'i.title',
+                'i.archived',
                 'r.motive',
                 'r.reportDate',
                 'u.id as reportingUser',
                 'u.firstname',
                 'u.lastname'
             )
-            ->where('i.archived = :archived')
             ->join('i.reportings', 'r')
             ->join('r.reportingUser', 'u')
-            ->setParameter('archived', false)
-            ->orderBy('r.reportDate', 'DESC')
+            ->addOrderBy('r.reportDate', 'DESC')
+            ->addOrderBy('i.id', 'DESC')
             ->getQuery()
             ->getResult();
     }
