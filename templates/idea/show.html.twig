@@ -6,7 +6,7 @@ block javascripts %}
 {% block body %}
 
 <main class="container">
-    <div class="row d-flex flex-wrap-reverse flex-md">
+    <div class="row d-flex flex-wrap-reverse flex-md px-2 pt-3">
         <div class="col-12 col-md-9 col-xl-10">
             <div class="my-3 card h-100 shadow-lg p-3">
                 <h1 class="text-center">{{ idea.title }}</h1>
@@ -15,15 +15,15 @@ block javascripts %}
             </div>
         </div>
         <div class="col-md-3 col-xl-2">
-            <div class="row p-3">
+            <div class="row px-2 pt-3">
                 <div class="card h-100 shadow-lg p-2">
                     <div class="row">
                         <div class="col-6 col-md-12">
-                            <h6>Destination : {{ idea.perimeter }}</h6>
                             <h6>
                                 Auteur : {{ idea.author.firstname }}
                                 {{ idea.author.lastname }}
                             </h6>
+                            <h6>Destination : {{ idea.perimeter }}</h6>
                             <h6>Agence de {{ idea.author.workplace.location }}</h6>
                         </div>
                         <div class="col-6 col-md-12">
@@ -94,11 +94,11 @@ block javascripts %}
 
                     {% if is_granted ("ROLE_ADMIN") %}
                     <button type="button" class="btn btn-danger shadow-lg text-white my-1" data-bs-toggle="modal"
-                        data-bs-target="#archiveIdeaModal">
+                        data-bs-target="#archiveIdeaModal-{{idea.id}}">
                         Archiver
                     </button>
 
-                    <div class="modal fade" id="archiveIdeaModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                    <div class="modal fade" id="archiveIdeaModal-{{idea.id}}" data-bs-backdrop="static" data-bs-keyboard="false"
                         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
