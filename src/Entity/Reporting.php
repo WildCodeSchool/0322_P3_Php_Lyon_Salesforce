@@ -26,10 +26,10 @@ class Reporting
     private ?\DateTimeImmutable $reportDate = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank(message: 'Vous avez oublié d\'écrire votre idée !')]
+    #[Assert\NotBlank(message: 'Motif obligatoire')]
     #[Assert\Length(
         max: 255,
-        maxMessage: 'Le nom de votre idée doit avoir maximum {{ limit }} caractères'
+        maxMessage: 'Le motif doit avoir {{ limit }} caractères maximum'
     )]
     #[Assert\Choice(
         choices: [

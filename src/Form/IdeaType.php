@@ -9,6 +9,7 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class IdeaType extends AbstractType
 {
@@ -16,7 +17,16 @@ class IdeaType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'label' => 'Mon idée en quelques mots'
+                'label' => 'Mon idée en quelques mots',
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Le titre est requis.']),
+                    new Assert\Length([
+                        'min' => 5,
+                        'max' => 255,
+                        'minMessage' => 'Le titre est trop court!',
+                        'maxMessage' => 'Le titre est trop long!',
+                    ]),
+                ],
             ])
             ->add('perimeter', ChoiceType::class, [
                 'label' => 'A qui est destinée mon idée?',
@@ -27,7 +37,14 @@ class IdeaType extends AbstractType
                 ],
             ])
             ->add('content', CKEditorType::class, [
-                'label' => 'Expliquer mon idée'
+                'label' => 'Expliquer mon idée',
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Pensez à développer votre idée!']),
+                    new Assert\Length([
+                        'min' => 10,
+                        'minMessage' => 'Expliquez d\'avantage votre idée!.',
+                    ]),
+                ],
             ]);
     }
 

@@ -49,6 +49,7 @@ class Idea
     private ?User $author = null;
 
     #[ORM\Column]
+    #[Assert\NotNull(message: 'La date de publication est obligatoire.')]
     private ?\DateTimeImmutable $publicationDate = null;
 
     #[ORM\Column(type: Types::TEXT)]
