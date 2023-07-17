@@ -19,14 +19,14 @@
         </thead>
         <tbody>
             {% for idea in reportedIdeas %}
-            <tr  {% if idea.archived is same as true %} class="table-danger border-dark" {% endif %}>
+            <tr  {% if idea.archived %} class="table-danger border-dark" {% endif %}>
                 <td><a href="{{ path('idea_show', {id:idea.reportedIdea}) }}">{{idea.reportedIdea}}</a></td>
                 <td>{{idea.title}}</td>
                 <td><a href="{{ path('user_show', {id:idea.reportingUser}) }}">{{idea.firstname}} {{idea.lastname}}</a></td>
                 <td>{{idea.motive}}</td>
                 <td>{{idea.reportDate|date("d/m/Y")}}</td>
                 <td>
-                    {% if idea.archived is same as false %}
+                    {% if not idea.archived %}
                     <button type="button" class="btn btn-danger shadow-lg text-white my-1" data-bs-toggle="modal"
                     data-bs-target="#archiveIdeaModal-{{idea.reportedIdea}}">
                     Archiver
@@ -82,7 +82,7 @@
         </thead>
         <tbody>
             {% for idea in ideas %}
-            <tr {% if idea.isArchived is same as true %} class="table-danger border-dark" {% endif %}>
+            <tr {% if idea.isArchived %} class="table-danger border-dark" {% endif %}>
                 <td><a href="{{ path('idea_show', {id:idea.id}) }}">{{idea.id}}</a></td>
                 <td>{{idea.title}}</td>
                 <td><a href="{{ path('user_show', {id:idea.author.id}) }}">
@@ -102,7 +102,7 @@
                     </div>
                 </td>
                 <td>
-                    {% if idea.isArchived is same as false %}
+                    {% if not idea.isArchived %}
                     <button type="button" class="btn btn-danger shadow-lg text-white my-1" data-bs-toggle="modal"
                         data-bs-target="#archiveIdeaModal-{{idea.id}}">
                         Archiver
