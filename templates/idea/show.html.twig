@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %} {% block title %}Nouvelle idée{% endblock %} {%
+{% extends 'base.html.twig' %} {% block title %}Idée{% endblock %} {%
 block javascripts %}
 {{ parent() }}
 {{ encore_entry_script_tags("deleteIdea") }}
@@ -20,15 +20,14 @@ block javascripts %}
                     <div class="row">
                         <div class="col-6 col-md-12">
                             <h6>
-                                Auteur : {{ idea.author.firstname }}
+                                {{ idea.author.firstname }}
                                 {{ idea.author.lastname }}
                             </h6>
-                            <h6>Destination : {{ idea.perimeter }}</h6>
-                            <h6>Agence de {{ idea.author.workplace.location }}</h6>
+                            <h6>{{ idea.author.workplace.location }}</h6>
                         </div>
                         <div class="col-6 col-md-12">
-                            <h6>Publiée le {{ idea.publicationDate|date("d/m/Y") }}</h6>
-                            <h6>Jours restants {{idea.getRemainingDays}}</h6>
+                            <h6>Publiée - {{ idea.publicationDate|date("d/m/Y") }}</h6>
+                            <h6>Jours restants - {{idea.getRemainingDays}}</h6>
                             {% if isMember is same as true %}
                             <h6 class="text-success"> Vous adhérez déja à cette idée</h6>
                             {% endif %}
