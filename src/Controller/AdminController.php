@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\IdeaRepository;
+use App\Repository\ReportingRepository;
 use App\Repository\UserRepository;
 use App\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,8 +31,13 @@ class AdminController extends AbstractController
     public function ideas(IdeaRepository $ideaRepository): Response
     {
         $ideas = $ideaRepository->findBy([], ['publicationDate' => 'DESC']);
+
+        $reportedIdeas = $ideaRepository->getReportedIdeas();
+
         return $this->render('admin/ideas.html.twig', [
             'ideas' => $ideas,
+            'reportedIdeas' => $reportedIdeas,
+
         ]);
     }
 
@@ -71,7 +77,7 @@ class AdminController extends AbstractController
             $idea->setArchived(true);
             $ideaRepository->save($idea, true);
 
-            $this->addFlash("success", "cette idée à bien été archiver");
+            $this->addFlash("success", "Cette idée a bien été archivée");
             return $this->redirectToRoute('admin_ideas');
         }
         return $this->redirectToRoute('app_home');

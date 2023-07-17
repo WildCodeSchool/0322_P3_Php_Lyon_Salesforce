@@ -361,6 +361,28 @@ class IdeaRepository extends ServiceEntityRepository
 
         return $ideas;
     }
+
+
+    public function getReportedIdeas(): array
+    {
+        return $this->createQueryBuilder('i')
+            ->select(
+                'i.id as reportedIdea',
+                'i.title',
+                'r.motive',
+                'r.reportDate',
+                'u.id as reportingUser',
+                'u.firstname',
+                'u.lastname'
+            )
+            ->where('i.archived = :archived')
+            ->join('i.reportings', 'r')
+            ->join('r.reportingUser', 'u')
+            ->setParameter('archived', false)
+            ->orderBy('r.reportDate', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }
 
     //    /**
