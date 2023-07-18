@@ -24,10 +24,11 @@ class HomeController extends AbstractController
         );
 
         $pagerfanta = new TwitterBootstrap5View();
-
+        $order = 'récentes';
         return $this->render('home/index.html.twig', [
             'ideas' => $ideas,
             'pagerfanta' => $pagerfanta,
+            'order' => $order,
         ]);
     }
 }

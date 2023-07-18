@@ -87,8 +87,9 @@ class IdeaController extends AbstractController
         );
 
         $pagerfanta = new TwitterBootstrap5View();
-
+        $order = 'récentes';
         return $this->render('idea/ideasByUserOffice.html.twig', [
+            'order' => $order,
             'user' => $user,
             'ideas' => $ideas,
             'pagerfanta' => $pagerfanta,
@@ -111,8 +112,9 @@ class IdeaController extends AbstractController
         );
 
         $pagerfanta = new TwitterBootstrap5View();
-
+        $order = 'récentes';
         return $this->render('idea/ideasByUserDepartment.html.twig', [
+            'order' => $order,
             'user' => $user,
             'ideas' => $ideas,
             'pagerfanta' => $pagerfanta,
