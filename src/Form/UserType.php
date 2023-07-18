@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class UserType extends AbstractType
 {
@@ -20,16 +21,39 @@ class UserType extends AbstractType
     {
         $builder
             ->add('email', TextType::class, [
-                'label' => 'Email'
+                'label' => 'Email',
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Email obligatoire']),
+                    new Assert\Length([
+                        'min' => 5,
+                        'max' => 100,
+                        'minMessage' => 'Email non valide',
+                        'maxMessage' => 'Email trop long',
+                    ]),
+                ],
             ])
             ->add('slackId', TextType::class, [
                 'label' => 'ID Slack'
             ])
             ->add('firstname', TextType::class, [
-                'label' => 'Prénom'
+                'label' => 'Prénom',
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Prénom obligatoire']),
+                    new Assert\Length([
+                        'max' => 100,
+                        'maxMessage' => 'Prénom trop long',
+                    ]),
+                ],
             ])
             ->add('lastname', TextType::class, [
-                'label' => 'Nom'
+                'label' => 'Nom',
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Nom obligatoire']),
+                    new Assert\Length([
+                        'max' => 100,
+                        'maxMessage' => 'Nom trop long',
+                    ]),
+                ],
             ])
             ->add('picture', FileType::class, [
                 'label' => 'Photo de profil',
@@ -47,21 +71,19 @@ class UserType extends AbstractType
                     ])
                 ],
             ])
-            ->add('department', ChoiceType::class, [
+            ->add('department', TextType::class, [
                 'label' => 'Service',
-                'choices' => [
-                    'Ressources Humaines' => 'Ressources Humaines',
-                    'Informatique' => 'Informatique',
-                    'Comptabilité' => 'Comptabilité',
-                    'Marketing' => 'Marketing',
-                    'Communication' => 'Communication',
-                    'Commercial' => 'Commercial',
-                ]
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Service obligatoire']),
+                    ]
             ])
             ->add('workplace', EntityType::class, [
                 'class' => Office::class,
                 'label' => 'Agence',
                 'choice_label' => 'location',
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Lieu de travail obligatoire']),
+                    ]
             ]);
     }
 

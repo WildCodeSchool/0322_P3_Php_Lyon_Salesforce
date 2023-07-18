@@ -6,6 +6,7 @@ use App\Repository\OfficeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: OfficeRepository::class)]
 class Office
@@ -16,6 +17,7 @@ class Office
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: 'Champ obligatoire')]
     private ?string $location = null;
 
     #[ORM\OneToMany(mappedBy: 'workplace', targetEntity: User::class)]
