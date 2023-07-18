@@ -66,8 +66,6 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $dummyContributor->setFirstname('Bob');
         $dummyContributor->setLastname('Dylan');
         $dummyContributor->setContactNumber($faker->phoneNumber());
-        $dummyContributor->setPictureFileName('misterPing1.png');
-
         $dummyContributor->setDepartment('Comptabilité');
         $dummyContributor->setWorkplace($this->getReference('office_' . $officeLocation));
         $dummyContributor->setRoles(['ROLE_CONTRIBUTOR']);
@@ -89,8 +87,6 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $admin->setFirstname('Quentin');
         $admin->setLastname('Tarantino');
         $admin->setContactNumber($faker->phoneNumber());
-        $admin->setPictureFileName('pain-harold.jpg');
-
         $admin->setDepartment('Informatique');
         $admin->setWorkplace($this->getReference('office_' . $officeLocation));
         $admin->setRoles(['ROLE_ADMIN']);
