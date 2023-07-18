@@ -216,6 +216,7 @@ class IdeaRepository extends ServiceEntityRepository
             ->select('u.slackId')
             ->leftJoin('i.supporters', 'u')
             ->where('i.id = :ideaId')
+            ->andWhere('u.slackId IS NOT NULL')
             ->setParameter('ideaId', $ideaId)
             ->getQuery()
             ->getResult();

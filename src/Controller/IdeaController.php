@@ -6,7 +6,6 @@ use App\Entity\Idea;
 use App\Entity\User;
 use App\Form\IdeaType;
 use App\Repository\IdeaRepository;
-use App\Repository\ReportingRepository;
 use App\Service\IdeaFormHandler;
 use App\Service\ReportingHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
