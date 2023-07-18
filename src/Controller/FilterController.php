@@ -23,8 +23,10 @@ class FilterController extends AbstractController
 
         if ($sortOrder === 'desc') {
             $ideas = $ideaRepository->getIdeasGlobal();
+            $order = 'récentes';
         } else {
             $ideas = $ideaRepository->getAscIdeasGlobal();
+            $order = 'anciennes';
         }
         $ideas = Pagerfanta::createForCurrentPageWithMaxPerPage(
             new ArrayAdapter($ideas),
@@ -35,6 +37,7 @@ class FilterController extends AbstractController
         $pagerfanta = new TwitterBootstrap5View();
 
         return $this->render('home/index.html.twig', [
+            'order' => $order,
             'ideas' => $ideas,
             'pagerfanta' => $pagerfanta,
             'currentOrder' => $order,
@@ -53,8 +56,10 @@ class FilterController extends AbstractController
 
         if ($sortOrder === 'desc') {
             $ideas = $ideaRepository->getIdeasByUserOffice($officeId);
+            $order = 'récentes';
         } else {
             $ideas = $ideaRepository->getAscIdeasByUserOffice($officeId);
+            $order = 'anciennes';
         }
         $ideas = Pagerfanta::createForCurrentPageWithMaxPerPage(
             new ArrayAdapter($ideas),
@@ -65,6 +70,7 @@ class FilterController extends AbstractController
         $pagerfanta = new TwitterBootstrap5View();
 
         return $this->render('idea/ideasByUserOffice.html.twig', [
+            'order' => $order,
             'ideas' => $ideas,
             'pagerfanta' => $pagerfanta,
             'currentOrder' => $order,
@@ -85,8 +91,10 @@ class FilterController extends AbstractController
 
         if ($sortOrder === 'desc') {
             $ideas = $ideaRepository->getIdeasByUserDepartment($officeId, $departmentName);
+            $order = 'récentes';
         } else {
             $ideas = $ideaRepository->getAscIdeasByUserDepartment($officeId, $departmentName);
+            $order = 'anciennes';
         }
         $ideas = Pagerfanta::createForCurrentPageWithMaxPerPage(
             new ArrayAdapter($ideas),
@@ -97,6 +105,7 @@ class FilterController extends AbstractController
         $pagerfanta = new TwitterBootstrap5View();
 
         return $this->render('idea/ideasByUserDepartment.html.twig', [
+            'order' => $order,
             'ideas' => $ideas,
             'pagerfanta' => $pagerfanta,
             'currentOrder' => $order,
@@ -115,10 +124,12 @@ class FilterController extends AbstractController
             $page,
             6
         );
+        $order = 'populaires';
 
         $pagerfanta = new TwitterBootstrap5View();
 
         return $this->render('home/index.html.twig', [
+            'order' => $order,
             'ideas' => $ideas,
             'pagerfanta' => $pagerfanta,
             'currentOrder' => 'supp',
@@ -142,8 +153,9 @@ class FilterController extends AbstractController
         );
 
         $pagerfanta = new TwitterBootstrap5View();
-
+        $order = 'populaires';
         return $this->render('idea/ideasByUserOffice.html.twig', [
+            'order' => $order,
             'ideas' => $ideas,
             'pagerfanta' => $pagerfanta,
             'currentOrder' => 'supp',
@@ -169,8 +181,10 @@ class FilterController extends AbstractController
         );
 
         $pagerfanta = new TwitterBootstrap5View();
+        $order = 'populaires';
 
         return $this->render('idea/ideasByUserDepartment.html.twig', [
+            'order' => $order,
             'ideas' => $ideas,
             'pagerfanta' => $pagerfanta,
             'currentOrder' => 'supp',

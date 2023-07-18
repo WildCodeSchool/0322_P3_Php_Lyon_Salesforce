@@ -12,12 +12,12 @@
             <div class="dropdown">
                 <button class="btn btn-primary dropdown-toggle text-white" type="button" id="sortingDropdown"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                    Trier les idées par
+                    Idées {{ order }}
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="sortingDropdown">
-                    <li><a class="dropdown-item" href="{{ path('filter_sorting', {'order': 'desc', 'page': 1}) }}">Dates récentes</a></li>
-                    <li><a class="dropdown-item" href="{{ path('filter_sorting', {'order': 'asc', 'page': 1}) }}">Dates anciennes</a></li>
-                    <li><a class="dropdown-item" href="{{ path('filter_sorting_supp', {'page': 1}) }}">Popularité</a></li>
+                    <li><a class="dropdown-item" href="{{ path('filter_sorting', {'order': 'desc', 'page': 1}) }}">Idées récentes</a></li>
+                    <li><a class="dropdown-item" href="{{ path('filter_sorting', {'order': 'asc', 'page': 1}) }}">Idées anciennes</a></li>
+                    <li><a class="dropdown-item" href="{{ path('filter_sorting_supp', {'page': 1}) }}">Idées populaires</a></li>
                 </ul>
             </div>
         </div>
