@@ -124,9 +124,9 @@ class FilterController extends AbstractController
             $page,
             6
         );
-        $order = 'populaires';
 
         $pagerfanta = new TwitterBootstrap5View();
+        $order = 'populaires';
 
         return $this->render('home/index.html.twig', [
             'order' => $order,
@@ -154,6 +154,7 @@ class FilterController extends AbstractController
 
         $pagerfanta = new TwitterBootstrap5View();
         $order = 'populaires';
+
         return $this->render('idea/ideasByUserOffice.html.twig', [
             'order' => $order,
             'ideas' => $ideas,
