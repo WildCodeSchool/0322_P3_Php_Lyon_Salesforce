@@ -84,24 +84,25 @@ class RealUserFixtures extends Fixture implements DependentFixtureInterface
             ],
         ];
 
-        foreach ($usersData as $userData) {
-            $dummyContributor = new User();
-            $dummyContributor->setEmail($userData['email']);
-            $dummyContributor->setFirstname($userData['firstname']);
-            $dummyContributor->setLastname($userData['lastname']);
-            $dummyContributor->setContactNumber($userData['contactNumber']);
-            $dummyContributor->setDepartment($userData['department']);
-            $dummyContributor->setWorkplace($this->getReference('office_' . $officeLocation));
-            $dummyContributor->setRoles(['ROLE_USER']);
-            $dummyContributor->setSlackId($userData['slackId']);
+        foreach ($usersData as $index => $userData) {
+            $realUser = new User();
+            $realUser->setEmail($userData['email']);
+            $realUser->setFirstname($userData['firstname']);
+            $realUser->setLastname($userData['lastname']);
+            $realUser->setContactNumber($userData['contactNumber']);
+            $realUser->setDepartment($userData['department']);
+            $realUser->setWorkplace($this->getReference('office_' . $officeLocation));
+            $realUser->setRoles(['ROLE_USER']);
+            $realUser->setSlackId($userData['slackId']);
             $hashedPassword = $this->passwordHasher->hashPassword(
-                $dummyContributor,
+                $realUser,
                 $userData['password']
             );
 
-            $dummyContributor->setPassword($hashedPassword);
+            $realUser->setPassword($hashedPassword);
 
-            $manager->persist($dummyContributor);
+            $manager->persist($realUser);
+            $this->addReference('user_' . ($index + 1), $realUser);
         }
 
         $manager->flush();
