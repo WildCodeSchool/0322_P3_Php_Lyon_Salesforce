@@ -27,14 +27,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      */
-    #[ORM\Column(type: 'string', length: 100, nullable: false)]
-    #[Assert\NotBlank(message: 'Nouveau mot de passe obligtoire')]
-    #[Assert\Length(
-        min: 6,
-        minMessage: 'Le mot de passe doit avoir {{ limit }} caractères minimum',
-        max: 100,
-        maxMessage: 'Le mot de passe doit avoir {{ limit }} caractères maximum'
-    )]
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    #[Assert\NotBlank(message: 'Nouveau mot de passe obligatoire')]
     private ?string $password = null;
 
     #[ORM\Column(length: 100)]
