@@ -26,61 +26,61 @@ class RealUserFixtures extends Fixture implements DependentFixtureInterface
                 'email' => 'thomasa@sf.com',
                 'firstname' => 'Thomas', 'lastname' => 'Aldaitz',
                 'contactNumber' => '0606060606', 'department' => 'Informatique',
-                'slackId' => 'U05FRL12VAN', 'password' => 'Thom123',
+                'slackId' => 'U05FRL12VAN', 'password' => 'Thom123', 'profile-picture' => 'pain-harold.jpg',
             ],
             [
                 'email' => 'ludovicd@sf.com',
                 'firstname' => 'Ludovic', 'lastname' => 'Dormoy',
                 'contactNumber' => '0607080902', 'department' => 'Informatique',
-                'slackId' => 'U05FC162V51', 'password' => 'Ludo123',
+                'slackId' => 'U05FC162V51', 'password' => 'Ludo123', 'profile-picture' => 'pain-harold.jpg',
             ],
             [
                 'email' => 'benjaminr@sf.com',
                 'firstname' => 'Benjamin', 'lastname' => 'Richard',
                 'contactNumber' => '0607080903', 'department' => 'Informatique',
-                'slackId' => 'U05FAV754LT', 'password' => 'Ben123',
+                'slackId' => 'U05FAV754LT', 'password' => 'Ben123', 'profile-picture' => 'pain-harold.jpg',
             ],
             [
                 'email' => 'baptister@sf.com',
                 'firstname' => 'Baptiste', 'lastname' => 'Renier',
                 'contactNumber' => '0607080904', 'department' => 'Informatique',
-                'slackId' => 'U05F47PANKY', 'password' => 'Bapt123',
+                'slackId' => 'U05F47PANKY', 'password' => 'Bapt123', 'profile-picture' => 'pain-harold.jpg',
             ],
             [
                 'email' => 'aurelienf@sf.com',
                 'firstname' => 'Aurelien', 'lastname' => 'Faure',
                 'contactNumber' => '0607080901', 'department' => 'Informatique',
-                'slackId' => 'U05E6QELLJ2', 'password' => 'Aurel123',
+                'slackId' => 'U05E6QELLJ2', 'password' => 'Aurel123', 'profile-picture' => 'pain-harold.jpg',
             ],
             [
                 'email' => 'anthonyp@sf.com',
                 'firstname' => 'Anthony', 'lastname' => 'Pham',
                 'contactNumber' => '0707080901', 'department' => 'Informatique',
-                'slackId' => 'D05HLCCNAQG', 'password' => 'Antho123',
+                'slackId' => 'D05HLCCNAQG', 'password' => 'Antho123', 'profile-picture' => 'pain-harold.jpg',
             ],
             [
                 'email' => 'valentini@sf.com',
                 'firstname' => 'Valentin', 'lastname' => 'Inacio',
                 'contactNumber' => '0701080901', 'department' => 'Informatique',
-                'slackId' => 'D05GQBAPYF8', 'password' => 'Val123',
+                'slackId' => 'D05GQBAPYF8', 'password' => 'Val123', 'profile-picture' => 'pain-harold.jpg',
             ],
             [
                 'email' => 'gwendolinen@sf.com',
                 'firstname' => 'Gwendoline', 'lastname' => 'NGuon',
                 'contactNumber' => '0706080901', 'department' => 'Informatique',
-                'slackId' => 'D05GWEW81EW', 'password' => 'Gwen123',
+                'slackId' => 'D05GWEW81EW', 'password' => 'Gwen123', 'profile-picture' => 'pain-harold.jpg',
             ],
             [
                 'email' => 'fredericm@sf.com',
                 'firstname' => 'Frédéric', 'lastname' => 'Moutin',
                 'contactNumber' => '0606060901', 'department' => 'Informatique',
-                'slackId' => 'D05GYPBA6DS', 'password' => 'Fred123',
+                'slackId' => 'D05GYPBA6DS', 'password' => 'Fred123', 'profile-picture' => 'pain-harold.jpg',
             ],
             [
                 'email' => 'laetitiab@sf.com',
                 'firstname' => 'Laetitia', 'lastname' => 'Biny',
                 'contactNumber' => '0606060201', 'department' => 'Informatique',
-                'slackId' => 'D05GYQJMX1A', 'password' => 'Laeti123',
+                'slackId' => 'D05GYQJMX1A', 'password' => 'Laeti123', 'profile-picture' => 'pain-harold.jpg',
             ],
         ];
 
@@ -89,6 +89,7 @@ class RealUserFixtures extends Fixture implements DependentFixtureInterface
             $realUser->setEmail($userData['email']);
             $realUser->setFirstname($userData['firstname']);
             $realUser->setLastname($userData['lastname']);
+            $realUser->setPictureFileName($userData['profile-picture']);
             $realUser->setContactNumber($userData['contactNumber']);
             $realUser->setDepartment($userData['department']);
             $realUser->setWorkplace($this->getReference('office_' . $officeLocation));
