@@ -92,7 +92,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $admin->setRoles(['ROLE_ADMIN']);
         $hashedPassword = $this->passwordHasher->hashPassword(
             $admin,
-            'admin'
+            'admin123'
         );
         $admin->setPassword($hashedPassword);
         $manager->persist($admin);

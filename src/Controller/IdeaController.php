@@ -63,7 +63,7 @@ class IdeaController extends AbstractController
 
             $this->addFlash('success', 'Votre idée a été modifié!');
 
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('idea_show', ['id' => $idea->getId()]);
         }
 
         return $this->render('idea/edit.html.twig', [
