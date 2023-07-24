@@ -1,37 +1,45 @@
 const deleteIdeaBtns = document.getElementsByClassName('deleteBtn');
 
-const deleteIdea = document.getElementsByClassName('deleteIdea');
+// Function to handle the click event
+function handleDeleteButtonClick(event) {
+    event.preventDefault();
 
-for(const deleteIdeaBtn of deleteIdeaBtns) {
-    deleteIdeaBtn.addEventListener('click', function (event) {
-        event.preventDefault();
+    const deleteIdeaBtn = event.target;
 
-        fetch(deleteIdeaBtn.getAttribute('href'))
-            .then(response => {
-                if (response.status === 200) {
+    fetch(deleteIdeaBtn.getAttribute('href'))
+        .then(response => {
+            if (response.status === 200) {
 
-                    deleteIdeaBtn.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.remove();
-                    const flashMessage = document.createElement('div');
-                    flashMessage.classList.add('alert', 'alert-success', 'flash-message');
-                    flashMessage.textContent = "L'idée a bien été signalée.";
-                    
-                    flashMessage.setAttribute('role', 'alert');
-                    
-                    document.querySelector('.container').appendChild(flashMessage);
-                    
+                const ideaContainer = deleteIdeaBtn.closest('.col');
+                ideaContainer.remove();
+                
+                const flashMessage = document.createElement('div');
+                flashMessage.classList.add('alert', 'alert-success', 'flash-message');
+                flashMessage.textContent = "L'idée a bien été supprimée.";
+                
+                flashMessage.setAttribute('role', 'alert');
+                
+                document.querySelector('.container').appendChild(flashMessage);
 
-
-                    setTimeout(() => {
-                        flashMessage.remove();
-                    }, 2500);
+                setTimeout(() => {
+                    flashMessage.remove();
+                }, 2500);
 
 
-                } else {
-                    alert("Erreur");
-                }
-            })
-        ;
-    });
+            } else {
+                alert("Erreur");
+            }
+        });
+}
+
+// Remove any existing click event listeners from delete buttons
+for (const deleteIdeaBtn of deleteIdeaBtns) {
+    deleteIdeaBtn.removeEventListener('click', handleDeleteButtonClick);
+}
+
+// Attach the click event listener to delete buttons
+for (const deleteIdeaBtn of deleteIdeaBtns) {
+    deleteIdeaBtn.addEventListener('click', handleDeleteButtonClick);
 }
 
 const deleteBtnShow = document.getElementById('deleteBtnShow');
@@ -46,7 +54,7 @@ deleteBtnShow.addEventListener('click', function (event) {
                 location.href = '/';
                 const flashMessage = document.createElement('div');
                 flashMessage.classList.add('alert', 'alert-success', 'flash-message');
-                flashMessage.textContent = "L'idée a bien été signalée.";
+                flashMessage.textContent = "L'idée a bien été supprimée.";
                 flashMessage.setAttribute('role', 'alert');
                 document.querySelector('.container').appendChild(flashMessage);
 
