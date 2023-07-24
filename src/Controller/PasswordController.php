@@ -44,8 +44,8 @@ class PasswordController extends AbstractController
             $user->setFirstConnection(false);
             $userRepository->save($user, true);
 
-            $this->addFlash('success', 'Votre mot de passe a bien été mis à jour!
-            Bienvenue sur notre plateforme d\'idéation!');
+            $this->addFlash('success', 'Votre mot de passe a bien été mis à jour !
+            Bienvenue sur notre plateforme d\'idéation !');
             return $this->redirectToRoute('app_home');
         }
 
