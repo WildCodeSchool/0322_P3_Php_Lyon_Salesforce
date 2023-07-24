@@ -50,8 +50,6 @@ class UserController extends AbstractController
         ]);
     }
 
-
-
     #[Route('/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, User $user, UserRepository $userRepository): Response
     {
