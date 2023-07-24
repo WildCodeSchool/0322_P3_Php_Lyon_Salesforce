@@ -32,7 +32,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                 'Commercial',
             ];
 
-            for ($i = 1; $i <= 25; $i++) {
+            for ($i = 1; $i <= 10; $i++) {
                 $email = $faker->unique()->safeEmail;
 
                 $contributor = new User();
@@ -92,7 +92,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $admin->setRoles(['ROLE_ADMIN']);
         $hashedPassword = $this->passwordHasher->hashPassword(
             $admin,
-            'admin'
+            'admin123'
         );
         $admin->setPassword($hashedPassword);
         $manager->persist($admin);

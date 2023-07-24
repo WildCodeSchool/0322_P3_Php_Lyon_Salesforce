@@ -1,143 +1,142 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Idées{% endblock %}
+{% block title %}Idées
+{% endblock %}
 
 {% block body %}
 
-<h1 class="text-start p-3">Idées signalées</h1>
-<div class="table table-responsive-lg p-2">
-    <table class="table table-striped table-bordered border-dark">
-        <thead class="table-secondary">
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Titre</th>
-                <th scope="col">Auteur du signalement</th>
-                <th scope="col">Motif du signalement</th>
-                <th scope="col">Date du signalement</th>
-                <th scope="col">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for idea in reportedIdeas %}
-            <tr  {% if idea.archived %} class="table-danger border-dark" {% endif %}>
-                <td><a href="{{ path('idea_show', {id:idea.reportedIdea}) }}">{{idea.reportedIdea}}</a></td>
-                <td>{{idea.title}}</td>
-                <td><a href="{{ path('user_show', {id:idea.reportingUser}) }}">{{idea.firstname}} {{idea.lastname}}</a></td>
-                <td>{{idea.motive}}</td>
-                <td>{{idea.reportDate|date("d/m/Y")}}</td>
-                <td>
-                    {% if not idea.archived %}
-                    <button type="button" class="btn btn-danger shadow-lg text-white my-1" data-bs-toggle="modal"
-                    data-bs-target="#archiveIdeaModal-{{idea.reportedIdea}}">
-                    Archiver
-                    </button>
-                    <div class="modal fade" id="archiveIdeaModal-{{idea.reportedIdea}}" data-bs-backdrop="static"
-                    data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Archiver cette idée
-                                    </h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>Êtes-vous sûr de vouloir archiver cette idée ? (vous pourrez toujours la
-                                        retrouver sur le tableau d'idée de la page admin)</p>
-                                </div>
-                                <div class="modal-footer d-flex justify-content-between">
-                                    <button type="button" class="btn btn-primary text-white"
-                                        data-bs-dismiss="modal">Annuler</button>
+	<h1 class="text-start p-3">Idées signalées</h1>
+	<div class="table table-responsive-lg p-2">
+		<table class="table table-striped table-bordered border-dark">
+			<thead class="table-secondary">
+				<tr>
+					<th scope="col">Titre</th>
+					<th scope="col">Auteur du signalement</th>
+					<th scope="col">Motif du signalement</th>
+					<th scope="col">Date du signalement</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for idea in reportedIdeas %}
+					<tr {% if idea.archived %} class="table-danger border-dark" {% endif %}>
+						<td>
+							<a href="{{ path('idea_show', {id:idea.reportedIdea}) }}">{{idea.title}}</a>
+						</td>
+						<td>
+							<a href="{{ path('user_show', {id:idea.reportingUser}) }}">{{idea.firstname}}
+								{{idea.lastname}}</a>
+						</td>
+						<td>{{idea.motive}}</td>
+						<td>{{idea.reportDate|date("d/m/Y")}}</td>
+						<td>
+							{% if not idea.archived %}
+								<button type="button" class="btn btn-danger shadow-lg text-white my-1" data-bs-toggle="modal" data-bs-target="#archiveIdeaModal-{{idea.reportedIdea}}">
+									Archiver
+								</button>
+								<div class="modal fade" id="archiveIdeaModal-{{idea.reportedIdea}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h1 class="modal-title fs-5" id="staticBackdropLabel">Archiver cette idée
+												</h1>
+												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body">
+												<p>Êtes-vous sûr de vouloir archiver cette idée ? (vous pourrez toujours la
+																																																				                                        retrouver sur le tableau d'idée de la page admin)</p>
+											</div>
+											<div class="modal-footer d-flex justify-content-between">
+												<button type="button" class="btn btn-primary text-white" data-bs-dismiss="modal">Annuler</button>
 
-                                    <a class="btn btn-danger m-0 shadow-lg text-white"
-                                        href="{{path('admin_archives_idea', {'idIdea': idea.reportedIdea})}}">Confirmer</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% else %}
-                    <h6>Déjà archivée</h6>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+												<a class="btn btn-danger m-0 shadow-lg text-white" href="{{path('admin_archives_idea', {'idIdea': idea.reportedIdea})}}">Confirmer</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							{% else %}
+								<h6>Déjà archivée</h6>
+							{% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
 
-<h1 class="text-start p-3">Idées partagées</h1>
-<div class="table table-responsive-lg p-2">
-    <table class="table table-striped table-bordered border-dark">
-        <thead class="table-secondary">
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Titre</th>
-                <th scope="col">Auteur</th>
-                <th scope="col">Périmetre</th>
-                <th scope="col">Date de publication</th>
-                <th scope="col">Jour restant</th>
-                <th scope="col">Adhésion</th>
-                <th scope="col">Archiver</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for idea in ideas %}
-            <tr {% if idea.isArchived %} class="table-danger border-dark" {% endif %}>
-                <td><a href="{{ path('idea_show', {id:idea.id}) }}">{{idea.id}}</a></td>
-                <td>{{idea.title}}</td>
-                <td><a href="{{ path('user_show', {id:idea.author.id}) }}">
-                        {{idea.author.firstname}} {{idea.author.lastname}}</a>
-                </td>
-                <td>{{idea.perimeter}}</td>
-                <td>{{idea.publicationDate|date("d/m/Y")}}</td>
-                <td>{{idea.getRemainingDays}}</td>
-                <td>
-                    <div class="progress bg-secondary" role="progressbar" aria-valuenow="{{idea.getTotalSupporters}}"
-                        aria-valuemin="0" aria-valuemax="{{idea.supporterNeeded}}">
-                        <div class="progress-bar progress-bar-striped overflow-visible fs-6 fw-bold"
-                            style="width: {{ (idea.getTotalSupporters / idea.supporterNeeded) * 100 }}%">
-                            {{idea.getTotalSupporters}} /
-                            {{idea.supporterNeeded}}
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    {% if not idea.isArchived %}
-                    <button type="button" class="btn btn-danger shadow-lg text-white my-1" data-bs-toggle="modal"
-                        data-bs-target="#archiveIdeaModal-{{idea.id}}">
-                        Archiver
-                    </button>
-                    <div class="modal fade" id="archiveIdeaModal-{{idea.id}}" data-bs-backdrop="static" data-bs-keyboard="false"
-                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Archiver cette idée
-                                    </h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>Êtes-vous sûr de vouloir Archiver l'idée : {{idea.id}} - {{idea.title}} (vous pourrez toujours la
-                                        retrouver sur le tableau d'idée de la page admin)</p>
-                                </div>
-                                <div class="modal-footer d-flex justify-content-between">
-                                    <button type="button" class="btn btn-primary text-white"
-                                        data-bs-dismiss="modal">Annuler</button>
+	<h1 class="text-start p-3">Idées partagées</h1>
+	<div class="table table-responsive-lg p-2">
+		<table class="table table-striped table-bordered border-dark">
+			<thead class="table-secondary">
+				<tr>
+					<th scope="col">Titre</th>
+					<th scope="col">Auteur</th>
+					<th scope="col">Périmetre</th>
+					<th scope="col">Date de publication</th>
+					<th scope="col">Jour restant</th>
+					<th scope="col">Adhésion</th>
+					<th scope="col">Archiver</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for idea in ideas %}
+					<tr {% if idea.isArchived %} class="table-danger border-dark" {% endif %}>
+						<td>
+							<a href="{{ path('idea_show', {id:idea.id}) }}">{{idea.title}}</a>
+						</td>
+						<td>
+							<a href="{{ path('user_show', {id:idea.author.id}) }}">
+								{{idea.author.firstname}}
+								{{idea.author.lastname}}</a>
+						</td>
+						<td>{{idea.perimeter}}</td>
+						<td>{{idea.publicationDate|date("d/m/Y")}}</td>
+						<td>{{idea.getRemainingDays}}</td>
+						<td>
+							<div class="progress bg-secondary" role="progressbar" aria-valuenow="{{idea.getTotalSupporters}}" aria-valuemin="0" aria-valuemax="{{idea.supporterNeeded}}">
+								<div class="progress-bar progress-bar-striped overflow-visible fs-6 fw-bold" style="width: {{ (idea.getTotalSupporters / idea.supporterNeeded) * 100 }}%">
+									{{idea.getTotalSupporters}}
+									/
+									{{idea.supporterNeeded}}
+								</div>
+							</div>
+						</td>
+						<td>
+							{% if not idea.isArchived %}
+								<button type="button" class="btn btn-danger shadow-lg text-white my-1" data-bs-toggle="modal" data-bs-target="#archiveIdeaModal-{{idea.id}}">
+									Archiver
+								</button>
+								<div class="modal fade" id="archiveIdeaModal-{{idea.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h1 class="modal-title fs-5" id="staticBackdropLabel">Archiver cette idée
+												</h1>
+												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body">
+												<p>Êtes-vous sûr de vouloir Archiver l'idée :
+													{{idea.id}}
+													-
+													{{idea.title}}
+													(vous pourrez toujours la
+																																																				                                        retrouver sur le tableau d'idée de la page admin)</p>
+											</div>
+											<div class="modal-footer d-flex justify-content-between">
+												<button type="button" class="btn btn-primary text-white" data-bs-dismiss="modal">Annuler</button>
 
-                                    <a class="btn btn-danger m-0 shadow-lg text-white"
-                                        href="{{path('admin_archives_idea', {'idIdea': idea.id})}}">Confirmer</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% else %}
-                    <h6>Déjà archivée</h6>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+												<a class="btn btn-danger m-0 shadow-lg text-white" href="{{path('admin_archives_idea', {'idIdea': idea.id})}}">Confirmer</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							{% else %}
+								<h6>Déjà archivée</h6>
+							{% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
 {% endblock %}

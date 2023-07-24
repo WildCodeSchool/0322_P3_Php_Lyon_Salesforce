@@ -1,39 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Utilisateurs{% endblock %}
+{% block title %}Utilisateurs
+{% endblock %}
 
 {% block body %}
-<h1 class="text-start p-3">Utilisateurs</h1>
-<div class="table table-responsive-lg p-2">
-    <table class="table table-striped table-bordered border-dark">
-        <thead class="table-secondary">
-            <tr>
-                <th scope="col">Action</th>
-                <th scope="col">ID</th>
-                <th scope="col">ID Slack</th>
-                <th scope="col">Prénom</th>
-                <th scope="col">Nom</th>
-                <th scope="col">Email</th>
-                <th scope="col">Numéro de téléphone</th>
-                <th scope="col">Agence</th>
-                <th scope="col">Service</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for user in users %}
-            <tr>
-                <td><a href="{{ path('admin_user_edit', {id:user.id}) }}">Modifier</a></td>
-                <td scope="row"><a href="{{ path('user_show', {id:user.id}) }}">{{user.id}}</a></td>
-                <td>{{user.slackId}}</td>
-                <td>{{user.firstname}}</td>
-                <td>{{user.lastname}}</td>
-                <td>{{user.email}}</td>
-                <td>{{user.contactNumber}}</td>
-                <td>{{user.workplace.location}}</td>
-                <td>{{user.department}}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+	<h1 class="text-start p-3">Utilisateurs</h1>
+	<div class="table table-responsive-lg p-2">
+		<table class="table table-striped table-bordered border-dark">
+			<thead class="table-secondary">
+				<tr>
+					<th scope="col">Action</th>
+					<th scope="col">Prénom</th>
+					<th scope="col">Nom</th>
+					<th scope="col">Email</th>
+					<th scope="col">Numéro de téléphone</th>
+					<th scope="col">Agence</th>
+					<th scope="col">Service</th>
+					<th scope="col">ID Slack</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for user in users %}
+					<tr>
+						<td>
+							<a href="{{ path('admin_user_edit', {id:user.id}) }}">Modifier</a>
+						</td>
+						<td>
+							<a href="{{ path('user_show', {id:user.id}) }}">{{user.firstname}}</a>
+						</td>
+						<td>{{user.lastname}}</td>
+						<td>{{user.email}}</td>
+						<td>{{user.contactNumber}}</td>
+						<td>{{user.workplace.location}}</td>
+						<td>{{user.department}}</td>
+						<td>{{user.slackId}}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
 {% endblock %}
