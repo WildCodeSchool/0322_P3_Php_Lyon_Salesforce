@@ -32,7 +32,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                 'Commercial',
             ];
 
-            for ($i = 1; $i <= 25; $i++) {
+            for ($i = 1; $i <= 10; $i++) {
                 $email = $faker->unique()->safeEmail;
 
                 $contributor = new User();

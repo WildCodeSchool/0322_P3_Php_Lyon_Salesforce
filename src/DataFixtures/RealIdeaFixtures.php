@@ -31,7 +31,7 @@ class RealIdeaFixtures extends Fixture implements DependentFixtureInterface
         $records = $this->filterFile();
 
         foreach ($records as $record) {
-            $date = $faker->dateTimeBetween('-30 days');
+            $date = $faker->dateTimeBetween('-40 days');
             $publicationDate = DateTimeImmutable::createFromMutable($date);
             $endDate = $publicationDate->modify('+31 days');
 
