@@ -26,19 +26,19 @@ class RealUserFixtures extends Fixture implements DependentFixtureInterface
                 'email' => 'thomasa@sf.com',
                 'firstname' => 'Thomas', 'lastname' => 'Aldaitz',
                 'contactNumber' => '0606060606', 'department' => 'Informatique',
-                'slackId' => 'U05FRL12VAN', 'password' => 'Thom123', 'profile-picture' => 'pain-harold.jpg',
+                'slackId' => 'U05FRL12VAN', 'password' => 'Thom123', 'profile-picture' => 'profile-picture-1.jpg',
             ],
             [
                 'email' => 'ludovicd@sf.com',
                 'firstname' => 'Ludovic', 'lastname' => 'Dormoy',
                 'contactNumber' => '0607080902', 'department' => 'Informatique',
-                'slackId' => 'U05FC162V51', 'password' => 'Ludo123', 'profile-picture' => 'pain-harold.jpg',
+                'slackId' => 'U05FC162V51', 'password' => 'Ludo123', 'profile-picture' => 'profile-picture-2.jpg',
             ],
             [
                 'email' => 'benjaminr@sf.com',
                 'firstname' => 'Benjamin', 'lastname' => 'Richard',
                 'contactNumber' => '0607080903', 'department' => 'Informatique',
-                'slackId' => 'U05FAV754LT', 'password' => 'Ben123', 'profile-picture' => 'pain-harold.jpg',
+                'slackId' => 'U05FAV754LT', 'password' => 'Ben123', 'profile-picture' => 'profile-picture-3.jpg',
             ],
             [
                 'email' => 'baptister@sf.com',
