@@ -23,7 +23,7 @@ class AjaxController extends AbstractController
             $ideaRepository->save($idea, true);
 
             return new Response(status: 200);
-        } elseif ($this->isGranted('ROLE_CONTRIBUTOR')) {
+        } elseif ($this->isGranted('ROLE_USER')) {
 
             /** @var User $user */
             $user = $this->getUser();
