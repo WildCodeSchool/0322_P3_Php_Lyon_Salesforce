@@ -86,6 +86,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $admin->setEmail('superadmin@sf.com');
         $admin->setFirstname('Quentin');
         $admin->setLastname('Tarantino');
+        $admin->setPictureFileName('pain-harold.jpg');
         $admin->setContactNumber($faker->phoneNumber());
         $admin->setDepartment('Informatique');
         $admin->setWorkplace($this->getReference('office_' . $officeLocation));
