@@ -149,7 +149,7 @@ block javascripts %}
 									</div>
 								</div>
 							</div>
-							{% if idea.isChannelCreatable is same as true %}
+							{% if idea.isChannelCreatable %}
 								<div class="slack-button p-0 mt-2">
 									<a href="{{ path('create_channel', {id:idea.id}) }}">
 										<svg class="slacksvg" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 122.8 122.8">
