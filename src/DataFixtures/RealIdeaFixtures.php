@@ -49,7 +49,7 @@ class RealIdeaFixtures extends Fixture implements DependentFixtureInterface
 
             for ($j = 0; $j < rand(4, 20); $j++) {
                 $idea->addSupporter(
-                    $this->getReference('user_' . $faker->numberBetween(1, 10))
+                    $this->getReference('user_' . $faker->numberBetween(2, 10))
                 );
             }
 
