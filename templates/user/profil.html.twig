@@ -109,11 +109,11 @@ or is_granted("ROLE_ADMIN")%}
 
                             {% if app.user.email is same as user.email %}
                             <button type="button" class="btn btn-danger m-0 shadow-lg text-white" data-bs-toggle="modal"
-                                data-bs-target="#deleteIdeaModal">
+                                data-bs-target="#deleteIdeaModal_{{ idea.id}}">
                                 Supprimer
                             </button>
 
-                            <div class="modal fade" id="deleteIdeaModal" data-bs-backdrop="static"
+                            <div class="modal fade" id="deleteIdeaModal_{{ idea.id}}" data-bs-backdrop="static"
                                 data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
                                 aria-hidden="true">
                                 <div class="modal-dialog">
@@ -131,7 +131,7 @@ or is_granted("ROLE_ADMIN")%}
                                             <button type="button" class="btn btn-primary text-white"
                                                 data-bs-dismiss="modal">Annuler</button>
 
-                                            <a id="deleteBtnShow" class="deleteBtn btn btn-danger m-0 shadow-lg text-white"
+                                            <a class="deleteBtn btn btn-danger m-0 shadow-lg text-white"
                                                 href="{{path('archives_idea', {'idIdea': idea.id})}}"
                                                 data-bs-dismiss="modal">Confirmer</a>
                                         </div>
