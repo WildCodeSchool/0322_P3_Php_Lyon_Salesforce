@@ -91,6 +91,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $admin->setDepartment('Informatique');
         $admin->setWorkplace($this->getReference('office_' . $officeLocation));
         $admin->setRoles(['ROLE_ADMIN']);
+        $admin->setFirstConnection(false);
         $hashedPassword = $this->passwordHasher->hashPassword(
             $admin,
             'admin123'
