@@ -200,7 +200,6 @@ class IdeaRepository extends ServiceEntityRepository
     public function getActiveUserIdeas(int $userId): array
     {
         return $this->createQueryBuilder('i')
-            ->select('i.id', 'i.title', 'i.publicationDate', 'i.perimeter', 'i.content')
             ->where('i.author = :userId')
             ->andWhere('i.archived = :archived')
             ->setParameter('userId', $userId)
