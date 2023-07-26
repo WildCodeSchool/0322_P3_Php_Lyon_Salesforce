@@ -87,12 +87,17 @@ h3 {
     justify-content: center;
     text-decoration: none;
     width: 100%;
+}
 
-    .slacksvg {
-        height: 20px;
-        width: 20px;
-        margin-right: 12px;
-    }
+.slacksvg {
+    height: 20px;
+    width: 20px;
+    margin-right: 12px;
+}
+
+.slackCreatable {
+    height: 25px;
+    width: 25px;
 }
 
 //-------- Idea page --------//

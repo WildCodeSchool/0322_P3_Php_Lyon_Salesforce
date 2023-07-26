@@ -23,6 +23,12 @@ class RealUserFixtures extends Fixture implements DependentFixtureInterface
 
         $usersData = [
             [
+                'email' => 'baptister@sf.com',
+                'firstname' => 'Baptiste', 'lastname' => 'Renier',
+                'contactNumber' => '0607080904', 'department' => 'Informatique',
+                'slackId' => 'U05F47PANKY', 'password' => 'Bapt123', 'profile-picture' => 'profile-picture-4.jpg',
+            ],
+            [
                 'email' => 'thomasa@sf.com',
                 'firstname' => 'Thomas', 'lastname' => 'Aldaitz',
                 'contactNumber' => '0606060606', 'department' => 'Informatique',
@@ -39,12 +45,6 @@ class RealUserFixtures extends Fixture implements DependentFixtureInterface
                 'firstname' => 'Benjamin', 'lastname' => 'Richard',
                 'contactNumber' => '0607080903', 'department' => 'Informatique',
                 'slackId' => 'U05FAV754LT', 'password' => 'Ben123', 'profile-picture' => 'profile-picture-3.jpg',
-            ],
-            [
-                'email' => 'baptister@sf.com',
-                'firstname' => 'Baptiste', 'lastname' => 'Renier',
-                'contactNumber' => '0607080904', 'department' => 'Informatique',
-                'slackId' => 'U05F47PANKY', 'password' => 'Bapt123', 'profile-picture' => 'profile-picture-4.jpg',
             ],
             [
                 'email' => 'aurelienf@sf.com',
@@ -95,6 +95,7 @@ class RealUserFixtures extends Fixture implements DependentFixtureInterface
             $realUser->setWorkplace($this->getReference('office_' . $officeLocation));
             $realUser->setRoles(['ROLE_USER']);
             $realUser->setSlackId($userData['slackId']);
+            $realUser->setFirstConnection(false);
             $hashedPassword = $this->passwordHasher->hashPassword(
                 $realUser,
                 $userData['password']
