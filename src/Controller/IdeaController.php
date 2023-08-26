@@ -135,6 +135,15 @@ class IdeaController extends AbstractController
         $user = $this->getUser();
         $supporters = $idea->getSupporters();
 
+        if ($request->get('motive')) {
+            $reportingHandler->handleReport($request, $idea, $user);
+        }
+
+        if ($idea->isArchived() === true && $user->getRoles() !== ["ROLE_ADMIN"]) {
+            $this->addFlash('danger', 'Cette idée est archivé vous ne pouvez plus la visualiser');
+            return $this->redirectToRoute('app_home');
+        }
+
         if ($supporters->contains($user)) {
             $isMember = true;
         } else {
