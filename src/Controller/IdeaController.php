@@ -22,8 +22,11 @@ use Pagerfanta\View\TwitterBootstrap5View;
 class IdeaController extends AbstractController
 {
     #[Route('/new', name: '_new')]
-    public function new(Request $request, IdeaRepository $ideaRepository, IdeaFormHandler $ideaFormHandler): Response
-    {
+    public function new(
+        Request $request,
+        IdeaRepository $ideaRepository,
+        IdeaFormHandler $ideaFormHandler
+    ): Response {
 
         $result = $ideaFormHandler->formHandler();
         $form = $result['form'];
@@ -131,16 +134,6 @@ class IdeaController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
         $supporters = $idea->getSupporters();
-
-
-        if ($request->get('motive')) {
-            $reportingHandler->handleReport($request, $idea, $user);
-        }
-
-        if ($idea->isArchived() === true && $user->getRoles() !== ["ROLE_ADMIN"]) {
-            $this->addFlash('danger', 'Cette idée est archivé vous ne pouvez plus la visualiser');
-            return $this->redirectToRoute('app_home');
-        }
 
         if ($supporters->contains($user)) {
             $isMember = true;

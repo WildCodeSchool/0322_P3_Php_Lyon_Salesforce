@@ -41,26 +41,30 @@ block javascripts %}
 						</div>
 						{% if idea.getTotalSupporters >= idea.supporterNeeded %}
 							<div class="progress bg-secondary" role="progressbar" aria-valuenow="{{idea.getTotalSupporters}}" aria-valuemin="0" aria-valuemax="{{idea.supporterNeeded}}">
-								<div class="progress-bar bg-success progress-bar-striped progress-bar-animated overflow-visible fs-6 fw-bold" style="width: {{ (idea.getTotalSupporters / idea.supporterNeeded) * 100 }}%">
+
+								<div class="progress-bar bg-success progress-bar-striped progress-bar-animated overflow-visible fs-6 fw-bold" style="width: 100%">
 									{{idea.getTotalSupporters}}
 									/
 									{{idea.supporterNeeded}}
 								</div>
+
 							</div>
 							<h6 class="text-success">Cette idée a atteint son objectif d'adhésion</h6>
 						{% else %}
 							<div class="progress bg-secondary" role="progressbar" aria-valuenow="{{idea.getTotalSupporters}}" aria-valuemin="0" aria-valuemax="{{idea.supporterNeeded}}">
+
 								<div class="progress-bar progress-bar-striped progress-bar-animated overflow-visible fs-6 fw-bold" style="width: {{ (idea.getTotalSupporters / idea.supporterNeeded) * 100 }}%">
 									{{idea.getTotalSupporters}}
 									/
 									{{idea.supporterNeeded}}
 								</div>
+
 							</div>
 						{% endif %}
 
 
 						{% if isMember is same as false
-                    and app.user.id is not same as idea.author.id %}
+                        and app.user.id is not same as idea.author.id %}
 							<button type="button" class="btn btn-primary shadow-lg text-white my-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
 								Adhérer à l'idée
 							</button>
@@ -77,11 +81,9 @@ block javascripts %}
 										<div class="modal-body">
 											<form action="" name="user" method="post" enctype="multipart/form-data" class="m-2">
 												<div class="mb-3 form-check">
-													<label class="form-check-label" for="membership">Je souhaite adhérer à
-																																										                                                cette
-																																										                                                idée et rejoindre son canal lorsqu'il sera créé</label>
+													<label class="form-check-label" for="membership">Je souhaite adhérer à cette idée et rejoindre son canal lorsqu'il sera créé</label>
 													<input type="checkbox" class="form-check-input" id="membership" name="membership">
-													<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+													<input type="hidden" name="_csrf_token" value="{{ csrf_token('adhere') }}">
 												</div>
 												<button type="submit" class="btn btn-primary text-white">Confirmer</button>
 											</form>
@@ -108,13 +110,15 @@ block javascripts %}
 													{{idea.id}}
 													-
 													{{idea.title}}
-													(vous pourrez toujours la
-																																							                                        retrouver sur le tableau admin d'idée)</p>
+													(vous pourrez toujours la retrouver sur le tableau admin d'idée)</p>
 											</div>
 											<div class="modal-footer d-flex justify-content-between">
 												<button type="button" class="btn btn-primary text-white" data-bs-dismiss="modal">Annuler</button>
 
-												<a class="btn btn-danger m-0 shadow-lg text-white" id="deleteBtnShow" href="{{path('archives_idea', {'idIdea': idea.id})}}" data-bs-dismiss="modal">Confirmer</a>
+												<form action="{{ path('archives_idea', {'idIdea': idea.id}) }}" enctype="multipart/form-data" method="post" id="deleteForm" style="display: inline;">
+													<input type="hidden" name="_csrf_token" value="{{ csrf_token('delete') }}">
+													<button type="submit" class="btn btn-danger m-0 shadow-lg text-white" id="deleteBtnShow" data-bs-dismiss="modal">Confirmer</button>
+												</form>
 											</div>
 										</div>
 									</div>
@@ -144,7 +148,10 @@ block javascripts %}
 										<div class="modal-footer d-flex justify-content-between">
 											<button type="button" class="btn btn-primary text-white" data-bs-dismiss="modal">Annuler</button>
 
-											<a class="btn btn-danger m-0 shadow-lg text-white" id="deleteBtnShow" href="{{path('archives_idea', {'idIdea': idea.id})}}" data-bs-dismiss="modal">Confirmer</a>
+											<form action="{{ path('archives_idea', {'idIdea': idea.id}) }}" enctype="multipart/form-data" method="post" id="deleteBtnShow" style="display: inline;">
+												<input type="hidden" name="_csrf_token" value="{{ csrf_token('delete') }}">
+												<button type="submit" class="btn btn-danger m-0 shadow-lg text-white" id="deleteBtnShow" data-bs-dismiss="modal">Confirmer</button>
+											</form>
 										</div>
 									</div>
 								</div>
@@ -153,10 +160,14 @@ block javascripts %}
 								<div class="slack-button p-0 mt-2">
 									<a href="{{ path('create_channel', {id:idea.id}) }}">
 										<svg class="slacksvg" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 122.8 122.8">
-											<path d="M25.8 77.6c0 7.1-5.8 12.9-12.9 12.9S0 84.7 0 77.6s5.8-12.9 12.9-12.9h12.9v12.9zm6.5 0c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9v32.3c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V77.6z" fill="#e01e5a"></path>
-											<path d="M45.2 25.8c-7.1 0-12.9-5.8-12.9-12.9S38.1 0 45.2 0s12.9 5.8 12.9 12.9v12.9H45.2zm0 6.5c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H12.9C5.8 58.1 0 52.3 0 45.2s5.8-12.9 12.9-12.9h32.3z" fill="#36c5f0"></path>
-											<path d="M97 45.2c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9-5.8 12.9-12.9 12.9H97V45.2zm-6.5 0c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V12.9C64.7 5.8 70.5 0 77.6 0s12.9 5.8 12.9 12.9v32.3z" fill="#2eb67d"></path>
-											<path d="M77.6 97c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9-12.9-5.8-12.9-12.9V97h12.9zm0-6.5c-7.1 0-12.9-5.8-12.9-12.9s5.8-12.9 12.9-12.9h32.3c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H77.6z" fill="#ecb22e"></path>
+											<path d="M25.8 77.6c0 7.1-5.8 12.9-12.9 12.9S0 84.7 0 77.6s5.8-12.9 12.9-12.9h12.9v12.9zm6.5
+																																																																																																												                                            0c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9v32.3c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V77.6z" fill="#e01e5a"></path>
+											<path d="M45.2 25.8c-7.1 0-12.9-5.8-12.9-12.9S38.1 0 45.2 0s12.9 5.8 12.9 12.9v12.9H45.2zm0
+																																																																																																												                                            6.5c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H12.9C5.8 58.1 0 52.3 0 45.2s5.8-12.9 12.9-12.9h32.3z" fill="#36c5f0"></path>
+											<path d="M97 45.2c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9-5.8 12.9-12.9 12.9H97V45.2zm-6.5
+																																																																																																												                                             0c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V12.9C64.7 5.8 70.5 0 77.6 0s12.9 5.8 12.9 12.9v32.3z" fill="#2eb67d"></path>
+											<path d="M77.6 97c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9-12.9-5.8-12.9-12.9V97h12.9zm0-6.5c-7.1
+																																																																																																												                                             0-12.9-5.8-12.9-12.9s5.8-12.9 12.9-12.9h32.3c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H77.6z" fill="#ecb22e"></path>
 										</svg>Créer un Slack</a>
 								</div>
 							{% else %}
