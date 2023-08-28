@@ -138,9 +138,9 @@ or is_granted("ROLE_ADMIN")%}
                                             <button type="button" class="btn btn-primary text-white"
                                                 data-bs-dismiss="modal">Annuler</button>
 
-                                            <form action="{{ path('archives_idea', {'idIdea': idea.id}) }}" id="deleteBtn" enctype="multipart/form-data" method="post" style="display: inline;">
+                                            <form action="{{ path('archives_idea', {'idIdea': idea.id}) }}" class="deleteForm" enctype="multipart/form-data" method="post">
 												<input type="hidden" name="_csrf_token" value="{{ csrf_token('delete') }}">
-												<button type="submit" class="btn btn-danger m-0 shadow-lg text-white" data-bs-dismiss="modal">Confirmer</button>
+												<button type="submit" class="deleteBtn btn btn-danger m-0 shadow-lg text-white" data-bs-dismiss="modal">Confirmer</button>
 											</form>
                                         </div>
                                     </div>

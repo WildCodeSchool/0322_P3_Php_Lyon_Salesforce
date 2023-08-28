@@ -21,6 +21,7 @@ class AjaxController extends AbstractController
                 $idea = $ideaRepository->find($idIdea);
                 $idea->setArchived(true);
                 $ideaRepository->save($idea, true);
+                $this->addFlash('success', 'L\'idée a bien été supprimée.');
 
                 return new Response(status: 200);
             } elseif ($this->isGranted('ROLE_USER')) {
@@ -41,6 +42,7 @@ class AjaxController extends AbstractController
 
                 $idea->setArchived(true);
                 $ideaRepository->save($idea, true);
+                $this->addFlash('success', 'L\'idée a bien été supprimée.');
 
                 return new Response(status: 200);
             }
